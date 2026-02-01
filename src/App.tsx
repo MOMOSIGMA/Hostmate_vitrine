@@ -367,7 +367,85 @@ function App() {
           ))}
         </div>
       </section>
+      {/* APP SHOWCASE */}
+      <section className="mx-auto max-w-7xl px-6 py-24 bg-gradient-to-b from-slate-50 to-transparent">
+        <div className="mb-16 text-center">
+          <span className="inline-block mb-4 px-4 py-2 rounded-full bg-blue-100 text-blue-700 text-xs font-bold uppercase tracking-widest">
+            ✨ {t('header.missions')}
+          </span>
+          <h2 className="text-4xl md:text-5xl font-bold mb-6">
+            <span className="bg-gradient-to-r from-slate-900 to-slate-700 bg-clip-text text-transparent">
+              App in Action
+            </span>
+          </h2>
+          <p className="text-lg text-slate-600 max-w-3xl mx-auto">
+            Manage all your properties, guests, and automations in one intuitive mobile app
+          </p>
+        </div>
 
+        <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-6 mt-12">
+          {/* Screen 1: Home */}
+          <div className="group relative bg-white rounded-2xl overflow-hidden border border-slate-200 hover:border-red-300 hover:shadow-xl transition-all duration-300">
+            <img src="/Home.jpeg" alt="Home Screen" className="w-full h-full object-cover aspect-[9/16]" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end">
+              <div className="p-4 w-full text-white">
+                <h3 className="font-bold text-sm mb-1">Quick Access</h3>
+                <p className="text-xs text-gray-300">Launch actions in seconds</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Screen 2: Properties */}
+          <div className="group relative bg-white rounded-2xl overflow-hidden border border-slate-200 hover:border-red-300 hover:shadow-xl transition-all duration-300">
+            <img src="/My_Properties.jpeg" alt="My Properties Screen" className="w-full h-full object-cover aspect-[9/16]" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end">
+              <div className="p-4 w-full text-white">
+                <h3 className="font-bold text-sm mb-1">Portfolio View</h3>
+                <p className="text-xs text-gray-300">5 properties · 11 guests</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Screen 3: Planning */}
+          <div className="group relative bg-white rounded-2xl overflow-hidden border border-slate-200 hover:border-red-300 hover:shadow-xl transition-all duration-300">
+            <img src="/Planning.jpeg" alt="Planning Screen" className="w-full h-full object-cover aspect-[9/16]" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end">
+              <div className="p-4 w-full text-white">
+                <h3 className="font-bold text-sm mb-1">Planning Calendar</h3>
+                <p className="text-xs text-gray-300">Never miss a check-in</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Screen 4: AI Messages */}
+          <div className="group relative bg-white rounded-2xl overflow-hidden border border-slate-200 hover:border-red-300 hover:shadow-xl transition-all duration-300">
+            <img src="/Mission.jpeg" alt="AI Messages Screen" className="w-full h-full object-cover aspect-[9/16]" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end">
+              <div className="p-4 w-full text-white">
+                <h3 className="font-bold text-sm mb-1">AI Automation</h3>
+                <p className="text-xs text-gray-300">Personalized messages</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Screen 5: Profile */}
+          <div className="group relative bg-white rounded-2xl overflow-hidden border border-slate-200 hover:border-red-300 hover:shadow-xl transition-all duration-300">
+            <img src="/Profile.jpeg" alt="Profile Screen" className="w-full h-full object-cover aspect-[9/16]" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end">
+              <div className="p-4 w-full text-white">
+                <h3 className="font-bold text-sm mb-1">Dashboard</h3>
+                <p className="text-xs text-gray-300">Full control & insights</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-12 text-center">
+          <p className="text-slate-600 mb-6">
+            Mobile-first design • Available on Android & iOS • Offline support
+          </p>
+        </div>
+      </section>
       {/* PRICING */}
       <section id="pricing" className="mx-auto max-w-7xl px-6 py-24">
         <div className="mb-16 text-center">
