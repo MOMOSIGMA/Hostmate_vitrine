@@ -60,6 +60,7 @@ const faqs = [
 
 function App() {
   const [lang, setLang] = useState<Language>('en')
+  const [showLangMenu, setShowLangMenu] = useState(false)
   const t = (key: string) => getTranslation(lang, key)
 
   const languages: Array<{ code: Language; name: string; flag: string }> = [
@@ -68,6 +69,8 @@ function App() {
     { code: 'es', name: 'Español', flag: '🇪🇸' },
     { code: 'it', name: 'Italiano', flag: '🇮🇹' },
   ]
+
+  const currentLang = languages.find(l => l.code === lang)
 
   const features = [
     {
@@ -174,21 +177,36 @@ function App() {
           </div>
 
           <div className="flex items-center gap-3">
-            <div className="flex gap-1 px-2 py-1 rounded-lg bg-slate-100 border border-slate-200">
-              {languages.map((l) => (
-                <button
-                  key={l.code}
-                  onClick={() => setLang(l.code)}
-                  className={`px-2 py-1 rounded text-sm font-semibold transition-all ${
-                    lang === l.code
-                      ? 'bg-red-500 text-white'
-                      : 'text-slate-600 hover:text-slate-900'
-                  }`}
-                  title={l.name}
-                >
-                  {l.flag}
-                </button>
-              ))}
+            {/* Language Dropdown */}
+            <div className="relative">
+              <button
+                onClick={() => setShowLangMenu(!showLangMenu)}
+                className="flex items-center gap-1 px-3 py-2 rounded-lg bg-slate-100 border border-slate-200 hover:border-red-300 transition-all text-lg"
+                title="Change language"
+              >
+                {currentLang?.flag}
+                <span className="text-xs text-slate-600">▼</span>
+              </button>
+
+              {showLangMenu && (
+                <div className="absolute right-0 mt-2 bg-white border border-slate-200 rounded-lg shadow-lg z-10">
+                  {languages.map((l) => (
+                    <button
+                      key={l.code}
+                      onClick={() => {
+                        setLang(l.code)
+                        setShowLangMenu(false)
+                      }}
+                      className={`w-full px-4 py-2 text-left hover:bg-red-50 transition-colors flex items-center gap-2 ${
+                        lang === l.code ? 'bg-red-50 text-red-600 font-semibold' : 'text-slate-700'
+                      } ${l.code !== languages[languages.length - 1].code ? 'border-b border-slate-100' : ''}`}
+                    >
+                      <span className="text-lg">{l.flag}</span>
+                      <span className="text-sm">{l.name}</span>
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
 
             <a
