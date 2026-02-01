@@ -156,15 +156,15 @@ function App() {
     <div className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-slate-100 text-slate-900">
       {/* HEADER */}
       <header className="sticky top-0 z-50 border-b border-slate-200/40 bg-white/80 backdrop-blur-xl">
-        <nav className="mx-auto flex w-full max-w-7xl items-center justify-between px-6 py-4">
-          <div className="flex items-center gap-3">
-            <img src="/icon.png" alt="HostMate" className="h-10 w-10 rounded-xl shadow-lg" />
-            <span className="text-xl font-bold bg-gradient-to-r from-red-600 to-orange-500 bg-clip-text text-transparent">
+        <nav className="mx-auto flex w-full max-w-7xl items-center justify-between px-4 md:px-6 py-3 md:py-4">
+          <div className="flex items-center gap-2 md:gap-3 flex-1 md:flex-none">
+            <img src="/icon.png" alt="HostMate" className="h-9 md:h-10 w-9 md:w-10 rounded-lg md:rounded-xl shadow-lg" />
+            <span className="text-lg md:text-xl font-bold bg-gradient-to-r from-red-600 to-orange-500 bg-clip-text text-transparent truncate">
               HostMate AI
             </span>
           </div>
 
-          <div className="hidden items-center gap-12 text-sm text-slate-600 md:flex">
+          <div className="hidden items-center gap-8 md:gap-12 text-sm text-slate-600 md:flex">
             <a href="#features" className="hover:text-red-600 transition-colors font-medium">
               {t('header.missions')}
             </a>
@@ -176,9 +176,9 @@ function App() {
             </a>
           </div>
 
-          <div className="flex items-center gap-3">
-            {/* Language Dropdown */}
-            <div className="relative">
+          <div className="flex items-center gap-2 md:gap-3">
+            {/* Desktop Language Dropdown */}
+            <div className="relative hidden md:block">
               <button
                 onClick={() => setShowLangMenu(!showLangMenu)}
                 className="flex items-center gap-1 px-3 py-2 rounded-lg bg-slate-100 border border-slate-200 hover:border-red-300 transition-all text-lg"
@@ -209,9 +209,40 @@ function App() {
               )}
             </div>
 
+            {/* Mobile Language Dropdown */}
+            <div className="relative md:hidden">
+              <button
+                onClick={() => setShowLangMenu(!showLangMenu)}
+                className="flex items-center gap-1 px-2 py-1.5 rounded text-lg hover:bg-slate-100 transition-all"
+                title="Change language"
+              >
+                {currentLang?.flag}
+              </button>
+
+              {showLangMenu && (
+                <div className="absolute right-0 mt-2 bg-white border border-slate-200 rounded-lg shadow-lg z-10">
+                  {languages.map((l) => (
+                    <button
+                      key={l.code}
+                      onClick={() => {
+                        setLang(l.code)
+                        setShowLangMenu(false)
+                      }}
+                      className={`w-full px-3 py-2 text-left hover:bg-red-50 transition-colors flex items-center gap-2 text-sm ${
+                        lang === l.code ? 'bg-red-50 text-red-600 font-semibold' : 'text-slate-700'
+                      } ${l.code !== languages[languages.length - 1].code ? 'border-b border-slate-100' : ''}`}
+                    >
+                      <span className="text-base">{l.flag}</span>
+                      <span>{l.name}</span>
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+
             <a
               href="#pricing"
-              className="rounded-lg bg-gradient-to-r from-red-500 to-orange-500 px-6 py-2.5 text-sm font-semibold text-white hover:shadow-lg hover:shadow-red-500/30 transition-all duration-200"
+              className="rounded-lg bg-gradient-to-r from-red-500 to-orange-500 px-4 md:px-6 py-2 md:py-2.5 text-xs md:text-sm font-semibold text-white hover:shadow-lg hover:shadow-red-500/30 transition-all duration-200 whitespace-nowrap"
             >
               {t('header.cta')}
             </a>
