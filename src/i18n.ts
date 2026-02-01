@@ -114,6 +114,22 @@ export const translations: Record<Language, Record<string, string>> = {
     'cta.see': 'See Offers',
     'cta.learn': 'Learn More',
 
+    // App Showcase
+    'showcase.badge': '✨ Missions',
+    'showcase.title': 'App in Action',
+    'showcase.subtitle': 'Manage all your properties, guests, and automations in one intuitive mobile app',
+    'showcase.screen1': 'Quick Access',
+    'showcase.screen1.desc': 'Launch actions in seconds',
+    'showcase.screen2': 'Portfolio View',
+    'showcase.screen2.desc': '5 properties · 11 guests',
+    'showcase.screen3': 'Planning Calendar',
+    'showcase.screen3.desc': 'Never miss a check-in',
+    'showcase.screen4': 'AI Automation',
+    'showcase.screen4.desc': 'Personalized messages',
+    'showcase.screen5': 'Dashboard',
+    'showcase.screen5.desc': 'Full control & insights',
+    'showcase.footer': 'Mobile-first design • Available on Android & iOS • Offline support',
+
     // Footer
     'footer.copy': '© 2026 HostMate AI. The AI that orchestrates every stay.',
   },
@@ -229,6 +245,22 @@ export const translations: Record<Language, Record<string, string>> = {
     'cta.see': 'Voir les offres',
     'cta.learn': 'En savoir plus',
 
+    // App Showcase
+    'showcase.badge': '✨ Missions',
+    'showcase.title': 'App en Action',
+    'showcase.subtitle': 'Gérez toutes vos propriétés, invités et automatisations dans une app mobile intuitive',
+    'showcase.screen1': 'Accès Rapide',
+    'showcase.screen1.desc': 'Lancer actions en secondes',
+    'showcase.screen2': 'Vue Portfolio',
+    'showcase.screen2.desc': '5 propriétés · 11 invités',
+    'showcase.screen3': 'Calendrier Planning',
+    'showcase.screen3.desc': 'Ne ratez jamais un check-in',
+    'showcase.screen4': 'Automatisation IA',
+    'showcase.screen4.desc': 'Messages personnalisés',
+    'showcase.screen5': 'Tableau de bord',
+    'showcase.screen5.desc': 'Contrôle total & statistiques',
+    'showcase.footer': 'Design mobile-first • Disponible sur Android & iOS • Support hors ligne',
+
     // Footer
     'footer.copy': '© 2026 HostMate AI. L\'IA qui orchestre chaque séjour.',
   },
@@ -322,6 +354,22 @@ export const translations: Record<Language, Record<string, string>> = {
     'cta.subtitle': 'Únete a anfitriones que ahorran tiempo con IA. Setup en 5 minutos, resultados en 1 semana.',
     'cta.see': 'Ver Ofertas',
     'cta.learn': 'Más Info',
+    // App Showcase
+    'showcase.badge': '✨ Misiones',
+    'showcase.title': 'App en Acción',
+    'showcase.subtitle': 'Gestiona todas tus propiedades, huéspedes y automatizaciones en una app móvil intuitiva',
+    'showcase.screen1': 'Acceso Rápido',
+    'showcase.screen1.desc': 'Lanzar acciones en segundos',
+    'showcase.screen2': 'Vista Portfolio',
+    'showcase.screen2.desc': '5 propiedades · 11 huéspedes',
+    'showcase.screen3': 'Calendario Planning',
+    'showcase.screen3.desc': 'Nunca pierdas un check-in',
+    'showcase.screen4': 'Automatización IA',
+    'showcase.screen4.desc': 'Mensajes personalizados',
+    'showcase.screen5': 'Dashboard',
+    'showcase.screen5.desc': 'Control total y estadísticas',
+    'showcase.footer': 'Diseño mobile-first • Disponible en Android & iOS • Soporte offline',
+
     'footer.copy': '© 2026 HostMate AI. La IA que orquesta cada estadía.',
   },
   it: {
@@ -414,6 +462,22 @@ export const translations: Record<Language, Record<string, string>> = {
     'cta.subtitle': 'Unisciti agli host che risparmiano tempo con l\'IA. Setup in 5 minuti, risultati in 1 settimana',
     'cta.see': 'Vedi Offerte',
     'cta.learn': 'Scopri di più',
+    // App Showcase
+    'showcase.badge': '✨ Missioni',
+    'showcase.title': 'App in Azione',
+    'showcase.subtitle': 'Gestisci tutte le tue proprietà, ospiti e automazioni in un\'app mobile intuitiva',
+    'showcase.screen1': 'Accesso Rapido',
+    'showcase.screen1.desc': 'Avvia azioni in secondi',
+    'showcase.screen2': 'Vista Portfolio',
+    'showcase.screen2.desc': '5 proprietà · 11 ospiti',
+    'showcase.screen3': 'Calendario Planning',
+    'showcase.screen3.desc': 'Non perdere mai un check-in',
+    'showcase.screen4': 'Automazione IA',
+    'showcase.screen4.desc': 'Messaggi personalizzati',
+    'showcase.screen5': 'Dashboard',
+    'showcase.screen5.desc': 'Controllo totale e statistiche',
+    'showcase.footer': 'Design mobile-first • Disponibile su Android & iOS • Supporto offline',
+
     'footer.copy': '© 2026 HostMate AI. L\'IA che orchestra ogni soggiorno.',
   },
 };
