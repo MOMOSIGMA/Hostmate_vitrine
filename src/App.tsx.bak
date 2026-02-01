@@ -1,0 +1,439 @@
+const features = [
+  {
+    title: 'Réponses instantanées aux voyageurs',
+    description:
+      'Hostmate AI génère des réponses personnalisées en quelques secondes, 24/7.',
+    icon: '⚡',
+  },
+  {
+    title: 'Automatisation des check-ins',
+    description:
+      'Check-in, codes d’accès, consignes: tout est envoyé automatiquement.',
+    icon: '🔑',
+  },
+  {
+    title: 'Suivi des performances',
+    description:
+      'Tableaux de bord clairs pour piloter satisfaction, revenus et opérations.',
+    icon: '📈',
+  },
+  {
+    title: 'Multilingue natif',
+    description:
+      'Communiquez avec vos voyageurs en plusieurs langues sans effort.',
+    icon: '🌍',
+  },
+  {
+    title: 'Gestion des incidents',
+    description:
+      'Détection rapide des urgences et recommandations d’actions immédiates.',
+    icon: '🛡️',
+  },
+  {
+    title: 'Sûr & conforme',
+    description:
+      'Logs sécurisés, contrôle d’accès, et protection des données.',
+    icon: '🔒',
+  },
+]
+
+const stats = [
+  { label: 'Temps de réponse', value: '-80%' },
+  { label: 'Satisfaction voyageurs', value: '+24%' },
+  { label: 'Tâches automatisées', value: '120+/mois' },
+  { label: 'Villes couvertes', value: '45+' },
+]
+
+const testimonials = [
+  {
+    name: 'Claire M.',
+    role: 'Gestionnaire multi‑biens',
+    quote:
+      '“Hostmate AI a transformé notre support voyageurs. Les réponses sont rapides et précises.”',
+  },
+  {
+    name: 'Yann D.',
+    role: 'Conciergerie urbaine',
+    quote:
+      '“Nous avons réduit les tickets de 60% tout en améliorant la note moyenne.”',
+  },
+  {
+    name: 'Salma R.',
+    role: 'Hôte premium',
+    quote:
+      '“L’automatisation des check‑ins est magique. Plus de stress le soir.”',
+  },
+]
+
+const pricing = [
+  {
+    name: 'Starter',
+    price: 'Gratuit',
+    description: 'Pour démarrer avec l’assistance AI.',
+    features: ['1 propriété', 'Réponses AI limitées', 'Support email'],
+    cta: 'Commencer',
+    highlighted: false,
+  },
+  {
+    name: 'Pro',
+    price: '29€ / mois',
+    description: 'Pour automatiser à grande échelle.',
+    features: [
+      'Jusqu’à 20 propriétés',
+      'Automations illimitées',
+      'Tableaux de bord avancés',
+      'Support prioritaire',
+    ],
+    cta: 'Passer Pro',
+    highlighted: true,
+  },
+  {
+    name: 'Enterprise',
+    price: 'Sur devis',
+    description: 'Pour les équipes multi‑villes.',
+    features: ['SLA dédié', 'Intégrations sur mesure', 'Onboarding premium'],
+    cta: 'Parler à un expert',
+    highlighted: false,
+  },
+]
+
+const faqs = [
+  {
+    q: 'Dois-je changer mes outils actuels ?',
+    a: 'Non. Hostmate AI s’intègre à vos flux existants et peut être activé progressivement.',
+  },
+  {
+    q: 'Les réponses sont-elles personnalisables ?',
+    a: 'Oui. Vous pouvez définir le ton, les règles et les messages recommandés.',
+  },
+  {
+    q: 'Quelles langues sont supportées ?',
+    a: 'Français, anglais, espagnol, italien et autres sur demande.',
+  },
+  {
+    q: 'Mes données sont-elles sécurisées ?',
+    a: 'Oui. Stockage sécurisé, contrôle d’accès et bonnes pratiques RLS.',
+  },
+]
+
+function App() {
+  return (
+    <div className="min-h-screen bg-slate-950 text-slate-100">
+      <header className="relative overflow-hidden">
+        <div className="absolute inset-0 -z-10">
+          <div className="absolute left-1/2 top-0 h-[500px] w-[900px] -translate-x-1/2 rounded-full bg-brand-600/20 blur-[120px]" />
+          <div className="absolute bottom-0 right-0 h-[400px] w-[600px] rounded-full bg-cyan-500/10 blur-[120px]" />
+        </div>
+
+        <nav className="mx-auto flex w-full max-w-6xl items-center justify-between px-6 py-6">
+          <div className="flex items-center gap-2 text-lg font-semibold">
+            <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-brand-500 to-cyan-400 text-white">
+              H
+            </span>
+            Hostmate AI
+          </div>
+          <div className="hidden items-center gap-8 text-sm text-slate-200 md:flex">
+            <a href="#features" className="hover:text-white">
+              Fonctionnalités
+            </a>
+            <a href="#pricing" className="hover:text-white">
+              Tarifs
+            </a>
+            <a href="#faq" className="hover:text-white">
+              FAQ
+            </a>
+          </div>
+          <div className="flex items-center gap-3">
+            <a
+              href="#pricing"
+              className="rounded-full border border-white/15 px-4 py-2 text-sm hover:border-white/40"
+            >
+              Voir les offres
+            </a>
+            <a
+              href="#cta"
+              className="rounded-full bg-white px-4 py-2 text-sm font-semibold text-slate-900 hover:bg-slate-100"
+            >
+              Démarrer
+            </a>
+          </div>
+        </nav>
+
+        <section className="mx-auto flex w-full max-w-6xl flex-col items-start gap-10 px-6 pb-24 pt-12 md:flex-row md:items-center">
+          <div className="flex-1">
+            <p className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs text-slate-200">
+              ✨ IA dédiée à l’hospitality
+            </p>
+            <h1 className="text-4xl font-semibold leading-tight md:text-6xl">
+              Automatisez l’hospitalité.
+              <span className="gradient-text block">Élevez chaque séjour.</span>
+            </h1>
+            <p className="mt-6 max-w-xl text-lg text-slate-300">
+              Hostmate AI répond aux voyageurs, automatise vos opérations et booste vos notes — sans perdre votre ton.
+            </p>
+            <div className="mt-8 flex flex-wrap gap-4">
+              <a
+                href="#pricing"
+                className="rounded-full bg-brand-500 px-6 py-3 text-sm font-semibold text-white hover:bg-brand-400"
+              >
+                Commencer maintenant
+              </a>
+              <a
+                href="#features"
+                className="rounded-full border border-white/15 px-6 py-3 text-sm font-semibold text-white/90 hover:border-white/40"
+              >
+                Découvrir les fonctionnalités
+              </a>
+            </div>
+            <div className="mt-10 grid grid-cols-2 gap-4 text-sm text-slate-300 sm:grid-cols-4">
+              {stats.map((stat) => (
+                <div key={stat.label} className="glass rounded-2xl px-4 py-3">
+                  <p className="text-xl font-semibold text-white">{stat.value}</p>
+                  <p className="mt-1 text-xs text-slate-300">{stat.label}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="flex-1">
+            <div className="glass rounded-3xl p-6">
+              <div className="flex items-center justify-between">
+                <p className="text-sm text-slate-300">Live Ops</p>
+                <span className="rounded-full bg-emerald-400/20 px-3 py-1 text-xs text-emerald-200">
+                  En cours
+                </span>
+              </div>
+              <div className="mt-6 space-y-4">
+                {[
+                  {
+                    title: 'Message voyageur',
+                    detail: 'Arrivée décalée à 22h, besoin du code.',
+                  },
+                  {
+                    title: 'Réponse Hostmate AI',
+                    detail:
+                      'Bonsoir ! Voici le code d’accès et les instructions pour un check‑in autonome.',
+                  },
+                  {
+                    title: 'Action automatique',
+                    detail: 'Envoi du guide d’arrivée + notification propriétaire.',
+                  },
+                ].map((item) => (
+                  <div key={item.title} className="rounded-2xl border border-white/10 bg-white/5 p-4">
+                    <p className="text-sm font-semibold text-white">{item.title}</p>
+                    <p className="mt-2 text-sm text-slate-300">{item.detail}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+      </header>
+
+      <main>
+        <section id="features" className="mx-auto w-full max-w-6xl px-6 py-20">
+          <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+            <div>
+              <p className="text-sm uppercase tracking-widest text-slate-400">Fonctionnalités</p>
+              <h2 className="mt-3 text-3xl font-semibold md:text-4xl">
+                Tout ce qu’il faut pour opérer comme un hôtel.
+              </h2>
+            </div>
+            <p className="max-w-xl text-slate-300">
+              De la première question au check‑out, Hostmate AI coordonne les tâches essentielles.
+            </p>
+          </div>
+
+          <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {features.map((feature) => (
+              <div key={feature.title} className="glass rounded-3xl p-6">
+                <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-white/10 text-2xl">
+                  {feature.icon}
+                </div>
+                <h3 className="text-lg font-semibold text-white">{feature.title}</h3>
+                <p className="mt-2 text-sm text-slate-300">{feature.description}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section className="mx-auto w-full max-w-6xl px-6 pb-20">
+          <div className="glass grid gap-8 rounded-3xl p-10 md:grid-cols-3">
+            <div>
+              <h3 className="text-2xl font-semibold">Opérations fluides</h3>
+              <p className="mt-3 text-sm text-slate-300">
+                Centralisez les communications et automatisez les réponses sensibles.
+              </p>
+            </div>
+            <div>
+              <h3 className="text-2xl font-semibold">Vue temps réel</h3>
+              <p className="mt-3 text-sm text-slate-300">
+                Statuts voyageurs, incidents, et tâches à risque sur un seul écran.
+              </p>
+            </div>
+            <div>
+              <h3 className="text-2xl font-semibold">Qualité constante</h3>
+              <p className="mt-3 text-sm text-slate-300">
+                Maintenez un service premium même pendant les pics d’activité.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section className="mx-auto w-full max-w-6xl px-6 pb-20">
+          <div className="flex flex-col items-start gap-6 md:flex-row md:items-center md:justify-between">
+            <div>
+              <p className="text-sm uppercase tracking-widest text-slate-400">Témoignages</p>
+              <h2 className="mt-3 text-3xl font-semibold md:text-4xl">
+                Adopté par des équipes exigeantes.
+              </h2>
+            </div>
+            <div className="text-sm text-slate-300">
+              Note moyenne: <span className="text-white">4.9/5</span>
+            </div>
+          </div>
+
+          <div className="mt-10 grid gap-6 md:grid-cols-3">
+            {testimonials.map((t) => (
+              <div key={t.name} className="glass rounded-3xl p-6">
+                <p className="text-sm text-slate-200">{t.quote}</p>
+                <div className="mt-6">
+                  <p className="font-semibold text-white">{t.name}</p>
+                  <p className="text-xs text-slate-400">{t.role}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section id="pricing" className="mx-auto w-full max-w-6xl px-6 pb-20">
+          <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+            <div>
+              <p className="text-sm uppercase tracking-widest text-slate-400">Tarifs</p>
+              <h2 className="mt-3 text-3xl font-semibold md:text-4xl">
+                Une offre claire, des résultats rapides.
+              </h2>
+            </div>
+            <p className="max-w-xl text-slate-300">
+              Essayez gratuitement, puis passez à l’échelle quand vous êtes prêt.
+            </p>
+          </div>
+
+          <div className="mt-10 grid gap-6 md:grid-cols-3">
+            {pricing.map((plan) => (
+              <div
+                key={plan.name}
+                className={`rounded-3xl border p-6 ${
+                  plan.highlighted
+                    ? 'border-brand-400 bg-gradient-to-b from-brand-500/20 to-transparent'
+                    : 'border-white/10 bg-white/5'
+                }`}
+              >
+                <p className="text-sm text-slate-300">{plan.name}</p>
+                <h3 className="mt-3 text-2xl font-semibold text-white">
+                  {plan.price}
+                </h3>
+                <p className="mt-2 text-sm text-slate-300">{plan.description}</p>
+                <ul className="mt-6 space-y-2 text-sm text-slate-200">
+                  {plan.features.map((feature) => (
+                    <li key={feature} className="flex items-start gap-2">
+                      <span className="mt-0.5 text-emerald-300">•</span>
+                      {feature}
+                    </li>
+                  ))}
+                </ul>
+                <button
+                  className={`mt-8 w-full rounded-full px-4 py-3 text-sm font-semibold ${
+                    plan.highlighted
+                      ? 'bg-white text-slate-900 hover:bg-slate-100'
+                      : 'border border-white/15 text-white hover:border-white/40'
+                  }`}
+                >
+                  {plan.cta}
+                </button>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section id="faq" className="mx-auto w-full max-w-5xl px-6 pb-24">
+          <div className="text-center">
+            <p className="text-sm uppercase tracking-widest text-slate-400">FAQ</p>
+            <h2 className="mt-3 text-3xl font-semibold md:text-4xl">
+              Questions fréquentes.
+            </h2>
+          </div>
+          <div className="mt-10 space-y-4">
+            {faqs.map((faq) => (
+              <details key={faq.q} className="glass rounded-2xl p-5">
+                <summary className="cursor-pointer text-sm font-semibold text-white">
+                  {faq.q}
+                </summary>
+                <p className="mt-3 text-sm text-slate-300">{faq.a}</p>
+              </details>
+            ))}
+          </div>
+        </section>
+
+        <section id="cta" className="mx-auto w-full max-w-6xl px-6 pb-24">
+          <div className="rounded-3xl bg-gradient-to-r from-brand-600 via-indigo-600 to-cyan-600 p-10 text-white">
+            <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+              <div>
+                <h2 className="text-3xl font-semibold md:text-4xl">
+                  Lancez votre conciergerie AI aujourd’hui.
+                </h2>
+                <p className="mt-3 text-sm text-white/80">
+                  Démo rapide, configuration simple, résultats immédiats.
+                </p>
+              </div>
+              <div className="flex flex-wrap gap-3">
+                <a
+                  href="#pricing"
+                  className="rounded-full bg-white px-6 py-3 text-sm font-semibold text-slate-900"
+                >
+                  Voir les offres
+                </a>
+                <a
+                  href="#features"
+                  className="rounded-full border border-white/40 px-6 py-3 text-sm font-semibold text-white"
+                >
+                  Explorer
+                </a>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer className="border-t border-white/10">
+        <div className="mx-auto flex w-full max-w-6xl flex-col gap-6 px-6 py-10 md:flex-row md:items-center md:justify-between">
+          <div>
+            <div className="flex items-center gap-2 text-lg font-semibold">
+              <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-white/10">
+                H
+              </span>
+              Hostmate AI
+            </div>
+            <p className="mt-2 text-sm text-slate-400">
+              L’IA qui orchestre chaque séjour.
+            </p>
+          </div>
+          <div className="flex flex-wrap gap-6 text-sm text-slate-400">
+            <a href="#features" className="hover:text-white">
+              Fonctionnalités
+            </a>
+            <a href="#pricing" className="hover:text-white">
+              Tarifs
+            </a>
+            <a href="#faq" className="hover:text-white">
+              FAQ
+            </a>
+          </div>
+          <p className="text-xs text-slate-500">© 2026 Hostmate AI</p>
+        </div>
+      </footer>
+    </div>
+  )
+}
+
+export default App

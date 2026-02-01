@@ -1,0 +1,31 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+* {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-hostmate-background text-hostmate-textDark antialiased;
+}
+
+.gradient-text {
+  @apply bg-gradient-to-r from-hostmate-primary via-hostmate-aiBlue to-hostmate-checkIn bg-clip-text text-transparent;
+}
+
+.glass {
+  @apply bg-white/80 backdrop-blur border border-hostmate-textGrey/20 shadow-lg;
+}
+
+.btn-primary {
+  @apply bg-hostmate-primary text-white rounded-full font-semibold px-6 py-3 hover:bg-red-600 transition-colors;
+}
+
+.btn-secondary {
+  @apply border border-hostmate-primary text-hostmate-primary rounded-full font-semibold px-6 py-3 hover:bg-hostmate-primary hover:text-white transition-all;
+}
