@@ -174,12 +174,12 @@ function App() {
           </div>
 
           <div className="flex items-center gap-3">
-            <div className="hidden sm:flex gap-2 px-3 py-1.5 rounded-lg bg-slate-100 border border-slate-200">
+            <div className="flex gap-1 px-2 py-1 rounded-lg bg-slate-100 border border-slate-200">
               {languages.map((l) => (
                 <button
                   key={l.code}
                   onClick={() => setLang(l.code)}
-                  className={`px-2 py-1 rounded text-xs font-semibold transition-all ${
+                  className={`px-2 py-1 rounded text-sm font-semibold transition-all ${
                     lang === l.code
                       ? 'bg-red-500 text-white'
                       : 'text-slate-600 hover:text-slate-900'
