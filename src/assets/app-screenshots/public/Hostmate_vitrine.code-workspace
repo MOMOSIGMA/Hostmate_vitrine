@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "../../../.."
+		},
+		{
+			"path": "../../../../../hosmate_ai"
+		},
+		{
+			"path": "../../../../../Backend_hostmate"
+		}
+	],
+	"settings": {}
+}
