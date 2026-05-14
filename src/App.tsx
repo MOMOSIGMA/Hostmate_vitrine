@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 import { supabase } from './lib/supabase'
 
-const LANDING_RED = '#eb5b62'
 
 const translations = {
   en: {
