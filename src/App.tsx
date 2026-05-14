@@ -5,7 +5,6 @@ function getTranslation(lang: Language, key: string): string {
   return translations[lang]?.[key] as string ?? key
 }
 
-// Full data with enhanced icons
 const stats = [
   { label: 'Response Time', value: '-80%', icon: '⚡' },
   { label: 'Guest Satisfaction', value: '+24%', icon: '📈' },
