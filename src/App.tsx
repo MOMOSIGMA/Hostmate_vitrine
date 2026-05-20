@@ -26,6 +26,8 @@ const translations = {
     thanksTitle: "You're on the list! 🎉",
     thanksMsg: "Check your inbox. A confirmation email is on its way. Welcome to the HostMate family!",
     deviceRequired: "Please select your device type.",
+    selected: "✓ Selected", // AJOUT
+    errorMsg: "Error. Please try again.", // AJOUT
   },
   fr: {
     badge: "HostMate Beta Privée",
@@ -51,6 +53,8 @@ const translations = {
     thanksTitle: "C'est validé ! 🎉",
     thanksMsg: "Merci pour votre confiance. Un email de confirmation arrive dans votre boîte. À très vite !",
     deviceRequired: "Veuillez sélectionner votre type d'appareil.",
+    selected: "✓ Sélectionné", // AJOUT
+    errorMsg: "Erreur. Veuillez réessayer.", // AJOUT
   }
 }
 
@@ -74,7 +78,6 @@ export default function LandingPage() {
     event.preventDefault()
     if (!name.trim() || !email.trim()) return
 
-    // Validation device obligatoire
     if (!device) {
       setDeviceError(true)
       return
@@ -198,13 +201,12 @@ export default function LandingPage() {
                             }
                           `}
                         >
-                          {/* Apple logo SVG */}
                           <svg viewBox="0 0 24 24" className="w-8 h-8" fill="currentColor">
                             <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
                           </svg>
                           iPhone / iPad
                           {device === 'ios' && (
-                            <span className="text-[10px] font-black text-[#eb5b62] uppercase tracking-widest">✓ Sélectionné</span>
+                            <span className="text-[10px] font-black text-[#eb5b62] uppercase tracking-widest">{t.selected}</span>
                           )}
                         </button>
 
@@ -223,26 +225,23 @@ export default function LandingPage() {
                             }
                           `}
                         >
-                          {/* Android logo SVG */}
                           <svg viewBox="0 0 24 24" className="w-8 h-8" fill="currentColor">
                             <path d="M17.523 15.341a.82.82 0 01-.82-.82.82.82 0 01.82-.82.82.82 0 01.82.82.82.82 0 01-.82.82m-11.046 0a.82.82 0 01-.82-.82.82.82 0 01.82-.82.82.82 0 01.82.82.82.82 0 01-.82.82M17.8 10.352l1.633-2.828a.34.34 0 00-.124-.464.34.34 0 00-.464.124l-1.655 2.866A10.08 10.08 0 0012 9.136a10.08 10.08 0 00-5.19 1.014L5.155 7.284a.34.34 0 00-.464-.124.34.34 0 00-.124.464l1.633 2.828C3.757 11.57 2.096 13.898 2 16.6h20c-.096-2.702-1.757-5.03-4.2-6.248"/>
                           </svg>
                           Android
                           {device === 'android' && (
-                            <span className="text-[10px] font-black text-[#eb5b62] uppercase tracking-widest">✓ Sélectionné</span>
+                            <span className="text-[10px] font-black text-[#eb5b62] uppercase tracking-widest">{t.selected}</span>
                           )}
                         </button>
 
                       </div>
 
-                      {/* Message d'erreur si non sélectionné */}
                       {deviceError && (
                         <p className="text-red-400 text-xs font-bold mt-1 ml-1">
                           {t.deviceRequired}
                         </p>
                       )}
                     </div>
-                    {/* ─────────────────────────────────────────────────────── */}
 
                     {/* BOUTON SUBMIT */}
                     <button
@@ -255,7 +254,7 @@ export default function LandingPage() {
 
                     {status === 'error' && (
                       <p className="text-center text-xs font-bold text-red-400 mt-4 italic">
-                        Error. Please try again.
+                        {t.errorMsg}
                       </p>
                     )}
 
