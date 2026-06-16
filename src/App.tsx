@@ -13,7 +13,7 @@ const translations = {
     pillar3Title: "Problem Solver",
     pillar3Desc: "Defuse disputes and handle reviews strategically to protect your rating.",
     formTitle: "Join the Waitlist",
-    formSubtitle: "Be among the first to test the revolution.",
+    formSubtitle: "Sign up in 30 seconds → get the PDF used by top-rated Airbnb hosts to hit 5 stars consistently. Free. Instant.",
     labelName: "Name",
     labelEmail: "Email",
     labelCount: "Properties",
@@ -26,8 +26,8 @@ const translations = {
     thanksTitle: "You're on the list! 🎉",
     thanksMsg: "Check your inbox. A confirmation email is on its way. Welcome to the HostMate family!",
     deviceRequired: "Please select your device type.",
-    selected: "✓ Selected", // AJOUT
-    errorMsg: "Error. Please try again.", // AJOUT
+    selected: "✓ Selected",
+    errorMsg: "Error. Please try again.",
   },
   fr: {
     badge: "HostMate Beta Privée",
@@ -40,7 +40,7 @@ const translations = {
     pillar3Title: "Problem Solver",
     pillar3Desc: "Désamorcez les litiges et gérez les avis difficiles pour protéger votre note.",
     formTitle: "Rejoindre la liste",
-    formSubtitle: "Soyez les premiers à tester la révolution.",
+    formSubtitle: "Inscrivez-vous en 30 secondes → recevez le PDF qui a aidé des centaines d'hôtes à passer à 5 étoiles. Gratuit. Immédiat.",
     labelName: "Prénom",
     labelEmail: "Email",
     labelCount: "Logements",
@@ -53,8 +53,8 @@ const translations = {
     thanksTitle: "C'est validé ! 🎉",
     thanksMsg: "Merci pour votre confiance. Un email de confirmation arrive dans votre boîte. À très vite !",
     deviceRequired: "Veuillez sélectionner votre type d'appareil.",
-    selected: "✓ Sélectionné", // AJOUT
-    errorMsg: "Erreur. Veuillez réessayer.", // AJOUT
+    selected: "✓ Sélectionné",
+    errorMsg: "Erreur. Veuillez réessayer.",
   }
 }
 
@@ -136,7 +136,12 @@ export default function LandingPage() {
               ) : (
                 <>
                   <h2 className="text-3xl font-black mb-2">{t.formTitle}</h2>
-                  <p className="text-slate-400 text-sm mb-8 font-medium">{t.formSubtitle}</p>
+
+                  {/* ─── PHRASE PDF — juste sous le titre, avant les champs ─── */}
+                  <p className="text-sm mb-8 font-semibold leading-relaxed">
+                    <span className="text-[#eb5b62]">📥</span>{' '}
+                    <span className="text-slate-300">{t.formSubtitle}</span>
+                  </p>
 
                   <form onSubmit={handleSubmit} className="space-y-6">
 
