@@ -28,6 +28,16 @@ const translations = {
     deviceRequired: "Please select your device type.",
     selected: "✓ Selected",
     errorMsg: "Error. Please try again.",
+    reviewsTitle: "What hosts say about us",
+    reviewsSubtitle: "Real feedback from Airbnb professionals.",
+    reviewFormTitle: "Share your experience",
+    reviewFormSubtitle: "Help other hosts make a decision",
+    labelReview: "Your review",
+    labelRating: "Rating",
+    btnSubmitReview: "SUBMIT REVIEW",
+    btnLoadingReview: "Submitting...",
+    reviewErrorMsg: "Failed to submit review. Please try again.",
+    reviewSuccessMsg: "Thank you! Your review has been published.",
   },
   fr: {
     badge: "HostMate Beta Privée",
@@ -55,10 +65,28 @@ const translations = {
     deviceRequired: "Veuillez sélectionner votre type d'appareil.",
     selected: "✓ Sélectionné",
     errorMsg: "Erreur. Veuillez réessayer.",
+    reviewsTitle: "Ce que disent les hôtes",
+    reviewsSubtitle: "Retours authentiques d'hôtes professionnels.",
+    reviewFormTitle: "Partager votre avis",
+    reviewFormSubtitle: "Aidez d'autres hôtes à se décider",
+    labelReview: "Votre avis",
+    labelRating: "Note",
+    btnSubmitReview: "PUBLIER MON AVIS",
+    btnLoadingReview: "Publication...",
+    reviewErrorMsg: "Erreur lors de la publication. Veuillez réessayer.",
+    reviewSuccessMsg: "Merci ! Votre avis a été publié.",
   }
 }
 
 type DeviceType = 'ios' | 'android' | null
+
+interface Review {
+  id: string
+  pseudo: string
+  rating: number
+  review: string
+  created_at: string
+}
 
 export default function LandingPage() {
   const [lang, setLang] = useState<'en' | 'fr'>('en')
@@ -73,6 +101,61 @@ export default function LandingPage() {
   const [device, setDevice] = useState<DeviceType>(null)
   const [deviceError, setDeviceError] = useState(false)
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
+
+  // ─── AVIS ─────────────────────────────────────────────────────────────────────
+  const [reviews, setReviews] = useState<Review[]>([])
+  const [reviewName, setReviewName] = useState('')
+  const [reviewRating, setReviewRating] = useState(5)
+  const [reviewText, setReviewText] = useState('')
+  const [reviewStatus, setReviewStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
+
+  // Charger les avis au montage
+  useEffect(() => {
+    loadReviews()
+  }, [])
+
+  const loadReviews = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('reviews')
+        .select('id, pseudo, rating, review, created_at')
+        .order('created_at', { ascending: false })
+      
+      if (!error && data) {
+        setReviews(data as Review[])
+      }
+    } catch (err) {
+      console.error('Erreur chargement avis:', err)
+    }
+  }
+
+  const handleReviewSubmit = async (event: React.FormEvent) => {
+    event.preventDefault()
+    if (!reviewName.trim() || !reviewText.trim()) return
+
+    setReviewStatus('loading')
+
+    const { error } = await supabase.from('reviews').insert([{
+      pseudo: reviewName,
+      rating: reviewRating,
+      review: reviewText,
+      language: lang,
+    }])
+
+    if (error) {
+      setReviewStatus('error')
+    } else {
+      setReviewStatus('success')
+      setReviewName('')
+      setReviewText('')
+      setReviewRating(5)
+      // Recharger les avis
+      setTimeout(() => {
+        loadReviews()
+        setReviewStatus('idle')
+      }, 1500)
+    }
+  }
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault()
@@ -288,6 +371,137 @@ export default function LandingPage() {
                 <p className="text-slate-500 text-lg leading-relaxed font-medium">{pillar.desc}</p>
               </article>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* SECTION AVIS */}
+      <section id="avis" className="bg-slate-900 py-32 border-t border-slate-800">
+        <div className="mx-auto max-w-7xl px-6">
+          {/* Titre */}
+          <div className="text-center mb-24">
+            <h2 className="text-4xl sm:text-5xl font-black text-white mb-4 tracking-tight">
+              {t.reviewsTitle}
+            </h2>
+            <p className="text-lg text-slate-400 font-medium">{t.reviewsSubtitle}</p>
+          </div>
+
+          <div className="grid gap-12 lg:grid-cols-2 items-start">
+
+            {/* GAUCHE : FORMULAIRE D'AVIS */}
+            <div className="bg-slate-800 rounded-[2.5rem] p-10 border border-slate-700">
+              <h3 className="text-2xl font-black text-white mb-2">{t.reviewFormTitle}</h3>
+              <p className="text-sm text-slate-400 mb-8 font-medium">{t.reviewFormSubtitle}</p>
+
+              <form onSubmit={handleReviewSubmit} className="space-y-6">
+
+                {/* NOM */}
+                <div className="space-y-2">
+                  <label className="text-[10px] font-black uppercase tracking-widest text-slate-500">
+                    {t.labelName}
+                  </label>
+                  <input
+                    type="text"
+                    value={reviewName}
+                    onChange={(e) => setReviewName(e.target.value)}
+                    required
+                    placeholder="Marie D."
+                    className="w-full rounded-xl border border-slate-700 bg-slate-700/50 px-4 py-3 text-white outline-none focus:border-[#eb5b62] focus:ring-1 focus:ring-[#eb5b62] transition-all text-sm"
+                  />
+                </div>
+
+                {/* ÉTOILES */}
+                <div className="space-y-3">
+                  <label className="text-[10px] font-black uppercase tracking-widest text-slate-500">
+                    {t.labelRating}
+                  </label>
+                  <div className="flex gap-2">
+                    {[1, 2, 3, 4, 5].map((star) => (
+                      <button
+                        key={star}
+                        type="button"
+                        onClick={() => setReviewRating(star)}
+                        className={`text-3xl transition-all ${
+                          star <= reviewRating ? 'text-[#eb5b62] scale-110' : 'text-slate-600'
+                        }`}
+                      >
+                        ★
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* COMMENTAIRE */}
+                <div className="space-y-2">
+                  <label className="text-[10px] font-black uppercase tracking-widest text-slate-500">
+                    {t.labelReview}
+                  </label>
+                  <textarea
+                    value={reviewText}
+                    onChange={(e) => setReviewText(e.target.value)}
+                    required
+                    placeholder="Décrivez votre expérience..."
+                    rows={4}
+                    className="w-full rounded-xl border border-slate-700 bg-slate-700/50 px-4 py-3 text-white outline-none focus:border-[#eb5b62] focus:ring-1 focus:ring-[#eb5b62] transition-all text-sm resize-none"
+                  />
+                </div>
+
+                {/* BOUTON */}
+                <button
+                  type="submit"
+                  disabled={reviewStatus === 'loading'}
+                  className="w-full rounded-xl bg-[#eb5b62] py-4 text-white font-black tracking-widest uppercase text-sm hover:bg-[#d44f58] transition-all active:scale-95 disabled:opacity-50"
+                >
+                  {reviewStatus === 'loading' ? t.btnLoadingReview : t.btnSubmitReview}
+                </button>
+
+                {reviewStatus === 'success' && (
+                  <p className="text-center text-xs font-bold text-green-400 animate-in fade-in">
+                    ✓ {t.reviewSuccessMsg}
+                  </p>
+                )}
+                {reviewStatus === 'error' && (
+                  <p className="text-center text-xs font-bold text-red-400">
+                    {t.reviewErrorMsg}
+                  </p>
+                )}
+
+              </form>
+            </div>
+
+            {/* DROITE : AFFICHAGE DES AVIS */}
+            <div className="space-y-6 max-h-96 overflow-y-auto">
+              {reviews.length > 0 ? (
+                reviews.map((review) => (
+                  <article
+                    key={review.id}
+                    className="bg-slate-800 rounded-2xl p-8 border border-slate-700 hover:border-[#eb5b62]/50 transition-all"
+                  >
+                    <div className="flex items-start justify-between mb-3">
+                      <div>
+                        <p className="font-black text-white text-sm">{review.pseudo}</p>
+                        <p className="text-xs text-slate-500 mt-0.5">
+                          {new Date(review.created_at).toLocaleDateString(lang === 'fr' ? 'fr-FR' : 'en-US')}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex gap-1 mb-3">
+                      {[...Array(5)].map((_, i) => (
+                        <span key={i} className={i < review.rating ? 'text-[#eb5b62]' : 'text-slate-600'}>
+                          ★
+                        </span>
+                      ))}
+                    </div>
+                    <p className="text-slate-300 text-sm leading-relaxed">{review.review}</p>
+                  </article>
+                ))
+              ) : (
+                <div className="text-center py-12 text-slate-400">
+                  <p className="text-sm font-medium">Pas d'avis pour le moment...</p>
+                </div>
+              )}
+            </div>
+
           </div>
         </div>
       </section>
