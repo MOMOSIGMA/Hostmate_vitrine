@@ -1,0 +1,28 @@
+# Config Netlify pour Hostmate_vitrine.
+#
+# 1) SPA classique (Vite + react-router) : sans ce catch-all, recharger une
+#    URL type /waitlist en prod renvoie un 404 Netlify au lieu de laisser
+#    react-router gérer la route côté client.
+#
+# 2) hosmateai.com et waitlist.hosmateai.com pointent vers le MÊME site
+#    Netlify (un seul build) — le redirect conditionnel ci-dessous sert
+#    "/waitlist" comme page par défaut UNIQUEMENT quand la requête arrive
+#    sur le sous-domaine waitlist, sans dupliquer le déploiement.
+#    Pré-requis côté Netlify (à faire dans le dashboard, pas dans ce fichier) :
+#      - Domain settings → ajouter hosmateai.com (domaine principal)
+#      - Domain settings → ajouter waitlist.hosmateai.com (alias)
+#      - Chez le registrar : DNS de waitlist.hosmateai.com → même cible que
+#        hosmateai.com (CNAME vers le sous-domaine Netlify, ou A record
+#        selon ce que Netlify indique une fois le domaine ajouté).
+
+[[redirects]]
+  from = "/"
+  to = "/waitlist"
+  status = 200
+  force = true
+  conditions = {Host = ["waitlist.hosmateai.com"]}
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

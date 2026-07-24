@@ -10,22 +10,22 @@
   scroll-behavior: smooth;
 }
 
+/* Blanc légèrement teinté (pas #FFFFFF pur) + grain SVG très discret en
+   superposition — la texture qu'utilisent Linear/Stripe/Vercel pour éviter
+   l'effet "blanc stérile" sans ajouter de couleur ni d'asset externe. */
 body {
-  @apply bg-hostmate-background text-hostmate-textDark antialiased;
+  @apply text-hostmate-ink antialiased font-sans;
+  background-color: #FBFBFA;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
 }
 
-.gradient-text {
-  @apply bg-gradient-to-r from-hostmate-primary via-hostmate-aiBlue to-hostmate-checkIn bg-clip-text text-transparent;
-}
-
-.glass {
-  @apply bg-white/80 backdrop-blur border border-hostmate-textGrey/20 shadow-lg;
-}
-
+/* Corail = SEUL accent, réservé aux CTA — pas de dégradé multicolore, pas
+   de glassmorphism (voir brief design homepage). Léger scale au hover
+   uniquement, jamais d'animation de fond. */
 .btn-primary {
-  @apply bg-hostmate-primary text-white rounded-full font-semibold px-6 py-3 hover:bg-red-600 transition-colors;
+  @apply bg-hostmate-primary text-white rounded-full font-semibold px-7 py-3.5 transition-transform duration-200 hover:scale-[1.03] active:scale-[0.98];
 }
 
 .btn-secondary {
-  @apply border border-hostmate-primary text-hostmate-primary rounded-full font-semibold px-6 py-3 hover:bg-hostmate-primary hover:text-white transition-all;
+  @apply border border-hostmate-ink/15 text-hostmate-ink rounded-full font-semibold px-7 py-3.5 transition-colors duration-200 hover:bg-hostmate-ink/5;
 }
