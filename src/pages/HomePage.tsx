@@ -4,7 +4,7 @@ import { Menu, X } from 'lucide-react'
 import Reveal from '../components/Reveal'
 import TiltCard from '../components/TiltCard'
 import MessageFlow from '../components/MessageFlow'
-import PhoneFrame from '../components/PhoneFrame'
+import DemoVideo from '../components/DemoVideo'
 import DotGrid from '../components/DotGrid'
 import GridLines from '../components/GridLines'
 import MoreFeatures from '../components/MoreFeatures'
@@ -25,6 +25,8 @@ const translations = {
       'Perfect guest messages, a smart welcome guide, and dispute handling — powered by AI, while you stay fully in control.',
     heroCta: 'Join the private beta',
     heroNote: 'Free during the beta · No credit card',
+    demoEyebrow: 'See for yourself',
+    demoTitle: 'One new guest. One perfect message. A few clicks.',
     flowEyebrow: 'See it happen',
     flowTitle: 'One line from you. A perfect message for them.',
     featuresEyebrow: 'What HostMate does',
@@ -58,6 +60,8 @@ const translations = {
       "Messages parfaits, livret d'accueil intelligent et gestion des litiges — propulsés par l'IA, pendant que vous gardez le contrôle.",
     heroCta: 'Rejoindre la beta privée',
     heroNote: 'Gratuit pendant la beta · Sans carte bancaire',
+    demoEyebrow: 'Voyez par vous-même',
+    demoTitle: 'Un voyageur ajouté. Un message parfait généré. En quelques clics.',
     flowEyebrow: 'En direct',
     flowTitle: 'Une ligne de votre part. Un message parfait pour eux.',
     featuresEyebrow: 'Ce que fait HostMate',
@@ -252,8 +256,27 @@ export default function HomePage() {
           </Reveal>
         </div>
 
-        <Reveal delay={300} className="relative mt-14">
-          <PhoneFrame src="/Home.jpeg" alt="HostMate AI dashboard" />
+        <Reveal delay={300} className="relative mt-14 flex justify-center">
+          <img
+            src="/Home.jpeg"
+            alt="HostMate AI dashboard"
+            className="w-full max-w-[300px] h-auto"
+          />
+        </Reveal>
+      </section>
+
+      {/* ── Vraie démo vidéo — la preuve, avant la reconstitution ── */}
+      <section className="relative px-6" style={{ paddingTop: 56, paddingBottom: 72 }}>
+        <Reveal className="mb-10 text-center">
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-hostmate-primary mb-3">
+            {t.demoEyebrow}
+          </p>
+          <h2 className="font-display text-2xl sm:text-3xl font-semibold text-hostmate-ink max-w-xl mx-auto">
+            {t.demoTitle}
+          </h2>
+        </Reveal>
+        <Reveal delay={100}>
+          <DemoVideo lang={lang} />
         </Reveal>
       </section>
 
@@ -296,8 +319,12 @@ export default function HomePage() {
                   {t.f2Body}
                 </p>
               </div>
-              <div className="md:order-1 flex items-end justify-center gap-6">
-                <PhoneFrame src="/Livret.png" alt="Livret d'accueil HostMate AI" />
+              <div className="md:order-1 flex flex-col sm:flex-row items-center sm:items-end justify-center gap-6">
+                <img
+                  src="/Livret.png"
+                  alt="Livret d'accueil HostMate AI"
+                  className="w-full max-w-[240px] h-auto rounded-lg"
+                />
                 <QRCard lang={lang} />
               </div>
             </Reveal>

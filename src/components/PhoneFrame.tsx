@@ -12,8 +12,8 @@ export default function PhoneFrame({ src, alt }: { src: string; alt: string }) {
     <motion.div
       whileHover={{ y: -8 }}
       transition={{ type: 'spring', stiffness: 300, damping: 24 }}
-      className="relative mx-auto"
-      style={{ width: 300 }}
+      className="relative mx-auto w-full"
+      style={{ maxWidth: 300 }}
     >
       <div className="relative rounded-[2.75rem] border-[10px] border-hostmate-ink bg-hostmate-ink shadow-[0_40px_80px_-24px_rgba(28,28,46,0.45)]">
         {/* Encoche */}

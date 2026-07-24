@@ -50,7 +50,7 @@ export default function QRCard({ lang }: { lang: 'fr' | 'en' }) {
       whileHover={{ rotate: 0, scale: 1.02 }}
       viewport={{ once: true, amount: 0.4 }}
       transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-      className="w-56 rounded-2xl border border-hostmate-ink/10 bg-white p-5 shadow-[0_24px_50px_-20px_rgba(28,28,46,0.3)]"
+      className="w-full max-w-[14rem] rounded-2xl border border-hostmate-ink/10 bg-white p-5 shadow-[0_24px_50px_-20px_rgba(28,28,46,0.3)]"
     >
       <div className="flex items-center gap-2 mb-4">
         <div className="w-6 h-6 rounded-md bg-hostmate-primary flex items-center justify-center">

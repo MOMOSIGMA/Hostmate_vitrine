@@ -1,65 +1,75 @@
 import { useEffect, useRef, useState } from 'react'
-import { motion } from 'framer-motion'
-import { Home, Brain, Languages, User } from 'lucide-react'
+import { motion, useInView } from 'framer-motion'
+import { Home, Layers, Brain, Languages, RefreshCw, User, Zap } from 'lucide-react'
 
 // ─── Le diagramme signature de la page ─────────────────────────────────────
-// Se déclenche UNIQUEMENT au survol (pas automatiquement au scroll) — repos
-// sur l'étape 0, l'animation complète ne joue qu'une fois la souris dessus,
-// se réinitialise en quittant. Exemple volontairement choisi pour ne rien
-// laisser croire que l'app suit des données externes qu'elle ne suit pas
-// réellement (ex: statut d'un vol) — ici uniquement du texte fourni par
-// l'hôte lui-même, transformé et traduit. Un seul accent corail (Hosty +
-// le point qui glisse), tout le reste reste anthracite/gris.
+// 6 étapes en une seule rangée, TOUJOURS (jamais d'empilement sur mobile —
+// icônes et connecteurs juste plus petits) : représente le vrai pipeline —
+// rassembler le contexte (logement, voyageur, météo), analyser, rédiger
+// dans la langue du voyageur, produire le miroir dans la langue de l'hôte.
+// Un point corail glisse le long de chaque connecteur au moment où le flux
+// le traverse (façon "électricité dans un fil"). Boucle en continu tant que
+// la section est visible à l'écran, s'arrête proprement en sortant du
+// viewport. Un seul accent corail, tout le reste anthracite/gris.
 
-type Stage = 0 | 1 | 2 | 3
+type Stage = 0 | 1 | 2 | 3 | 4 | 5
 
-const STAGES: Record<Stage, { fr: string; en: string; label: { fr: string; en: string } }> = {
-  0: {
-    fr: 'wifi en panne, voyageur stressé',
-    en: 'wifi is down, guest is stressed',
-    label: { fr: "L'hôte note l'essentiel", en: 'Host jots the essentials' },
-  },
-  1: {
-    fr: 'Comprend le contexte : problème technique, ton rassurant nécessaire…',
-    en: 'Understands the context: technical issue, needs a reassuring tone…',
-    label: { fr: 'Hosty analyse la situation', en: 'Hosty reads the situation' },
-  },
-  2: {
-    fr: 'Traduit et adapte au ton personnel de l’hôte…',
-    en: 'Translates and adapts to the host’s own tone…',
-    label: { fr: 'Traduction + personnalisation', en: 'Translation + personalization' },
-  },
-  3: {
-    fr: "Hi Alex — so sorry about the wifi! I've just restarted the router, it should be back within 5 minutes. Let me know if it's still down after that 🙏",
-    en: "Hi Alex — so sorry about the wifi! I've just restarted the router, it should be back within 5 minutes. Let me know if it's still down after that 🙏",
-    label: { fr: 'Le voyageur reçoit, dans sa langue', en: 'The guest receives it, in their language' },
-  },
+const GUEST_MSG_EN =
+  "Hi Alex, welcome! Quick heads-up before you arrive: heavy rain is forecast for tomorrow afternoon, so you might want to grab an umbrella 🌧️. The loft is at 12 Rue des Rosiers, Le Marais — here's the map 📍. The door code is 4821B, and the wifi is 'Marais_Loft' (password: bonjour75). Please don't hesitate to reach out if you need anything at all — hope you have a wonderful stay!"
+const GUEST_MSG_FR =
+  "Bonjour Alex, bienvenue ! Petite info utile avant votre arrivée : de fortes pluies sont prévues demain après-midi, pensez à prendre un parapluie 🌧️. Le loft se trouve au 12 rue des Rosiers, Le Marais — voici le plan d'accès 📍. Le code de la porte est 4821B, et le wifi est « Marais_Loft » (mot de passe : bonjour75). N'hésitez surtout pas si vous avez besoin de quoi que ce soit — je vous souhaite un très beau séjour !"
+
+// La langue du voyageur et celle de l'hôte sont toujours différentes dans
+// la démo, quel que soit l'affichage du site — sinon le miroir ne
+// démontrerait rien. Site en FR → voyageur EN / miroir FR. Site en EN →
+// voyageur FR / miroir EN.
+function buildStages(lang: 'fr' | 'en') {
+  const guestMsg = lang === 'fr' ? GUEST_MSG_EN : GUEST_MSG_FR
+  const mirrorMsg = lang === 'fr' ? GUEST_MSG_FR : GUEST_MSG_EN
+
+  const S: Record<Stage, { fr: string; en: string; label: { fr: string; en: string } }> = {
+    0: {
+      fr: 'arrivée demain 15h, Loft Le Marais',
+      en: 'arrival tomorrow 3pm, Le Marais Loft',
+      label: { fr: "L'hôte note l'essentiel", en: 'Host jots the essentials' },
+    },
+    1: {
+      fr: 'Rassemble le contexte : logement, profil du voyageur, météo locale…',
+      en: 'Gathers context: the property, the guest profile, local weather…',
+      label: { fr: 'Hosty prépare le contexte', en: 'Hosty gathers the context' },
+    },
+    2: {
+      fr: 'Analyse la situation et le ton à adopter…',
+      en: 'Analyzes the situation and the tone to use…',
+      label: { fr: 'Hosty analyse', en: 'Hosty reasons' },
+    },
+    3: { fr: guestMsg, en: guestMsg, label: { fr: 'Message rédigé, dans sa langue', en: "Written, in the guest's language" } },
+    4: { fr: mirrorMsg, en: mirrorMsg, label: { fr: 'Miroir — pour vérifier ce qui a été envoyé', en: 'Mirror — so you can check what was sent' } },
+    5: {
+      fr: '✓ Envoyé automatiquement, sans intervention de votre part.',
+      en: '✓ Sent automatically, with no action needed from you.',
+      label: { fr: 'Livré', en: 'Delivered' },
+    },
+  }
+  return S
 }
 
-// Position (en % de la largeur de la rangée) de chaque nœud, pour faire
-// glisser le point corail exactement d'un centre de carte au suivant.
-const NODE_LEFT_PCT = [8, 36.6, 63.4, 92]
-
-// Durée de chaque étape pendant la lecture au survol — assez lente pour
-// suivre le texte le plus long (l'étape finale) sans avoir à re-hover.
-const STAGE_DURATION_MS = 2600
-
 function Node({
-  icon, title, active, accent,
-}: { icon: React.ReactNode; title: string; active: boolean; accent?: boolean }) {
+  icon, active, accent, connector, connectorActive,
+}: { icon: React.ReactNode; active: boolean; accent?: boolean; connector?: boolean; connectorActive?: boolean }) {
   return (
-    <div className="flex flex-col items-center gap-3 relative z-10">
+    <div className="relative flex items-center shrink-0">
       <motion.div
         animate={{
-          scale: active ? 1.08 : 1,
+          scale: active ? 1.1 : 1,
           boxShadow: active
             ? accent
-              ? '0 0 0 6px rgba(232,83,74,0.12), 0 20px 40px -12px rgba(232,83,74,0.35)'
-              : '0 0 0 6px rgba(28,28,46,0.06), 0 16px 32px -12px rgba(28,28,46,0.2)'
+              ? '0 0 0 4px rgba(232,83,74,0.12), 0 10px 22px -8px rgba(232,83,74,0.35)'
+              : '0 0 0 4px rgba(28,28,46,0.06), 0 10px 20px -8px rgba(28,28,46,0.2)'
             : '0 0 0 0 rgba(0,0,0,0)',
         }}
-        transition={{ duration: 0.4, ease: 'easeOut' }}
-        className={`w-14 h-14 sm:w-[4.5rem] sm:h-[4.5rem] rounded-2xl flex items-center justify-center border ${
+        transition={{ duration: 0.35, ease: 'easeOut' }}
+        className={`relative z-10 w-8 h-8 sm:w-11 sm:h-11 rounded-lg sm:rounded-xl flex items-center justify-center border shrink-0 ${
           accent
             ? 'bg-hostmate-primary border-hostmate-primary text-white'
             : 'bg-white border-hostmate-ink/10 text-hostmate-ink'
@@ -67,85 +77,117 @@ function Node({
       >
         {icon}
       </motion.div>
-      <span className="text-[11px] sm:text-xs font-medium text-hostmate-textGrey text-center max-w-[6rem] leading-tight">
-        {title}
-      </span>
+
+      {connector && (
+        <div className="relative w-3 sm:w-8 h-0 shrink-0">
+          <div className="absolute inset-x-0 top-0 border-t-2 border-dashed border-hostmate-ink/15" />
+          {connectorActive && (
+            <motion.div
+              key="dot"
+              className="absolute top-0 w-1.5 h-1.5 rounded-full bg-hostmate-primary shadow-[0_0_6px_rgba(232,83,74,0.8)] -translate-y-1/2"
+              initial={{ left: '0%', opacity: 0 }}
+              animate={{ left: '100%', opacity: [0, 1, 1, 0] }}
+              transition={{ duration: 0.6, ease: 'linear' }}
+            />
+          )}
+        </div>
+      )}
     </div>
   )
 }
 
+const STAGE_DURATION_MS = 2800
+const FINAL_PAUSE_MS = 2200
+
 export default function MessageFlow({ lang }: { lang: 'fr' | 'en' }) {
   const ref = useRef<HTMLDivElement>(null)
+  const inView = useInView(ref, { once: false, amount: 0.5 })
   const [stage, setStage] = useState<Stage>(0)
-  const [hovering, setHovering] = useState(false)
+  const STAGES = buildStages(lang)
 
-  // Lecture complète 0 → 1 → 2 → 3 UNE FOIS par survol, puis reste sur 3
-  // tant que la souris est dessus. Se réinitialise à la sortie, prêt pour
-  // le prochain survol.
+  // Boucle continue tant que la section reste visible ; s'arrête net dès
+  // qu'on scrolle hors de vue, repart de zéro au prochain passage.
   useEffect(() => {
-    if (!hovering) {
-      setStage(0)
-      return
-    }
+    if (!inView) return
     let cancelled = false
-    const timers: ReturnType<typeof setTimeout>[] = []
-    ;([1, 2, 3] as Stage[]).forEach((s, i) => {
-      timers.push(setTimeout(() => {
-        if (!cancelled) setStage(s)
-      }, STAGE_DURATION_MS * (i + 1)))
-    })
+    let timer: ReturnType<typeof setTimeout>
+
+    const runCycle = (s: Stage) => {
+      if (cancelled) return
+      const delay = s === 5 ? FINAL_PAUSE_MS : STAGE_DURATION_MS
+      timer = setTimeout(() => {
+        if (cancelled) return
+        const next = ((s + 1) % 6) as Stage
+        setStage(next)
+        runCycle(next)
+      }, delay)
+    }
+
+    setStage(0)
+    runCycle(0)
     return () => {
       cancelled = true
-      timers.forEach(clearTimeout)
+      clearTimeout(timer)
     }
-  }, [hovering])
+  }, [inView, lang])
+
+  const nodes = [
+    { icon: <Home size={15} />, title: lang === 'fr' ? 'Vous' : 'You', accent: false },
+    { icon: <Layers size={15} />, title: lang === 'fr' ? 'Contexte' : 'Context', accent: true },
+    { icon: <Brain size={15} />, title: lang === 'fr' ? 'Analyse' : 'Reasoning', accent: true },
+    { icon: <Languages size={15} />, title: lang === 'fr' ? 'Message' : 'Message', accent: true },
+    { icon: <RefreshCw size={15} />, title: lang === 'fr' ? 'Miroir' : 'Mirror', accent: true },
+    { icon: <User size={15} />, title: lang === 'fr' ? 'Voyageur' : 'Guest', accent: false },
+  ]
 
   return (
-    <div
-      ref={ref}
-      onMouseEnter={() => setHovering(true)}
-      onMouseLeave={() => setHovering(false)}
-      onClick={() => setHovering(true)}
-      className="relative max-w-3xl mx-auto cursor-pointer sm:cursor-default"
-    >
-      {!hovering && (
-        <p className="absolute -top-8 left-1/2 -translate-x-1/2 text-xs text-hostmate-textGrey whitespace-nowrap">
-          {lang === 'fr' ? 'Survolez pour voir la transformation ↓' : 'Hover to see it happen ↓'}
-        </p>
-      )}
+    <div ref={ref} className="relative max-w-2xl mx-auto">
+      <div className="flex justify-center mb-6">
+        <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold text-hostmate-primary bg-hostmate-primary/[0.08] rounded-full px-3 py-1">
+          <Zap size={12} /> {lang === 'fr' ? 'Tout ceci peut tourner automatiquement' : 'All of this can run automatically'}
+        </span>
+      </div>
 
-      {/* ── Ligne de connexion ── */}
-      <div className="absolute top-7 sm:top-9 left-[8%] right-[8%] h-px bg-hostmate-ink/10" />
-      <motion.div
-        className="absolute top-7 sm:top-9 left-[8%] h-px bg-hostmate-primary/40 origin-left"
-        animate={{ scaleX: hovering ? 1 : 0 }}
-        transition={{ duration: STAGE_DURATION_MS * 3 / 1000, ease: 'easeInOut' }}
-        style={{ width: '84%' }}
-      />
-      {/* ── Point corail qui glisse d'un nœud au suivant ── */}
-      <motion.div
-        className="absolute top-7 sm:top-9 w-2.5 h-2.5 rounded-full bg-hostmate-primary shadow-[0_0_10px_rgba(232,83,74,0.7)] -translate-x-1/2 -translate-y-1/2"
-        animate={{ left: `${NODE_LEFT_PCT[stage]}%` }}
-        transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-      />
-
-      {/* ── 4 nœuds ── */}
-      <div className="flex items-start justify-between px-1 sm:px-4">
-        <Node icon={<Home size={22} />} title={lang === 'fr' ? 'Vous' : 'You'} active={stage === 0} />
-        <Node icon={<Brain size={22} />} title={lang === 'fr' ? 'Analyse' : 'Understands'} active={stage === 1} accent />
-        <Node icon={<Languages size={22} />} title={lang === 'fr' ? 'Traduction' : 'Translates'} active={stage === 2} accent />
-        <Node icon={<User size={22} />} title={lang === 'fr' ? 'Le voyageur' : 'The guest'} active={stage === 3} />
+      {/* ── Nœuds + connecteurs — toujours en une seule rangée ── */}
+      <div className="flex items-center justify-center px-1 overflow-hidden">
+        {nodes.map((n, i) => (
+          <Node
+            key={i}
+            icon={n.icon}
+            active={stage === i}
+            accent={n.accent}
+            connector={i < nodes.length - 1}
+            connectorActive={stage === i + 1}
+          />
+        ))}
+      </div>
+      {/* Libellés, alignés sous chaque nœud */}
+      <div className="flex items-start justify-center px-1 mt-2">
+        {nodes.map((n, i) => (
+          <div key={i} className="flex items-center">
+            <span
+              className={`w-8 sm:w-11 text-center text-[8px] sm:text-[10px] font-medium leading-tight ${
+                stage === i ? 'text-hostmate-ink font-semibold' : 'text-hostmate-textGrey'
+              }`}
+            >
+              {n.title}
+            </span>
+            {i < nodes.length - 1 && <span className="w-3 sm:w-8 shrink-0" />}
+          </div>
+        ))}
       </div>
 
       {/* ── Carte message qui change selon l'étape ── */}
-      <div className="mt-10 sm:mt-12 min-h-[92px] flex flex-col items-center justify-center px-4">
-        {stage === 3 && (
+      <div className="mt-10 min-h-[92px] flex flex-col items-center justify-center px-4">
+        {stage >= 3 && (
           <motion.span
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             className="mb-2 text-[11px] font-semibold uppercase tracking-wide text-hostmate-textGrey flex items-center gap-1.5"
           >
-            ✉️ {lang === 'fr' ? 'Envoyé par email' : 'Sent by email'}
+            {stage === 3 && `✉️ ${lang === 'fr' ? 'Envoyé par email' : 'Sent by email'}`}
+            {stage === 4 && `🪞 ${lang === 'fr' ? 'Copie miroir' : 'Mirror copy'}`}
+            {stage === 5 && `⚡ ${lang === 'fr' ? 'Automatique' : 'Automatic'}`}
           </motion.span>
         )}
         <motion.div
@@ -153,9 +195,11 @@ export default function MessageFlow({ lang }: { lang: 'fr' | 'en' }) {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.35 }}
-          className={`w-full max-w-md rounded-2xl border px-5 py-4 text-sm leading-relaxed ${
+          className={`w-full max-w-lg rounded-2xl border px-5 py-4 text-sm leading-relaxed ${
             stage === 1 || stage === 2
               ? 'border-hostmate-primary/25 bg-hostmate-primary/[0.04] text-hostmate-primary italic'
+              : stage === 5
+              ? 'border-hostmate-ink/10 bg-hostmate-ink/[0.03] text-hostmate-ink text-center font-medium'
               : 'border-hostmate-ink/10 bg-white text-hostmate-ink shadow-[0_12px_30px_-16px_rgba(28,28,46,0.25)]'
           }`}
         >
