@@ -20,9 +20,9 @@ const translations = {
     navFeatures: 'Features',
     navPricing: 'Pricing',
     navCta: 'Join the beta',
-    heroTitle: 'Automate your Airbnb concierge — without losing the human touch.',
+    heroTitle: 'Other tools manage your bookings. HostMate helps you become a better host, every day.',
     heroSubtitle:
-      'Perfect guest messages, a smart welcome guide, and dispute handling — powered by AI, while you stay fully in control.',
+      'Property score, perfect guest messages sent at the right time, a smart welcome guide, and dispute handling — HostMate shows you what to improve, while you stay fully in control.',
     heroCta: 'Join the private beta',
     heroNote: 'Free during the beta · No credit card',
     demoEyebrow: 'See for yourself',
@@ -47,7 +47,7 @@ const translations = {
     ctaTitle: 'Ready to get your evenings back?',
     ctaSubtitle: 'Join the private beta — takes 30 seconds.',
     ctaButton: 'Join the private beta',
-    footerTagline: 'AI concierge for independent Airbnb hosts.',
+    footerTagline: 'The AI that helps hosts get better, every day.',
     footerRights: 'All rights reserved.',
   },
   fr: {
@@ -55,9 +55,9 @@ const translations = {
     navPricing: 'Tarifs',
     navReviews: 'Avis',
     navCta: 'Rejoindre la beta',
-    heroTitle: "Automatisez votre conciergerie Airbnb — sans perdre la touche humaine.",
+    heroTitle: "Les autres outils gèrent vos réservations. HostMate vous aide à devenir un meilleur hôte, chaque jour.",
     heroSubtitle:
-      "Messages parfaits, livret d'accueil intelligent et gestion des litiges — propulsés par l'IA, pendant que vous gardez le contrôle.",
+      "Score de votre logement, messages parfaits envoyés au bon moment, livret d'accueil intelligent et gestion des litiges — HostMate vous montre ce qu'il faut améliorer, pendant que vous gardez le contrôle.",
     heroCta: 'Rejoindre la beta privée',
     heroNote: 'Gratuit pendant la beta · Sans carte bancaire',
     demoEyebrow: 'Voyez par vous-même',
@@ -82,7 +82,7 @@ const translations = {
     ctaTitle: 'Prêt à récupérer vos soirées ?',
     ctaSubtitle: 'Rejoignez la beta privée — 30 secondes suffisent.',
     ctaButton: 'Rejoindre la beta privée',
-    footerTagline: "Conciergerie IA pour hôtes Airbnb indépendants.",
+    footerTagline: "L'IA qui aide les hôtes à devenir meilleurs, chaque jour.",
     footerRights: 'Tous droits réservés.',
   },
 }
