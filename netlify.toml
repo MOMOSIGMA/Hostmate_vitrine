@@ -1,26 +1,25 @@
 # Config Netlify pour Hostmate_vitrine.
 #
-# 1) SPA classique (Vite + react-router) : sans ce catch-all, recharger une
-#    URL type /waitlist en prod renvoie un 404 Netlify au lieu de laisser
-#    react-router gérer la route côté client.
+# DOMAINE : le site passe sur hostmateai.app (orthographe exacte). L'ancien
+# hosmateai.com — sans le "t" de host — reste utilise pour l'ENVOI D'EMAILS
+# uniquement : sa reputation d'expediteur est deja construite, et en changer
+# ferait partir les messages en indesirables le temps de la refaire.
+# A faire cote Netlify (dashboard, pas ici) :
+#   - Domain settings -> ajouter hostmateai.app comme domaine principal
+#   - Garder hosmateai.com en alias avec redirection, pour les liens deja
+#     partages et le referencement acquis.
 #
-# 2) hosmateai.com et waitlist.hosmateai.com pointent vers le MÊME site
-#    Netlify (un seul build) — le redirect conditionnel ci-dessous sert
-#    "/waitlist" comme page par défaut UNIQUEMENT quand la requête arrive
-#    sur le sous-domaine waitlist, sans dupliquer le déploiement.
-#    Pré-requis côté Netlify (à faire dans le dashboard, pas dans ce fichier) :
-#      - Domain settings → ajouter hosmateai.com (domaine principal)
-#      - Domain settings → ajouter waitlist.hosmateai.com (alias)
-#      - Chez le registrar : DNS de waitlist.hosmateai.com → même cible que
-#        hosmateai.com (CNAME vers le sous-domaine Netlify, ou A record
-#        selon ce que Netlify indique une fois le domaine ajouté).
+# SPA classique (Vite + react-router) : sans le catch-all ci-dessous, recharger
+# une URL en prod renvoie un 404 Netlify au lieu de laisser react-router gerer
+# la route cote client.
 
+# La liste d'attente a ete retiree (passage en production). L'URL ayant deja
+# ete partagee, on redirige au lieu de renvoyer une 404.
 [[redirects]]
-  from = "/"
-  to = "/waitlist"
-  status = 200
+  from = "/waitlist"
+  to = "/"
+  status = 301
   force = true
-  conditions = {Host = ["waitlist.hosmateai.com"]}
 
 [[redirects]]
   from = "/*"

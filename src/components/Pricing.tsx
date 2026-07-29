@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom'
 import { Check } from 'lucide-react'
 import { motion } from 'framer-motion'
 
@@ -25,7 +24,7 @@ const CONTENT = {
         'Email automatique arrivée / départ', 'Rapport IA complet',
         'Rappels illimités (24h/12h/6h/4h/2h)',
       ],
-      cta: 'Rejoindre la beta privée',
+      cta: "Démarrer l'essai gratuit",
     },
   },
   en: {
@@ -43,7 +42,7 @@ const CONTENT = {
         'Automatic email at arrival / departure', 'Full AI report',
         'Unlimited reminders (24h/12h/6h/4h/2h)',
       ],
-      cta: 'Join the private beta',
+      cta: 'Start free trial',
     },
   },
 }
@@ -71,7 +70,7 @@ export default function Pricing({ lang }: { lang: 'fr' | 'en' }) {
             </li>
           ))}
         </ul>
-        <Link to="/waitlist" className="btn-secondary block text-center text-sm">{c.free.cta}</Link>
+        <a href="https://app.hostmateai.app" className="btn-secondary block text-center text-sm">{c.free.cta}</a>
       </motion.div>
 
       <motion.div
@@ -97,7 +96,7 @@ export default function Pricing({ lang }: { lang: 'fr' | 'en' }) {
             </li>
           ))}
         </ul>
-        <Link to="/waitlist" className="btn-primary block text-center text-sm">{c.pro.cta}</Link>
+        <a href="https://app.hostmateai.app" className="btn-primary block text-center text-sm">{c.pro.cta}</a>
       </motion.div>
     </div>
   )

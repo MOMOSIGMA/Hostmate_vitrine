@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
 import { Menu, X } from 'lucide-react'
 import Reveal from '../components/Reveal'
 import TiltCard from '../components/TiltCard'
@@ -19,12 +18,12 @@ const translations = {
   en: {
     navFeatures: 'Features',
     navPricing: 'Pricing',
-    navCta: 'Join the beta',
+    navCta: 'Start free trial',
     heroTitle: 'Other tools manage your bookings. HostMate helps you become a better host, every day.',
     heroSubtitle:
       'Property score, perfect guest messages sent at the right time, a smart welcome guide, and dispute handling — HostMate shows you what to improve, while you stay fully in control.',
-    heroCta: 'Join the private beta',
-    heroNote: 'Free during the beta · No credit card',
+    heroCta: 'Start your 7-day free trial',
+    heroNote: '7 days free · No credit card',
     demoEyebrow: 'See for yourself',
     demoTitle: 'One new guest. One perfect message. A few clicks.',
     flowEyebrow: 'See it happen',
@@ -45,8 +44,8 @@ const translations = {
     f3Body:
       'An unhappy guest, a tricky complaint? The AI reads the situation and drafts a firm but professional reply, in the guest\'s own language — protecting your rating without ruining your evening.',
     ctaTitle: 'Ready to get your evenings back?',
-    ctaSubtitle: 'Join the private beta — takes 30 seconds.',
-    ctaButton: 'Join the private beta',
+    ctaSubtitle: 'Start your 7-day free trial — takes 30 seconds.',
+    ctaButton: 'Start your 7-day free trial',
     footerTagline: 'The AI that helps hosts get better, every day.',
     footerRights: 'All rights reserved.',
   },
@@ -54,12 +53,12 @@ const translations = {
     navFeatures: 'Fonctionnalités',
     navPricing: 'Tarifs',
     navReviews: 'Avis',
-    navCta: 'Rejoindre la beta',
+    navCta: 'Essai gratuit',
     heroTitle: "Les autres outils gèrent vos réservations. HostMate vous aide à devenir un meilleur hôte, chaque jour.",
     heroSubtitle:
       "Score de votre logement, messages parfaits envoyés au bon moment, livret d'accueil intelligent et gestion des litiges — HostMate vous montre ce qu'il faut améliorer, pendant que vous gardez le contrôle.",
-    heroCta: 'Rejoindre la beta privée',
-    heroNote: 'Gratuit pendant la beta · Sans carte bancaire',
+    heroCta: "Démarrer l'essai gratuit de 7 jours",
+    heroNote: '7 jours gratuits · Sans carte bancaire',
     demoEyebrow: 'Voyez par vous-même',
     demoTitle: 'Un voyageur ajouté. Un message parfait généré. En quelques clics.',
     flowEyebrow: 'En direct',
@@ -80,8 +79,8 @@ const translations = {
     f3Body:
       "Un voyageur mécontent, une réclamation délicate ? L'IA analyse la situation et rédige une réponse ferme mais professionnelle, dans la langue du voyageur — pour protéger votre note sans y passer la soirée.",
     ctaTitle: 'Prêt à récupérer vos soirées ?',
-    ctaSubtitle: 'Rejoignez la beta privée — 30 secondes suffisent.',
-    ctaButton: 'Rejoindre la beta privée',
+    ctaSubtitle: 'Démarrez votre essai gratuit de 7 jours — 30 secondes suffisent.',
+    ctaButton: "Démarrer l'essai gratuit de 7 jours",
     footerTagline: "L'IA qui aide les hôtes à devenir meilleurs, chaque jour.",
     footerRights: 'Tous droits réservés.',
   },
@@ -112,7 +111,7 @@ function Nav({ lang, setLang, t }: { lang: Lang; setLang: (l: Lang) => void; t: 
           >
             {lang === 'en' ? 'FR' : 'EN'}
           </button>
-          <Link to="/waitlist" className="btn-primary text-sm py-2.5 px-5">{t.navCta}</Link>
+          <a href="https://app.hostmateai.app" className="btn-primary text-sm py-2.5 px-5">{t.navCta}</a>
         </div>
 
         <button className="md:hidden text-hostmate-ink" onClick={() => setOpen(o => !o)} aria-label="Menu">
@@ -130,7 +129,7 @@ function Nav({ lang, setLang, t }: { lang: Lang; setLang: (l: Lang) => void; t: 
           >
             {lang === 'en' ? 'Français' : 'English'}
           </button>
-          <Link to="/waitlist" className="btn-primary text-center text-sm">{t.navCta}</Link>
+          <a href="https://app.hostmateai.app" className="btn-primary text-center text-sm">{t.navCta}</a>
         </div>
       )}
     </header>
@@ -250,7 +249,7 @@ export default function HomePage() {
           </Reveal>
           <Reveal delay={200}>
             <div className="mt-8 flex flex-col items-center gap-3">
-              <Link to="/waitlist" className="btn-primary text-base">{t.heroCta}</Link>
+              <a href="https://app.hostmateai.app" className="btn-primary text-base">{t.heroCta}</a>
               <span className="text-xs text-hostmate-textGrey">{t.heroNote}</span>
             </div>
           </Reveal>
@@ -395,7 +394,7 @@ export default function HomePage() {
             {t.ctaTitle}
           </h2>
           <p className="mt-4 text-white/60">{t.ctaSubtitle}</p>
-          <Link to="/waitlist" className="btn-primary inline-block mt-8 text-base">{t.ctaButton}</Link>
+          <a href="https://app.hostmateai.app" className="btn-primary inline-block mt-8 text-base">{t.ctaButton}</a>
         </Reveal>
       </section>
 
