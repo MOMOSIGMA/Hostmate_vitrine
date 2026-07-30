@@ -45,9 +45,45 @@ const CONTENT = {
       cta: 'Start free trial',
     },
   },
+  es: {
+    free: {
+      name: 'Free', price: '0$', period: '/mes',
+      features: ['1 alojamiento', '5 mensajes IA / mes', '1 Problem Solver / mes', 'Recordatorios 24h únicamente'],
+      cta: 'Empezar gratis',
+    },
+    pro: {
+      name: 'Pro', price: '9,99$', period: '/mes', struck: '14,99$',
+      badge: 'Precio fundador',
+      features: [
+        'Hasta 5 alojamientos', '400 mensajes IA / mes', 'Problem Solver (60 / mes)',
+        'Manuales de bienvenida ilimitados, en 10 idiomas',
+        'Email automático de llegada / salida', 'Informe de IA completo',
+        'Recordatorios ilimitados (24h/12h/6h/4h/2h)',
+      ],
+      cta: 'Empezar la prueba gratuita',
+    },
+  },
+  it: {
+    free: {
+      name: 'Free', price: '0$', period: '/mese',
+      features: ['1 alloggio', '5 messaggi AI / mese', '1 Problem Solver / mese', 'Promemoria solo a 24h'],
+      cta: 'Inizia gratis',
+    },
+    pro: {
+      name: 'Pro', price: '9,99$', period: '/mese', struck: '14,99$',
+      badge: 'Prezzo fondatore',
+      features: [
+        'Fino a 5 alloggi', '400 messaggi AI / mese', 'Problem Solver (60 / mese)',
+        'Guide di benvenuto illimitate, in 10 lingue',
+        'Email automatica di arrivo / partenza', 'Report AI completo',
+        'Promemoria illimitati (24h/12h/6h/4h/2h)',
+      ],
+      cta: 'Inizia la prova gratuita',
+    },
+  },
 }
 
-export default function Pricing({ lang }: { lang: 'fr' | 'en' }) {
+export default function Pricing({ lang }: { lang: 'fr' | 'en' | 'es' | 'it' }) {
   const c = CONTENT[lang]
   return (
     <div className="grid sm:grid-cols-2 gap-6 max-w-2xl mx-auto">

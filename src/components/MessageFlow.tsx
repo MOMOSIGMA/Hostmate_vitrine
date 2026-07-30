@@ -12,6 +12,7 @@ import { Home, Layers, Brain, Languages, RefreshCw, User, Zap } from 'lucide-rea
 // la section est visible à l'écran, s'arrête proprement en sortant du
 // viewport. Un seul accent corail, tout le reste anthracite/gris.
 
+type Lang = 'fr' | 'en' | 'es' | 'it'
 type Stage = 0 | 1 | 2 | 3 | 4 | 5
 
 const GUEST_MSG_EN =
@@ -23,32 +24,79 @@ const GUEST_MSG_FR =
 // la démo, quel que soit l'affichage du site — sinon le miroir ne
 // démontrerait rien. Site en FR → voyageur EN / miroir FR. Site en EN →
 // voyageur FR / miroir EN.
-function buildStages(lang: 'fr' | 'en') {
+type StageText = Record<Lang, string>
+
+// Le message montre a l'ecran est TOUJOURS dans une langue differente de
+// l'interface : c'est la demonstration meme du produit — l'hote ecrit dans sa
+// langue, le voyageur recoit dans la sienne. On affiche donc l'anglais aux
+// francophones et le francais aux autres, puis le miroir dans l'autre sens.
+function buildStages(lang: Lang) {
   const guestMsg = lang === 'fr' ? GUEST_MSG_EN : GUEST_MSG_FR
   const mirrorMsg = lang === 'fr' ? GUEST_MSG_FR : GUEST_MSG_EN
 
-  const S: Record<Stage, { fr: string; en: string; label: { fr: string; en: string } }> = {
+  const S: Record<Stage, StageText & { label: StageText }> = {
     0: {
       fr: 'arrivée demain 15h, Loft Le Marais',
       en: 'arrival tomorrow 3pm, Le Marais Loft',
-      label: { fr: "L'hôte note l'essentiel", en: 'Host jots the essentials' },
+      es: 'llegada mañana 15h, Loft Le Marais',
+      it: 'arrivo domani 15h, Loft Le Marais',
+      label: {
+        fr: "L'hôte note l'essentiel",
+        en: 'Host jots the essentials',
+        es: 'El anfitrión anota lo esencial',
+        it: "L'host annota l'essenziale",
+      },
     },
     1: {
       fr: 'Rassemble le contexte : logement, profil du voyageur, météo locale…',
       en: 'Gathers context: the property, the guest profile, local weather…',
-      label: { fr: 'Hosty prépare le contexte', en: 'Hosty gathers the context' },
+      es: 'Reúne el contexto: alojamiento, perfil del huésped, tiempo local…',
+      it: "Raccoglie il contesto: alloggio, profilo dell'ospite, meteo locale…",
+      label: {
+        fr: 'Hosty prépare le contexte',
+        en: 'Hosty gathers the context',
+        es: 'Hosty prepara el contexto',
+        it: 'Hosty prepara il contesto',
+      },
     },
     2: {
       fr: 'Analyse la situation et le ton à adopter…',
       en: 'Analyzes the situation and the tone to use…',
-      label: { fr: 'Hosty analyse', en: 'Hosty reasons' },
+      es: 'Analiza la situación y el tono adecuado…',
+      it: 'Analizza la situazione e il tono da adottare…',
+      label: {
+        fr: 'Hosty analyse',
+        en: 'Hosty reasons',
+        es: 'Hosty analiza',
+        it: 'Hosty analizza',
+      },
     },
-    3: { fr: guestMsg, en: guestMsg, label: { fr: 'Message rédigé, dans sa langue', en: "Written, in the guest's language" } },
-    4: { fr: mirrorMsg, en: mirrorMsg, label: { fr: 'Miroir — pour vérifier ce qui a été envoyé', en: 'Mirror — so you can check what was sent' } },
+    3: {
+      fr: guestMsg, en: guestMsg, es: guestMsg, it: guestMsg,
+      label: {
+        fr: 'Message rédigé, dans sa langue',
+        en: "Written, in the guest's language",
+        es: 'Mensaje redactado, en su idioma',
+        it: 'Messaggio scritto, nella sua lingua',
+      },
+    },
+    4: {
+      fr: mirrorMsg, en: mirrorMsg, es: mirrorMsg, it: mirrorMsg,
+      label: {
+        fr: 'Miroir — pour vérifier ce qui a été envoyé',
+        en: 'Mirror — so you can check what was sent',
+        es: 'Espejo — para comprobar lo que se ha enviado',
+        it: 'Specchio — per verificare cosa è stato inviato',
+      },
+    },
     5: {
       fr: '✓ Envoyé automatiquement, sans intervention de votre part.',
       en: '✓ Sent automatically, with no action needed from you.',
-      label: { fr: 'Livré', en: 'Delivered' },
+      es: '✓ Enviado automáticamente, sin que tengas que hacer nada.',
+      it: '✓ Inviato automaticamente, senza alcun intervento da parte tua.',
+      label: {
+        fr: 'Livré', en: 'Delivered', es: 'Entregado', it: 'Consegnato',
+      },
     },
   }
   return S
@@ -99,7 +147,20 @@ function Node({
 const STAGE_DURATION_MS = 2800
 const FINAL_PAUSE_MS = 2200
 
-export default function MessageFlow({ lang }: { lang: 'fr' | 'en' }) {
+const L: Record<string, string>[] = [
+  { fr: 'Vous', en: 'You', es: 'Tu', it: 'Tu' },
+  { fr: 'Contexte', en: 'Context', es: 'Contexto', it: 'Contesto' },
+  { fr: 'Analyse', en: 'Reasoning', es: 'Analisis', it: 'Analisi' },
+  { fr: 'Message', en: 'Message', es: 'Mensaje', it: 'Messaggio' },
+  { fr: 'Miroir', en: 'Mirror', es: 'Espejo', it: 'Specchio' },
+  { fr: 'Voyageur', en: 'Guest', es: 'Huesped', it: 'Ospite' },
+  { fr: 'Tout ceci peut tourner automatiquement', en: 'All of this can run automatically', es: 'Todo esto puede funcionar automaticamente', it: 'Tutto questo puo funzionare automaticamente' },
+  { fr: 'Envoyé par email', en: 'Sent by email', es: 'Enviado por email', it: 'Inviato via email' },
+  { fr: 'Copie miroir', en: 'Mirror copy', es: 'Copia espejo', it: 'Copia specchio' },
+  { fr: 'Automatique', en: 'Automatic', es: 'Automatico', it: 'Automatico' },
+]
+
+export default function MessageFlow({ lang }: { lang: 'fr' | 'en' | 'es' | 'it' }) {
   const ref = useRef<HTMLDivElement>(null)
   const inView = useInView(ref, { once: false, amount: 0.5 })
   const [stage, setStage] = useState<Stage>(0)
@@ -132,19 +193,19 @@ export default function MessageFlow({ lang }: { lang: 'fr' | 'en' }) {
   }, [inView, lang])
 
   const nodes = [
-    { icon: <Home size={15} />, title: lang === 'fr' ? 'Vous' : 'You', accent: false },
-    { icon: <Layers size={15} />, title: lang === 'fr' ? 'Contexte' : 'Context', accent: true },
-    { icon: <Brain size={15} />, title: lang === 'fr' ? 'Analyse' : 'Reasoning', accent: true },
-    { icon: <Languages size={15} />, title: lang === 'fr' ? 'Message' : 'Message', accent: true },
-    { icon: <RefreshCw size={15} />, title: lang === 'fr' ? 'Miroir' : 'Mirror', accent: true },
-    { icon: <User size={15} />, title: lang === 'fr' ? 'Voyageur' : 'Guest', accent: false },
+    { icon: <Home size={15} />, title: L[0][lang], accent: false },
+    { icon: <Layers size={15} />, title: L[1][lang], accent: true },
+    { icon: <Brain size={15} />, title: L[2][lang], accent: true },
+    { icon: <Languages size={15} />, title: L[3][lang], accent: true },
+    { icon: <RefreshCw size={15} />, title: L[4][lang], accent: true },
+    { icon: <User size={15} />, title: L[5][lang], accent: false },
   ]
 
   return (
     <div ref={ref} className="relative max-w-2xl mx-auto">
       <div className="flex justify-center mb-6">
         <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold text-hostmate-primary bg-hostmate-primary/[0.08] rounded-full px-3 py-1">
-          <Zap size={12} /> {lang === 'fr' ? 'Tout ceci peut tourner automatiquement' : 'All of this can run automatically'}
+          <Zap size={12} /> {L[6][lang]}
         </span>
       </div>
 
@@ -185,9 +246,9 @@ export default function MessageFlow({ lang }: { lang: 'fr' | 'en' }) {
             animate={{ opacity: 1 }}
             className="mb-2 text-[11px] font-semibold uppercase tracking-wide text-hostmate-textGrey flex items-center gap-1.5"
           >
-            {stage === 3 && `✉️ ${lang === 'fr' ? 'Envoyé par email' : 'Sent by email'}`}
-            {stage === 4 && `🪞 ${lang === 'fr' ? 'Copie miroir' : 'Mirror copy'}`}
-            {stage === 5 && `⚡ ${lang === 'fr' ? 'Automatique' : 'Automatic'}`}
+            {stage === 3 && `✉️ ${L[7][lang]}`}
+            {stage === 4 && `🪞 ${L[8][lang]}`}
+            {stage === 5 && `⚡ ${L[9][lang]}`}
           </motion.span>
         )}
         <motion.div

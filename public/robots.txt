@@ -1,0 +1,9 @@
+# HostMate AI — site vitrine
+User-agent: *
+Allow: /
+
+# Le livret d'accueil et l'application ne doivent pas être indexés :
+# ce sont des espaces privés (liens voyageurs, comptes hôtes).
+# Ils sont sur d'autres domaines, mais on le dit ici par clarté.
+
+Sitemap: https://hostmateai.app/sitemap.xml

@@ -84,6 +84,76 @@ const translations = {
     footerTagline: "L'IA qui aide les hôtes à devenir meilleurs, chaque jour.",
     footerRights: 'Tous droits réservés.',
   },
+  es: {
+    navFeatures: 'Funciones',
+    navPricing: 'Precios',
+    navReviews: 'Opiniones',
+    navCta: 'Prueba gratuita',
+    heroTitle: 'Las otras herramientas gestionan tus reservas. HostMate te ayuda a ser mejor anfitrión, cada día.',
+    heroSubtitle:
+      'Puntuación de tu alojamiento, mensajes perfectos enviados en el momento justo, manual de bienvenida inteligente y gestión de conflictos — HostMate te muestra qué mejorar, mientras tú mantienes el control.',
+    heroCta: 'Empezar la prueba gratuita de 7 días',
+    heroNote: '7 días gratis · Sin tarjeta bancaria',
+    demoEyebrow: 'Compruébalo tú mismo',
+    demoTitle: 'Un huésped añadido. Un mensaje perfecto generado. En unos clics.',
+    flowEyebrow: 'En directo',
+    flowTitle: 'Una línea tuya. Un mensaje perfecto para ellos.',
+    featuresEyebrow: 'Lo que hace HostMate',
+    moreEyebrow: 'Y eso no es todo',
+    moreTitle: 'Todas las herramientas, sin sobrecarga.',
+    reportCaption: 'El informe de IA, en tu bolsillo — tendencias, análisis y qué corregir.',
+    pricingEyebrow: 'Precios',
+    pricingTitle: 'Precios claros, sin sorpresas.',
+    f1Title: 'Mensajes perfectos, enviados en el momento justo',
+    f1Body:
+      'Check-in, seguimiento de la estancia, check-out: Hosty redacta y envía automáticamente un email personalizado, traducido al instante al idioma de tus huéspedes. Sin copiar y pegar, sin olvidos, a cualquier hora.',
+    f2Title: 'Un manual de bienvenida que responde por ti',
+    f2Body:
+      'Genera un manual de bienvenida digital en segundos. Tus huéspedes acceden con un código QR y preguntan directamente a Hosty, tu conserje con IA — wifi, normas de la casa, buenos sitios del barrio, a cualquier hora.',
+    f3Title: 'Desactiva los conflictos antes de que estallen',
+    f3Body:
+      'Un huésped descontento, una reclamación delicada? La IA analiza la situación y redacta una respuesta firme pero profesional, en el idioma del huésped — para proteger tu valoración sin arruinarte la noche.',
+    ctaTitle: 'Listo para recuperar tus noches?',
+    ctaSubtitle: 'Empieza tu prueba gratuita de 7 días — bastan 30 segundos.',
+    ctaButton: 'Empezar la prueba gratuita de 7 días',
+    footerTagline: 'La IA que ayuda a los anfitriones a mejorar, cada día.',
+    footerRights: 'Todos los derechos reservados.',
+  },
+  it: {
+    navFeatures: 'Funzionalità',
+    navPricing: 'Prezzi',
+    navReviews: 'Recensioni',
+    navCta: 'Prova gratuita',
+    heroTitle: 'Gli altri strumenti gestiscono le tue prenotazioni. HostMate ti aiuta a diventare un host migliore, ogni giorno.',
+    heroSubtitle:
+      'Punteggio del tuo alloggio, messaggi perfetti inviati al momento giusto, guida di benvenuto intelligente e gestione dei conflitti — HostMate ti mostra cosa migliorare, mentre tu mantieni il controllo.',
+    heroCta: 'Inizia la prova gratuita di 7 giorni',
+    heroNote: '7 giorni gratis · Senza carta di credito',
+    demoEyebrow: 'Guarda con i tuoi occhi',
+    demoTitle: 'Un ospite aggiunto. Un messaggio perfetto generato. In pochi clic.',
+    flowEyebrow: 'In diretta',
+    flowTitle: 'Una riga da parte tua. Un messaggio perfetto per loro.',
+    featuresEyebrow: 'Cosa fa HostMate',
+    moreEyebrow: 'E non è tutto',
+    moreTitle: 'Tutti gli strumenti, senza sovraccarico.',
+    reportCaption: 'Il report AI, in tasca — tendenze, analisi e cosa correggere.',
+    pricingEyebrow: 'Prezzi',
+    pricingTitle: 'Prezzi chiari, senza sorprese.',
+    f1Title: 'Messaggi perfetti, inviati al momento giusto',
+    f1Body:
+      'Check-in, follow-up del soggiorno, check-out: Hosty scrive e invia automaticamente un email personalizzata, tradotta all istante nella lingua dei tuoi ospiti. Niente copia-incolla, niente dimenticanze, attivo a qualsiasi ora.',
+    f2Title: 'Una guida di benvenuto che risponde al posto tuo',
+    f2Body:
+      'Genera una guida di benvenuto digitale in pochi secondi. I tuoi ospiti vi accedono con un QR code e fanno le loro domande direttamente a Hosty, il tuo concierge AI — wifi, regole della casa, indirizzi del quartiere, a qualsiasi ora.',
+    f3Title: 'Disinnesca i conflitti prima che esplodano',
+    f3Body:
+      'Un ospite scontento, un reclamo delicato? L AI analizza la situazione e scrive una risposta ferma ma professionale, nella lingua dell ospite — per proteggere la tua valutazione senza rovinarti la serata.',
+    ctaTitle: 'Pronto a riprenderti le tue serate?',
+    ctaSubtitle: 'Inizia la prova gratuita di 7 giorni — bastano 30 secondi.',
+    ctaButton: 'Inizia la prova gratuita di 7 giorni',
+    footerTagline: 'L AI che aiuta gli host a migliorare, ogni giorno.',
+    footerRights: 'Tutti i diritti riservati.',
+  },
 }
 
 type Lang = keyof typeof translations
@@ -206,13 +276,70 @@ function Feature({
 }
 
 // ─── Page ───────────────────────────────────────────────────────────────────
-export default function HomePage() {
-  const [lang, setLang] = useState<Lang>('en')
+// Titre et description PAR LANGUE. Sans eux, les quatre URL renverraient le
+// meme titre anglais : Google verrait quatre pages quasi identiques et n'en
+// indexerait qu'une. Ce sont aussi les deux lignes que voit un internaute dans
+// les resultats de recherche — elles decident du clic.
+const META: Record<Lang, { title: string; description: string }> = {
+  en: {
+    title: 'HostMate AI — Become a better Airbnb host, every day',
+    description:
+      'Property score, perfectly timed guest messages, smart welcome guide and dispute handling. HostMate shows you what to improve while you stay in control. 7-day free trial.',
+  },
+  fr: {
+    title: 'HostMate AI — Devenez un meilleur hôte Airbnb, chaque jour',
+    description:
+      "Score de votre logement, messages envoyés au bon moment, livret d'accueil intelligent et gestion des litiges. HostMate vous montre quoi améliorer. Essai gratuit de 7 jours.",
+  },
+  es: {
+    title: 'HostMate AI — Sé mejor anfitrión de Airbnb, cada día',
+    description:
+      'Puntuación de tu alojamiento, mensajes enviados en el momento justo, manual de bienvenida inteligente y gestión de conflictos. Prueba gratuita de 7 días.',
+  },
+  it: {
+    title: 'HostMate AI — Diventa un host Airbnb migliore, ogni giorno',
+    description:
+      'Punteggio del tuo alloggio, messaggi inviati al momento giusto, guida di benvenuto intelligente e gestione dei conflitti. Prova gratuita di 7 giorni.',
+  },
+}
+
+const PATH_BY_LANG: Record<Lang, string> = {
+  en: '/',
+  fr: '/fr',
+  es: '/es',
+  it: '/it',
+}
+
+export default function HomePage({ lang: initialLang }: { lang: Lang }) {
+  const [lang, setLang] = useState<Lang>(initialLang)
+
+  // La langue vient de l'URL, plus de navigator.language : c'est ce qui rend
+  // chaque version indexable. Le selecteur de langue met l'URL a jour sans
+  // recharger la page, pour que le lien reste partageable.
+  useEffect(() => setLang(initialLang), [initialLang])
 
   useEffect(() => {
-    const browserLang = navigator.language.split('-')[0]
-    if (browserLang === 'fr') setLang('fr')
-  }, [])
+    const meta = META[lang]
+    document.title = meta.title
+    document.documentElement.lang = lang
+
+    const set = (selector: string, attr: string, value: string) => {
+      const el = document.head.querySelector(selector)
+      if (el) el.setAttribute(attr, value)
+    }
+    set('meta[name="description"]', 'content', meta.description)
+    set('meta[property="og:title"]', 'content', meta.title)
+    set('meta[property="og:description"]', 'content', meta.description)
+    set('link[rel="canonical"]', 'href', `https://hostmateai.app${PATH_BY_LANG[lang]}`)
+    set('meta[property="og:url"]', 'content', `https://hostmateai.app${PATH_BY_LANG[lang]}`)
+
+    // L'URL suit la langue choisie, sans rechargement : le visiteur peut
+    // partager le lien de la version qu'il lit.
+    const target = PATH_BY_LANG[lang]
+    if (window.location.pathname !== target) {
+      window.history.replaceState(null, '', target)
+    }
+  }, [lang])
 
   const t = translations[lang]
 

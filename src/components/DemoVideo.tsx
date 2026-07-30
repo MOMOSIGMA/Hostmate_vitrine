@@ -12,7 +12,26 @@ import BrowserFrame from './BrowserFrame'
 // Le bouton "ralentir" reste — il répond à un vrai problème (le rythme de
 // la vidéo est rapide), indépendant du style du lecteur.
 
-export default function DemoVideo({ lang }: { lang: 'fr' | 'en' }) {
+const L: Record<string, string>[] = [
+  { fr: 'Activer le son', en: 'Unmute', es: 'Activar el sonido', it: 'Attiva audio' },
+  { fr: 'Couper le son', en: 'Mute', es: 'Silenciar', it: 'Disattiva audio' },
+]
+
+const SPEED_ON: Record<string, string> = {
+  fr: '🐢 Vitesse ralentie (0.6×)',
+  en: '🐢 Slowed down (0.6×)',
+  es: '🐢 Velocidad reducida (0.6×)',
+  it: '🐢 Velocità ridotta (0.6×)',
+}
+
+const SPEED_OFF: Record<string, string> = {
+  fr: 'Ça va trop vite ? Ralentir',
+  en: 'Going too fast? Slow it down',
+  es: '¿Demasiado rápido? Ralentizar',
+  it: 'Troppo veloce? Rallenta',
+}
+
+export default function DemoVideo({ lang }: { lang: 'fr' | 'en' | 'es' | 'it' }) {
   const containerRef = useRef<HTMLDivElement>(null)
   const videoRef = useRef<HTMLVideoElement>(null)
   const inView = useInView(containerRef, { once: false, amount: 0.5 })
@@ -52,7 +71,7 @@ export default function DemoVideo({ lang }: { lang: 'fr' | 'en' }) {
           />
           <button
             onClick={() => setMuted((m) => !m)}
-            aria-label={muted ? (lang === 'fr' ? 'Activer le son' : 'Unmute') : (lang === 'fr' ? 'Couper le son' : 'Mute')}
+            aria-label={muted ? (L[0][lang]) : (L[1][lang])}
             className="absolute bottom-3 right-3 w-9 h-9 rounded-full bg-hostmate-ink/60 backdrop-blur-sm flex items-center justify-center text-white hover:bg-hostmate-ink/80 transition-colors"
           >
             {muted ? <VolumeX size={16} /> : <Volume2 size={16} />}
@@ -69,9 +88,7 @@ export default function DemoVideo({ lang }: { lang: 'fr' | 'en' }) {
               : 'border-hostmate-ink/15 text-hostmate-textGrey hover:text-hostmate-ink'
           }`}
         >
-          {slow
-            ? (lang === 'fr' ? '🐢 Vitesse ralentie (0.6×)' : '🐢 Slowed down (0.6×)')
-            : (lang === 'fr' ? 'Ça va trop vite ? Ralentir' : 'Going too fast? Slow it down')}
+          {slow ? SPEED_ON[lang] : SPEED_OFF[lang]}
         </button>
       </div>
     </div>

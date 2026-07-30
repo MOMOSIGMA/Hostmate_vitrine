@@ -42,7 +42,14 @@ function buildPattern(): boolean[][] {
 
 const PATTERN = buildPattern()
 
-export default function QRCard({ lang }: { lang: 'fr' | 'en' }) {
+const QR_CAPTION: Record<'fr' | 'en' | 'es' | 'it', string> = {
+  fr: 'Scannez pour accéder à votre guide',
+  en: 'Scan to access your guide',
+  es: 'Escanea para acceder a tu manual',
+  it: 'Scansiona per accedere alla tua guida',
+}
+
+export default function QRCard({ lang }: { lang: 'fr' | 'en' | 'es' | 'it' }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 16, rotate: -1.5 }}
@@ -75,7 +82,7 @@ export default function QRCard({ lang }: { lang: 'fr' | 'en' }) {
       </div>
 
       <p className="mt-4 text-[11px] text-center text-hostmate-textGrey leading-snug">
-        {lang === 'fr' ? 'Scannez pour accéder à votre guide' : 'Scan to access your guide'}
+        {QR_CAPTION[lang]}
       </p>
     </motion.div>
   )

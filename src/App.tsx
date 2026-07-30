@@ -9,11 +9,26 @@ import HomePage from './pages/HomePage'
 // ATTENTION : les inscrits de la liste d'attente restent en base Supabase
 // (table `waitlist`). Ce sont eux qu'on doit gratifier du statut beta-testeur —
 // ne pas supprimer cette table.
+//
+// ── UNE URL PAR LANGUE ──────────────────────────────────────────────────────
+// Sans URL distincte, Google n'indexe qu'UNE version du site : impossible de
+// ressortir sur une recherche espagnole ou italienne, quel que soit le
+// contenu. La langue etait choisie en JavaScript depuis navigator.language,
+// donc totalement invisible pour un moteur de recherche.
+//
+// La racine sert l'anglais (marche le plus large) et porte le x-default ;
+// /fr, /es et /it servent leur langue. Les balises hreflang de index.html
+// relient les quatre versions entre elles.
 export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<HomePage />} />
+        <Route path="/" element={<HomePage lang="en" />} />
+        <Route path="/fr" element={<HomePage lang="fr" />} />
+        <Route path="/es" element={<HomePage lang="es" />} />
+        <Route path="/it" element={<HomePage lang="it" />} />
+        {/* Toute autre URL retombe sur l'accueil plutot qu'une page vide. */}
+        <Route path="*" element={<HomePage lang="en" />} />
       </Routes>
     </BrowserRouter>
   )

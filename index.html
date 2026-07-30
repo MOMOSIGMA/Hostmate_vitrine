@@ -5,14 +5,74 @@
   <link rel="icon" type="image/png" href="/icon.png" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>HostMate AI — Automate your Airbnb, keep the human touch</title>
+  <!--
+    TITRE ET DESCRIPTION — valeurs par défaut (anglais). Elles sont remplacées
+    à l'exécution selon la langue de l'URL (voir HomePage.tsx, constante META).
+    Ce sont les deux lignes que voit un internaute dans les résultats de
+    recherche : elles décident du clic.
 
-  <meta name="description" content="AI-powered messaging, a digital concierge and dispute resolution for Airbnb hosts. Save hours every week without sounding like a robot." />
-  <meta property="og:title" content="HostMate AI — Automate your Airbnb, keep the human touch" />
-  <meta property="og:description" content="Fini les appels à 22h. Automatisez l'excellence de vos Airbnb sans perdre la touche humaine." />
+    L'ancienne version mélangeait les langues — titre anglais, og:description
+    en français — ce qui donnait un aperçu incohérent au partage.
+  -->
+  <title>HostMate AI — Become a better Airbnb host, every day</title>
+  <meta name="description" content="Property score, perfectly timed guest messages, smart welcome guide and dispute handling. HostMate shows you what to improve while you stay in control. 7-day free trial." />
+
+  <link rel="canonical" href="https://hostmateai.app/" />
+
+  <!--
+    HREFLANG — indique à Google quelles versions existent et laquelle servir
+    selon la langue du visiteur. Sans ces balises, les quatre URL passeraient
+    pour du contenu dupliqué et une seule serait indexée.
+    x-default = la version servie quand aucune langue ne correspond.
+  -->
+  <link rel="alternate" hreflang="en" href="https://hostmateai.app/" />
+  <link rel="alternate" hreflang="fr" href="https://hostmateai.app/fr" />
+  <link rel="alternate" hreflang="es" href="https://hostmateai.app/es" />
+  <link rel="alternate" hreflang="it" href="https://hostmateai.app/it" />
+  <link rel="alternate" hreflang="x-default" href="https://hostmateai.app/" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="HostMate AI" />
+  <meta property="og:title" content="HostMate AI — Become a better Airbnb host, every day" />
+  <meta property="og:description" content="Property score, perfectly timed guest messages, smart welcome guide and dispute handling. 7-day free trial." />
   <meta property="og:image" content="https://hostmateai.app/icon.png" />
   <meta property="og:url" content="https://hostmateai.app/" />
   <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="HostMate AI — Become a better Airbnb host, every day" />
+  <meta name="twitter:description" content="Property score, perfectly timed guest messages, smart welcome guide and dispute handling. 7-day free trial." />
+  <meta name="twitter:image" content="https://hostmateai.app/icon.png" />
+
+  <!--
+    DONNÉES STRUCTURÉES — disent explicitement à Google ce QU'EST ce site.
+    Décisif ici : d'autres produits portent un nom proche. Sans cette
+    déclaration, un moteur doit deviner à partir du texte ; avec elle, il sait
+    qu'il s'agit d'un logiciel pour la location courte durée, son prix et son
+    éditeur.
+  -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "HostMate AI",
+    "url": "https://hostmateai.app/",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "Web, Android",
+    "description": "AI assistant for short-term rental hosts: property score, automated guest messaging, smart digital welcome guide and dispute resolution.",
+    "inLanguage": ["en", "fr", "es", "it"],
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD",
+      "description": "7-day free trial, no credit card required"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "HostMate AI",
+      "url": "https://hostmateai.app/",
+      "logo": "https://hostmateai.app/icon.png"
+    }
+  }
+  </script>
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
