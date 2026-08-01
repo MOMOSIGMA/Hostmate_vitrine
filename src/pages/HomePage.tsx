@@ -25,9 +25,9 @@ const translations = {
     heroCta: 'Start your 7-day free trial',
     heroNote: '7 days free · No credit card',
     demoEyebrow: 'See for yourself',
-    demoTitle: 'One new guest. One perfect message. A few clicks.',
+    demoTitle: 'Add a guest in seconds. HostMate takes it from there.',
     flowEyebrow: 'See it happen',
-    flowTitle: 'One line from you. A perfect message for them.',
+    flowTitle: 'It knows your property, your guest, even the weather.',
     featuresEyebrow: 'What HostMate does',
     moreEyebrow: 'And there\'s more',
     moreTitle: 'The full toolkit, without the overwhelm.',
@@ -46,7 +46,7 @@ const translations = {
     ctaTitle: 'Ready to get your evenings back?',
     ctaSubtitle: 'Start your 7-day free trial — takes 30 seconds.',
     ctaButton: 'Start your 7-day free trial',
-    footerTagline: 'The AI that helps hosts get better, every day.',
+    footerTagline: 'Become a better host, every day.',
     footerRights: 'All rights reserved.',
   },
   fr: {
@@ -60,9 +60,9 @@ const translations = {
     heroCta: "Démarrer l'essai gratuit de 7 jours",
     heroNote: '7 jours gratuits · Sans carte bancaire',
     demoEyebrow: 'Voyez par vous-même',
-    demoTitle: 'Un voyageur ajouté. Un message parfait généré. En quelques clics.',
+    demoTitle: 'Ajoutez un voyageur en quelques secondes. HostMate fait le reste.',
     flowEyebrow: 'En direct',
-    flowTitle: 'Une ligne de votre part. Un message parfait pour eux.',
+    flowTitle: 'Il connaît votre logement, votre voyageur, et même la météo.',
     featuresEyebrow: 'Ce que fait HostMate',
     moreEyebrow: 'Et ce n\'est pas tout',
     moreTitle: 'Toute la boîte à outils, sans surcharge.',
@@ -81,7 +81,7 @@ const translations = {
     ctaTitle: 'Prêt à récupérer vos soirées ?',
     ctaSubtitle: 'Démarrez votre essai gratuit de 7 jours — 30 secondes suffisent.',
     ctaButton: "Démarrer l'essai gratuit de 7 jours",
-    footerTagline: "L'IA qui aide les hôtes à devenir meilleurs, chaque jour.",
+    footerTagline: "Devenez un meilleur hôte, chaque jour.",
     footerRights: 'Tous droits réservés.',
   },
   es: {
@@ -95,9 +95,9 @@ const translations = {
     heroCta: 'Empezar la prueba gratuita de 7 días',
     heroNote: '7 días gratis · Sin tarjeta bancaria',
     demoEyebrow: 'Compruébalo tú mismo',
-    demoTitle: 'Un huésped añadido. Un mensaje perfecto generado. En unos clics.',
+    demoTitle: 'Añade un huésped en segundos. HostMate hace el resto.',
     flowEyebrow: 'En directo',
-    flowTitle: 'Una línea tuya. Un mensaje perfecto para ellos.',
+    flowTitle: 'Conoce tu alojamiento, tu huésped, incluso el tiempo.',
     featuresEyebrow: 'Lo que hace HostMate',
     moreEyebrow: 'Y eso no es todo',
     moreTitle: 'Todas las herramientas, sin sobrecarga.',
@@ -116,7 +116,7 @@ const translations = {
     ctaTitle: 'Listo para recuperar tus noches?',
     ctaSubtitle: 'Empieza tu prueba gratuita de 7 días — bastan 30 segundos.',
     ctaButton: 'Empezar la prueba gratuita de 7 días',
-    footerTagline: 'La IA que ayuda a los anfitriones a mejorar, cada día.',
+    footerTagline: 'Conviértete en un mejor anfitrión, cada día.',
     footerRights: 'Todos los derechos reservados.',
   },
   it: {
@@ -130,9 +130,9 @@ const translations = {
     heroCta: 'Inizia la prova gratuita di 7 giorni',
     heroNote: '7 giorni gratis · Senza carta di credito',
     demoEyebrow: 'Guarda con i tuoi occhi',
-    demoTitle: 'Un ospite aggiunto. Un messaggio perfetto generato. In pochi clic.',
+    demoTitle: 'Aggiungi un ospite in pochi secondi. HostMate fa il resto.',
     flowEyebrow: 'In diretta',
-    flowTitle: 'Una riga da parte tua. Un messaggio perfetto per loro.',
+    flowTitle: 'Conosce il tuo alloggio, il tuo ospite, perfino il meteo.',
     featuresEyebrow: 'Cosa fa HostMate',
     moreEyebrow: 'E non è tutto',
     moreTitle: 'Tutti gli strumenti, senza sovraccarico.',
@@ -151,7 +151,7 @@ const translations = {
     ctaTitle: 'Pronto a riprenderti le tue serate?',
     ctaSubtitle: 'Inizia la prova gratuita di 7 giorni — bastano 30 secondi.',
     ctaButton: 'Inizia la prova gratuita di 7 giorni',
-    footerTagline: 'L AI che aiuta gli host a migliorare, ogni giorno.',
+    footerTagline: 'Diventa un host migliore, ogni giorno.',
     footerRights: 'Tutti i diritti riservati.',
   },
 }
@@ -165,8 +165,16 @@ function Nav({ lang, setLang, t }: { lang: Lang; setLang: (l: Lang) => void; t: 
   return (
     <header className="fixed top-0 inset-x-0 z-50 bg-white/80 backdrop-blur-md border-b border-hostmate-ink/5">
       <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-        <span className="font-display font-semibold text-lg tracking-tight text-hostmate-ink">
-          HostMate<span className="text-hostmate-primary">.</span>
+        {/* translate="no" : un navigateur qui traduit la page traduisait aussi
+            la marque. Un nom de marque ne se traduit pas — il s'ecrit pareil
+            dans toutes les langues. Signale le 01/08/2026 sur Edge.
+            Le « AI » remplace le point : le produit s'appelle HostMate AI
+            partout ailleurs (titre, emails, domaine), le logo l'omettait. */}
+        <span
+          translate="no"
+          className="notranslate font-display font-semibold text-lg tracking-tight text-hostmate-ink"
+        >
+          HostMate<span className="text-hostmate-primary"> AI</span>
         </span>
 
         <nav className="hidden md:flex items-center gap-8 text-sm text-hostmate-textGrey">
@@ -529,8 +537,11 @@ export default function HomePage({ lang: initialLang }: { lang: Lang }) {
       <footer className="border-t border-hostmate-ink/10 px-6 py-10">
         <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6">
           <div>
-            <span className="font-display font-semibold text-hostmate-ink">
-              HostMate<span className="text-hostmate-primary">.</span>
+            <span
+              translate="no"
+              className="notranslate font-display font-semibold text-hostmate-ink"
+            >
+              HostMate<span className="text-hostmate-primary"> AI</span>
             </span>
             <p className="text-xs text-hostmate-textGrey mt-1">{t.footerTagline}</p>
           </div>
