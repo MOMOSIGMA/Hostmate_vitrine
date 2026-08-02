@@ -1,5 +1,6 @@
 import { Check, X } from 'lucide-react'
 import { motion } from 'framer-motion'
+import LargeHostLead from './LargeHostLead'
 
 // Chiffres vérifiés dans le code réel (23/07) — pas inventés :
 // src/services/quotaService.js (Backend_hostmate) pour les plafonds,
@@ -125,7 +126,8 @@ const CONTENT = {
 export default function Pricing({ lang }: { lang: 'fr' | 'en' | 'es' | 'it' }) {
   const c = CONTENT[lang]
   return (
-    <div className="grid sm:grid-cols-2 gap-6 max-w-2xl mx-auto">
+    <div className="max-w-2xl mx-auto">
+    <div className="grid sm:grid-cols-2 gap-6">
       <motion.div
         initial={{ opacity: 0, y: 16 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -182,6 +184,11 @@ export default function Pricing({ lang }: { lang: 'fr' | 'en' | 'es' | 'it' }) {
         </ul>
         <a href="https://app.hostmateai.app" className="btn-primary block text-center text-sm">{c.pro.cta}</a>
       </motion.div>
+    </div>
+
+      {/* Sous les cartes, pas à côté : capter la conciergerie sans lui
+          promettre un plan qui n'existe pas. Voir LargeHostLead.tsx. */}
+      <LargeHostLead lang={lang} />
     </div>
   )
 }
