@@ -347,6 +347,16 @@ export default function HomePage({ lang: initialLang }: { lang: Lang }) {
     if (window.location.pathname !== target) {
       window.history.replaceState(null, '', target)
     }
+
+    // On retient la langue lue. Sans ça, la redirection de la racine (voir
+    // App.tsx) renverrait le visiteur vers la langue de son navigateur à
+    // chaque retour — y compris juste après qu'il en ait choisi une autre.
+    try {
+      localStorage.setItem('hm_lang_choice', lang)
+    } catch {
+      // Stockage refusé : sans mémoire, la langue du navigateur reprend la
+      // main au prochain passage. Dégradation acceptable, jamais un plantage.
+    }
   }, [lang])
 
   const t = translations[lang]
