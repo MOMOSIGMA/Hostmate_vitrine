@@ -1,4 +1,4 @@
-import { Check } from 'lucide-react'
+import { Check, X } from 'lucide-react'
 import { motion } from 'framer-motion'
 
 // Chiffres vérifiés dans le code réel (23/07) — pas inventés :
@@ -7,12 +7,29 @@ import { motion } from 'framer-motion'
 // pour le prix et les libellés officiels déjà utilisés dans l'app.
 // Prix "fondateur" (9,99$) réservé aux early adopters — reprend le pattern
 // déjà en place dans l'écran d'abonnement de l'app (strikePrice).
+//
+// ─── RÉVISION DU 02/08 ──────────────────────────────────────────────────────
+// 1. Plus aucun « illimité » qui ne corresponde à rien. Les livrets d'accueil
+//    étaient annoncés illimités alors qu'il y en a un par logement, donc cinq
+//    au maximum. Seuls les rappels le sont réellement — aucun plafond n'existe
+//    côté serveur — et eux seuls gardent le mot.
+// 2. La carte gratuite montre désormais ce qu'elle NE donne PAS. Une liste qui
+//    n'énumère que des limites, toutes cochées d'un vert rassurant, ne dit pas
+//    à l'hôte ce qu'il rate.
+// 3. Trois fonctionnalités PRO n'apparaissaient nulle part alors qu'elles sont
+//    réservées depuis des mois : le pilote automatique, la création de
+//    logement par IA et les alertes d'arrivée tardives.
 
 const CONTENT = {
   fr: {
     free: {
       name: 'Free', price: '0$', period: '/mois',
       features: ['1 logement', '5 messages IA / mois', '1 Problem Solver / mois', 'Rappels 24h uniquement'],
+      missing: [
+        "Livret d'accueil en ligne", 'Pilote automatique des messages',
+        'Création de logement par IA', 'Email automatique arrivée / départ',
+        'Rapport IA complet',
+      ],
       cta: 'Commencer gratuitement',
     },
     pro: {
@@ -20,9 +37,11 @@ const CONTENT = {
       badge: 'Prix fondateur',
       features: [
         "Jusqu'à 5 logements", '400 messages IA / mois', 'Problem Solver (60 / mois)',
-        "Livrets d'accueil illimités, en 10 langues",
+        "Un livret d'accueil par logement, en 10 langues",
+        'Pilote automatique des messages', 'Création de logement par IA',
         'Email automatique arrivée / départ', 'Rapport IA complet',
-        'Rappels illimités (24h/12h/6h/4h/2h)',
+        'Traduction miroir', "Alertes d'arrivée jusqu'à 2h avant",
+        'Rappels illimités (24h/12h/6h/4h/2h)', 'Support prioritaire',
       ],
       cta: "Démarrer l'essai gratuit",
     },
@@ -31,6 +50,10 @@ const CONTENT = {
     free: {
       name: 'Free', price: '$0', period: '/mo',
       features: ['1 property', '5 AI messages / month', '1 Problem Solver / month', '24h reminders only'],
+      missing: [
+        'Online welcome book', 'Message autopilot', 'AI property creation',
+        'Automatic email at arrival / departure', 'Full AI report',
+      ],
       cta: 'Start for free',
     },
     pro: {
@@ -38,9 +61,11 @@ const CONTENT = {
       badge: 'Founder price',
       features: [
         'Up to 5 properties', '400 AI messages / month', 'Problem Solver (60 / month)',
-        'Unlimited welcome guides, in 10 languages',
+        'One welcome book per property, in 10 languages',
+        'Message autopilot', 'AI property creation',
         'Automatic email at arrival / departure', 'Full AI report',
-        'Unlimited reminders (24h/12h/6h/4h/2h)',
+        'Mirror translation', 'Arrival alerts as late as 2h before',
+        'Unlimited reminders (24h/12h/6h/4h/2h)', 'Priority support',
       ],
       cta: 'Start free trial',
     },
@@ -49,6 +74,11 @@ const CONTENT = {
     free: {
       name: 'Free', price: '0$', period: '/mes',
       features: ['1 alojamiento', '5 mensajes IA / mes', '1 Problem Solver / mes', 'Recordatorios 24h únicamente'],
+      missing: [
+        'Guía de bienvenida en línea', 'Piloto automático de mensajes',
+        'Creación de alojamiento por IA', 'Email automático de llegada / salida',
+        'Informe de IA completo',
+      ],
       cta: 'Empezar gratis',
     },
     pro: {
@@ -56,9 +86,11 @@ const CONTENT = {
       badge: 'Precio fundador',
       features: [
         'Hasta 5 alojamientos', '400 mensajes IA / mes', 'Problem Solver (60 / mes)',
-        'Manuales de bienvenida ilimitados, en 10 idiomas',
+        'Una guía de bienvenida por alojamiento, en 10 idiomas',
+        'Piloto automático de mensajes', 'Creación de alojamiento por IA',
         'Email automático de llegada / salida', 'Informe de IA completo',
-        'Recordatorios ilimitados (24h/12h/6h/4h/2h)',
+        'Traducción espejo', 'Alertas de llegada hasta 2h antes',
+        'Recordatorios ilimitados (24h/12h/6h/4h/2h)', 'Soporte prioritario',
       ],
       cta: 'Empezar la prueba gratuita',
     },
@@ -67,6 +99,11 @@ const CONTENT = {
     free: {
       name: 'Free', price: '0$', period: '/mese',
       features: ['1 alloggio', '5 messaggi AI / mese', '1 Problem Solver / mese', 'Promemoria solo a 24h'],
+      missing: [
+        'Libretto di benvenuto online', 'Pilota automatico dei messaggi',
+        'Creazione di alloggio tramite IA', 'Email automatica di arrivo / partenza',
+        'Report AI completo',
+      ],
       cta: 'Inizia gratis',
     },
     pro: {
@@ -74,9 +111,11 @@ const CONTENT = {
       badge: 'Prezzo fondatore',
       features: [
         'Fino a 5 alloggi', '400 messaggi AI / mese', 'Problem Solver (60 / mese)',
-        'Guide di benvenuto illimitate, in 10 lingue',
+        'Un libretto di benvenuto per alloggio, in 10 lingue',
+        'Pilota automatico dei messaggi', 'Creazione di alloggio tramite IA',
         'Email automatica di arrivo / partenza', 'Report AI completo',
-        'Promemoria illimitati (24h/12h/6h/4h/2h)',
+        'Traduzione speculare', 'Avvisi di arrivo fino a 2h prima',
+        'Promemoria illimitati (24h/12h/6h/4h/2h)', 'Supporto prioritario',
       ],
       cta: 'Inizia la prova gratuita',
     },
@@ -103,6 +142,15 @@ export default function Pricing({ lang }: { lang: 'fr' | 'en' | 'es' | 'it' }) {
           {c.free.features.map((f) => (
             <li key={f} className="flex items-start gap-2.5 text-sm text-hostmate-textGrey">
               <Check size={16} className="text-hostmate-ink/40 mt-0.5 shrink-0" /> {f}
+            </li>
+          ))}
+          {/* Ce que le plan gratuit ne donne PAS. Sans ces lignes, la carte
+              n'énumérait que des limites cochées en vert : l'hôte n'avait
+              aucun moyen de voir ce à quoi il renonçait. */}
+          {c.free.missing.map((f) => (
+            <li key={f} className="flex items-start gap-2.5 text-sm text-hostmate-textGrey/50">
+              <X size={16} className="text-hostmate-ink/25 mt-0.5 shrink-0" />
+              <span className="line-through decoration-hostmate-ink/20">{f}</span>
             </li>
           ))}
         </ul>
