@@ -318,6 +318,20 @@ const PATH_BY_LANG: Record<Lang, string> = {
   it: '/it',
 }
 
+// Chemins des pages legales, par langue — voir App.tsx pour les routes et
+// LegalPage.tsx pour le contenu (genere depuis les traductions de l'app).
+const LEGAL: Record<'fr' | 'en' | 'es' | 'it',
+  { privacy: string; terms: string; privacyLabel: string; termsLabel: string }> = {
+  fr: { privacy: '/confidentialite', terms: '/conditions',
+        privacyLabel: 'Confidentialité', termsLabel: "Conditions d'utilisation" },
+  en: { privacy: '/privacy', terms: '/terms',
+        privacyLabel: 'Privacy', termsLabel: 'Terms of Service' },
+  es: { privacy: '/es/privacidad', terms: '/es/condiciones',
+        privacyLabel: 'Privacidad', termsLabel: 'Condiciones' },
+  it: { privacy: '/it/privacy', terms: '/it/condizioni',
+        privacyLabel: 'Privacy', termsLabel: 'Condizioni' },
+}
+
 export default function HomePage({ lang: initialLang }: { lang: Lang }) {
   const [lang, setLang] = useState<Lang>(initialLang)
 
@@ -565,6 +579,17 @@ export default function HomePage({ lang: initialLang }: { lang: Lang }) {
               className="hover:text-hostmate-ink transition-colors"
             >
               LinkedIn
+            </a>
+          </div>
+          {/* Liens legaux : exiges par Google Play, et attendus par tout
+              visiteur qui cherche a savoir ce qu'on fait de ses donnees. */}
+          <div className="flex items-center gap-4 text-xs text-hostmate-textGrey">
+            <a href={LEGAL[lang].privacy} className="hover:text-hostmate-ink transition-colors">
+              {LEGAL[lang].privacyLabel}
+            </a>
+            <span className="text-hostmate-ink/20">·</span>
+            <a href={LEGAL[lang].terms} className="hover:text-hostmate-ink transition-colors">
+              {LEGAL[lang].termsLabel}
             </a>
           </div>
           <p className="text-xs text-hostmate-textGrey">© {new Date().getFullYear()} HostMate AI. {t.footerRights}</p>

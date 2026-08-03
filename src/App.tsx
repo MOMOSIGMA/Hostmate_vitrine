@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import HomePage from './pages/HomePage'
+import LegalPage from './pages/LegalPage'
 
 // La page de liste d'attente a ete retiree le 29/07/2026 : le produit passe en
 // production, les nouveaux venus s'inscrivent directement et beneficient de 7
@@ -78,6 +79,26 @@ export default function App() {
         <Route path="/fr" element={<HomePage lang="fr" />} />
         <Route path="/es" element={<HomePage lang="es" />} />
         <Route path="/it" element={<HomePage lang="it" />} />
+
+        {/* ─── PAGES LEGALES ────────────────────────────────────────────────
+            Google Play EXIGE une URL publique vers la politique de
+            confidentialite : sans elle, la soumission est refusee. Ces textes
+            existaient deja, mais uniquement a l'interieur de l'application —
+            donc a une adresse que Google ne peut pas ouvrir.
+
+            Les chemins francais sont les canoniques (c'est celui qu'on donnera
+            a Google) ; les variantes par langue servent aux visiteurs qui
+            arrivent dans la leur. Contenu genere depuis les fichiers de
+            traduction de l'app — voir LegalPage.tsx. */}
+        <Route path="/confidentialite" element={<LegalPage doc="privacy" lang="fr" />} />
+        <Route path="/conditions" element={<LegalPage doc="terms" lang="fr" />} />
+        <Route path="/privacy" element={<LegalPage doc="privacy" lang="en" />} />
+        <Route path="/terms" element={<LegalPage doc="terms" lang="en" />} />
+        <Route path="/es/privacidad" element={<LegalPage doc="privacy" lang="es" />} />
+        <Route path="/es/condiciones" element={<LegalPage doc="terms" lang="es" />} />
+        <Route path="/it/privacy" element={<LegalPage doc="privacy" lang="it" />} />
+        <Route path="/it/condizioni" element={<LegalPage doc="terms" lang="it" />} />
+
         {/* Toute autre URL retombe sur l'accueil plutot qu'une page vide. */}
         <Route path="*" element={<HomePage lang="en" />} />
       </Routes>
