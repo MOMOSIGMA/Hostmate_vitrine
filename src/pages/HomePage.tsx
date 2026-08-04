@@ -31,6 +31,18 @@ const translations = {
     featuresEyebrow: 'What HostMate does',
     moreEyebrow: 'And there\'s more',
     moreTitle: 'The full toolkit, without the overwhelm.',
+    beyondEyebrow:
+      'More than messages',
+    beyondTitle:
+      'What happens before they arrive, and after they leave.',
+    b1Title:
+      'Your property tells you what it is missing',
+    b1Body:
+      'HostMate reads your listing the way a demanding guest would: an address with no GPS, amenities left unchecked, a half-filled guide. Every gap is scored — so you know where to start, and what it is worth.',
+    b2Title:
+      'Your cleaning team notified without you',
+    b2Body:
+      'At every departure, an email goes out on its own — to your cleaner, your plumber, whoever you choose. You write it once; it goes out for every stay, including the ones you forget.',
     reportCaption: 'The AI report, in your pocket — trends, insights, and what to fix.',
     pricingEyebrow: 'Pricing',
     pricingTitle: 'Simple pricing, no surprises.',
@@ -66,6 +78,18 @@ const translations = {
     featuresEyebrow: 'Ce que fait HostMate',
     moreEyebrow: 'Et ce n\'est pas tout',
     moreTitle: 'Toute la boîte à outils, sans surcharge.',
+    beyondEyebrow:
+      'Pas seulement des messages',
+    beyondTitle:
+      'Ce qui se passe avant l\'arrivée, et après le départ.',
+    b1Title:
+      'Votre fiche vous dit ce qui lui manque',
+    b1Body:
+      'HostMate relit votre logement comme le ferait un voyageur exigeant : une adresse sans coordonnées GPS, des équipements jamais cochés, un livret à moitié rempli. Chaque manque est chiffré — vous savez par quoi commencer, et ce que ça vous rapporte.',
+    b2Title:
+      'Votre équipe de ménage prévenue sans vous',
+    b2Body:
+      'À chaque départ, un email part tout seul vers votre femme de ménage, votre plombier, qui vous voulez. Vous l\'écrivez une fois ; il part à chaque séjour, y compris ceux que vous oubliez.',
     reportCaption: 'Le rapport IA, dans votre poche — tendances, insights, et quoi corriger.',
     pricingEyebrow: 'Tarifs',
     pricingTitle: 'Des tarifs simples, sans surprise.',
@@ -101,6 +125,18 @@ const translations = {
     featuresEyebrow: 'Lo que hace HostMate',
     moreEyebrow: 'Y eso no es todo',
     moreTitle: 'Todas las herramientas, sin sobrecarga.',
+    beyondEyebrow:
+      'No solo mensajes',
+    beyondTitle:
+      'Lo que pasa antes de que lleguen, y después de que se van.',
+    b1Title:
+      'Tu alojamiento te dice lo que le falta',
+    b1Body:
+      'HostMate revisa tu alojamiento como lo haría un huésped exigente: una dirección sin GPS, equipamientos sin marcar, una guía a medio llenar. Cada carencia lleva su puntuación — sabes por dónde empezar y lo que te aporta.',
+    b2Title:
+      'Tu equipo de limpieza avisado sin ti',
+    b2Body:
+      'En cada salida, un email sale solo hacia tu limpiadora, tu fontanero, quien tú elijas. Lo escribes una vez; sale en cada estancia, incluidas las que se te olvidan.',
     reportCaption: 'El informe de IA, en tu bolsillo — tendencias, análisis y qué corregir.',
     pricingEyebrow: 'Precios',
     pricingTitle: 'Precios claros, sin sorpresas.',
@@ -136,6 +172,18 @@ const translations = {
     featuresEyebrow: 'Cosa fa HostMate',
     moreEyebrow: 'E non è tutto',
     moreTitle: 'Tutti gli strumenti, senza sovraccarico.',
+    beyondEyebrow:
+      'Non solo messaggi',
+    beyondTitle:
+      'Quello che succede prima dell\'arrivo, e dopo la partenza.',
+    b1Title:
+      'Il tuo alloggio ti dice cosa gli manca',
+    b1Body:
+      'HostMate rilegge il tuo alloggio come farebbe un ospite esigente: un indirizzo senza GPS, dotazioni mai spuntate, un libretto riempito a metà. Ogni mancanza ha il suo punteggio — sai da dove cominciare, e quanto ti rende.',
+    b2Title:
+      'La tua squadra di pulizie avvisata senza di te',
+    b2Body:
+      'A ogni partenza, un\'email parte da sola verso la tua addetta alle pulizie, il tuo idraulico, chi vuoi tu. La scrivi una volta; parte a ogni soggiorno, compresi quelli che dimentichi.',
     reportCaption: 'Il report AI, in tasca — tendenze, analisi e cosa correggere.',
     pricingEyebrow: 'Prezzi',
     pricingTitle: 'Prezzi chiari, senza sorprese.',
@@ -489,6 +537,49 @@ export default function HomePage({ lang: initialLang }: { lang: Lang }) {
 
             <Feature title={t.f3Title} body={t.f3Body} image="/resolution_probleme.png" />
           </div>
+        </div>
+      </section>
+
+      {/* ── PAS SEULEMENT DES MESSAGES ──────────────────────────────────
+          Les trois piliers ci-dessus parlent tous de communication avec le
+          voyageur. Un visiteur en deduisait que HostMate est un outil de
+          messagerie. Ces deux fonctions-la n'ont rien a voir : elles se
+          passent avant l'arrivee et apres le depart, la ou personne ne
+          regarde. ── */}
+      <section className="relative px-6" style={{ paddingTop: 88, paddingBottom: 88 }}>
+        <Reveal className="mb-14 text-center">
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-hostmate-primary mb-3">
+            {t.beyondEyebrow}
+          </p>
+          <h2 className="font-display text-2xl sm:text-3xl font-semibold text-hostmate-ink max-w-2xl mx-auto">
+            {t.beyondTitle}
+          </h2>
+        </Reveal>
+
+        <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-12 md:gap-10">
+          <Reveal>
+            <img
+              src="/logement_scoore.png"
+              alt=""
+              className="w-full rounded-2xl border border-hostmate-ink/10 shadow-[0_20px_50px_-20px_rgba(28,28,46,0.3)]"
+            />
+            <h3 className="font-display text-lg font-semibold text-hostmate-ink mt-6 mb-2">
+              {t.b1Title}
+            </h3>
+            <p className="text-sm leading-relaxed text-hostmate-textGrey">{t.b1Body}</p>
+          </Reveal>
+
+          <Reveal delay={120}>
+            <img
+              src="/rappel_pro.png"
+              alt=""
+              className="w-full rounded-2xl border border-hostmate-ink/10 shadow-[0_20px_50px_-20px_rgba(28,28,46,0.3)]"
+            />
+            <h3 className="font-display text-lg font-semibold text-hostmate-ink mt-6 mb-2">
+              {t.b2Title}
+            </h3>
+            <p className="text-sm leading-relaxed text-hostmate-textGrey">{t.b2Body}</p>
+          </Reveal>
         </div>
       </section>
 
