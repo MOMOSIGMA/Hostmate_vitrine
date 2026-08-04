@@ -22,3 +22,11 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Tout fichier d'environnement, quel que soit son nom.
+# La regle `.env` seule ne couvre que ce nom exact : un `telegram.env` ou
+# `prod.env` passerait au travers et partirait au premier `git add -A`.
+# Constate le 04/08/2026 dans Backend_hostmate.
+*.env
+*.env.*
+!.env.example
