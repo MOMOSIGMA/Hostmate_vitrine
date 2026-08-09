@@ -437,7 +437,7 @@ export default function HomePage({ lang: initialLang }: { lang: Lang }) {
         <div
           aria-hidden
           className="pointer-events-none absolute left-1/2 top-40 -translate-x-1/2 w-[50rem] h-[30rem] opacity-[0.08]"
-          style={{ background: 'radial-gradient(closest-side, #E8534A, transparent)' }}
+          style={{ background: 'radial-gradient(closest-side, #EC5B63, transparent)' }}
         />
 
         <div className="relative max-w-3xl mx-auto text-center">
@@ -637,7 +637,7 @@ export default function HomePage({ lang: initialLang }: { lang: Lang }) {
         <div
           aria-hidden
           className="pointer-events-none absolute left-1/2 top-0 -translate-x-1/2 w-[50rem] h-[26rem] opacity-[0.18]"
-          style={{ background: 'radial-gradient(closest-side, #E8534A, transparent)' }}
+          style={{ background: 'radial-gradient(closest-side, #EC5B63, transparent)' }}
         />
         <Reveal className="relative max-w-2xl mx-auto text-center">
           <h2 className="font-display text-3xl sm:text-4xl font-semibold text-white tracking-tight">

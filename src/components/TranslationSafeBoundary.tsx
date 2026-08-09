@@ -65,7 +65,7 @@ export default class TranslationSafeBoundary extends Component<Props, State> {
               English, French, Spanish and Italian.
             </p>
             <p style={{ marginTop: 20 }}>
-              <a href="/" style={{ color: '#FF5A5F', fontWeight: 600 }}>
+              <a href="/" style={{ color: '#EC5B63', fontWeight: 600 }}>
                 Reload
               </a>
             </p>
