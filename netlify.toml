@@ -21,6 +21,21 @@
   status = 301
   force = true
 
+# ⚠️ NE JAMAIS AJOUTER force = true SUR CETTE RÈGLE (13/08/2026).
+#
+# Netlify n'applique une redirection que si le chemin demandé ne correspond à
+# AUCUN fichier réel — sauf avec `force = true`, qui la fait passer avant tout.
+#
+# Le blog (/blog/…) est fait de vraies pages HTML, générées au build par
+# scripts/generer-blog.mjs. Elles existent sur le disque, donc elles sont
+# servies avant d'atteindre cette règle. C'est exactement ce qu'on veut : ce
+# sont ces fichiers, et eux seuls, que Google et les moteurs IA peuvent lire —
+# l'application React ne livre aucun texte sans JavaScript.
+#
+# Mettre `force = true` ici renverrait /blog/mon-article vers la coquille vide
+# du SPA. Le site continuerait de fonctionner à l'œil nu ; seul le
+# référencement mourrait, sans erreur, sans alerte, et sans que personne ne
+# fasse le lien avec cette ligne.
 [[redirects]]
   from = "/*"
   to = "/index.html"

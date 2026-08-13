@@ -662,6 +662,18 @@ export default function HomePage({ lang: initialLang }: { lang: Lang }) {
           </div>
           <div className="flex items-center gap-6 text-sm text-hostmate-textGrey">
             <a href="#features" className="hover:text-hostmate-ink transition-colors">{t.navFeatures}</a>
+            {/* Le blog est en HTML statique, généré au build hors de React
+                (scripts/generer-blog.mjs) — d'où un <a> et non un <Link> : il
+                faut une vraie navigation, pas une route côté client.
+
+                Ce lien n'est pas décoratif. Sans lien entrant depuis le site,
+                les articles sont orphelins : Google ne les découvre qu'au
+                sitemap, avec bien moins de poids, et aucun visiteur ne tombe
+                dessus par hasard. Seulement en français pour l'instant, le
+                temps de valider le format sur un marché. */}
+            {lang === 'fr' && (
+              <a href="/blog/" className="hover:text-hostmate-ink transition-colors">Blog</a>
+            )}
             <a href="mailto:support@hosmateai.com" className="hover:text-hostmate-ink transition-colors">Contact</a>
             <a
               href="https://www.linkedin.com/company/129604206"
