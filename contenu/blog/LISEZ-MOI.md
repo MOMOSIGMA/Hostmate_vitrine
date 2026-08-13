@@ -9,6 +9,7 @@ titre: Le titre, tel qu'il apparaîtra dans l'onglet et sur Google
 description: Une phrase qui donne envie de cliquer. 160 caractères MAXIMUM.
 date: 2026-08-13
 slug: url-de-la-page
+statut: brouillon
 ---
 
 Le corps de l'article, en Markdown ordinaire.
@@ -17,7 +18,22 @@ Le corps de l'article, en Markdown ordinaire.
 Puis `npm run build`. Chaque article devient `dist/blog/<slug>/index.html`,
 la page d'index est refaite, et le sitemap est complété.
 
-## Les quatre champs sont obligatoires
+## Rien ne part sans décision explicite
+
+`statut` vaut **`brouillon`** ou **`publie`**. Il n'a pas de valeur par défaut,
+et le build échoue s'il manque.
+
+Un brouillon est annoncé à chaque build — pour qu'un article prêt à 90 % ne
+soit pas oublié pendant des semaines — mais il n'est **jamais** généré, jamais
+mis dans le sitemap, jamais atteignable.
+
+C'est la différence entre publier ce qu'on a décidé de publier et publier ce
+qui traîne dans le dossier. Sur un blog qui parlera de démarches et
+d'obligations, la nuance vaut cher : une ébauche produite par une IA et jamais
+relue ne doit pas pouvoir se retrouver en ligne parce que personne n'a pensé à
+l'en empêcher.
+
+## Les cinq champs sont obligatoires
 
 Le build **échoue** si l'un manque, ou si la description dépasse 160
 caractères. C'est volontaire : Google tronque au-delà, en plein milieu d'une

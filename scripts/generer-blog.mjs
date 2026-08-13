@@ -60,8 +60,23 @@ function lireArticle(chemin) {
     meta[ligne.slice(0, sep).trim()] = ligne.slice(sep + 1).trim();
   }
 
-  for (const requis of ['titre', 'description', 'date', 'slug']) {
+  for (const requis of ['titre', 'description', 'date', 'slug', 'statut']) {
     if (!meta[requis]) throw new Error(`${chemin} : champ « ${requis} » manquant`);
+  }
+
+  // ─── RIEN NE PART SANS DÉCISION EXPLICITE ─────────────────────────────────
+  // `statut` est OBLIGATOIRE et n'a pas de valeur par défaut. Un article laissé
+  // en cours d'écriture, une ébauche produite par une IA, un texte dont les
+  // sources ne sont pas vérifiées : aucun ne doit pouvoir se retrouver en ligne
+  // parce que personne n'a pensé à l'en empêcher.
+  //
+  // C'est la différence entre publier ce qu'on a décidé de publier et publier
+  // ce qui traîne dans le dossier. Sur un blog qui parlera un jour de démarches
+  // et d'obligations, la nuance vaut cher.
+  if (!['brouillon', 'publie'].includes(meta.statut)) {
+    throw new Error(
+      `${chemin} : statut « ${meta.statut} » inconnu. ` +
+      'Attendu : « brouillon » ou « publie ».');
   }
   // La description devient la meta description ET l'aperçu Google. Au-delà de
   // ~160 caractères elle est tronquée en plein milieu d'une phrase, ce qui
@@ -251,12 +266,27 @@ function main() {
     return;
   }
 
-  const articles = fichiers
-    .map((f) => {
-      const { meta, corps } = lireArticle(join(SOURCE, f));
-      return { ...meta, corps, fichier: f };
-    })
+  const tous = fichiers.map((f) => {
+    const { meta, corps } = lireArticle(join(SOURCE, f));
+    return { ...meta, corps, fichier: f };
+  });
+
+  const brouillons = tous.filter((a) => a.statut === 'brouillon');
+  const articles = tous
+    .filter((a) => a.statut === 'publie')
     .sort((a, b) => b.date.localeCompare(a.date)); // le plus récent en premier
+
+  // Les brouillons sont ANNONCÉS, pas générés. Les taire ferait oublier un
+  // article prêt à 90 % pendant des semaines — c'est la façon la plus banale
+  // de ne jamais publier.
+  for (const b of brouillons) {
+    console.log(`  ⏸️  brouillon en attente : ${b.titre}  (${b.fichier})`);
+  }
+
+  if (articles.length === 0) {
+    console.log('ℹ️  Aucun article publié — que des brouillons.');
+    return;
+  }
 
   const slugs = new Set();
   for (const a of articles) {
@@ -330,7 +360,9 @@ function main() {
     console.warn('  ⚠️  dist/sitemap.xml introuvable — articles non déclarés.');
   }
 
-  console.log(`\n${articles.length} article(s) généré(s) en HTML statique.`);
+  console.log(
+    `\n${articles.length} article(s) publié(s) en HTML statique` +
+    `${brouillons.length ? `, ${brouillons.length} brouillon(s) en attente` : ''}.`);
 }
 
 main();

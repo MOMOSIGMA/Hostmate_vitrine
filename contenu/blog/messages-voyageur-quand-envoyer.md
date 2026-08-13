@@ -3,6 +3,7 @@ titre: Quels messages envoyer à un voyageur, et à quel moment
 description: Les six messages qui évitent la plupart des mauvais avis, avec le bon timing et des modèles prêts à adapter. Guide pour hôtes en location courte durée.
 date: 2026-08-13
 slug: messages-voyageur-quand-envoyer
+statut: publie
 ---
 
 Un mauvais avis parle rarement du logement. Il parle de ce qui n'a pas été dit :

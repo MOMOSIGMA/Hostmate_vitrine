@@ -58,7 +58,7 @@ const translations = {
     ctaTitle: 'Ready to get your evenings back?',
     ctaSubtitle: 'Start your 7-day free trial — takes 30 seconds.',
     ctaButton: 'Start your 7-day free trial',
-    footerTagline: 'Become a better host, every day.',
+    footerTagline: 'Less managing. More hosting.',
     footerRights: 'All rights reserved.',
   },
   fr: {
@@ -105,7 +105,7 @@ const translations = {
     ctaTitle: 'Prêt à récupérer vos soirées ?',
     ctaSubtitle: 'Démarrez votre essai gratuit de 7 jours — 30 secondes suffisent.',
     ctaButton: "Démarrer l'essai gratuit de 7 jours",
-    footerTagline: "Devenez un meilleur hôte, chaque jour.",
+    footerTagline: "Moins de gestion. Plus d'accueil.",
     footerRights: 'Tous droits réservés.',
   },
   es: {
@@ -152,7 +152,7 @@ const translations = {
     ctaTitle: 'Listo para recuperar tus noches?',
     ctaSubtitle: 'Empieza tu prueba gratuita de 7 días — bastan 30 segundos.',
     ctaButton: 'Empezar la prueba gratuita de 7 días',
-    footerTagline: 'Conviértete en un mejor anfitrión, cada día.',
+    footerTagline: 'Menos gestión. Más hospitalidad.',
     footerRights: 'Todos los derechos reservados.',
   },
   it: {
@@ -199,7 +199,7 @@ const translations = {
     ctaTitle: 'Pronto a riprenderti le tue serate?',
     ctaSubtitle: 'Inizia la prova gratuita di 7 giorni — bastano 30 secondi.',
     ctaButton: 'Inizia la prova gratuita di 7 giorni',
-    footerTagline: 'Diventa un host migliore, ogni giorno.',
+    footerTagline: 'Meno gestione. Più ospitalità.',
     footerRights: 'Tutti i diritti riservati.',
   },
 }
@@ -658,6 +658,20 @@ export default function HomePage({ lang: initialLang }: { lang: Lang }) {
             >
               HostMate<span className="text-hostmate-primary"> AI</span>
             </span>
+            {/* LA SIGNATURE DE MARQUE — une seule, invariable, collée au nom.
+                C'est cette position précise qui la porte, et c'est elle qu'on
+                mémorise. Identique à l'écran de démarrage de l'application, au
+                manifeste web et au titre de la page (13/08/2026).
+
+                À ne pas confondre avec les ACCROCHES, qui sont multiples et
+                contextuelles : « Protégez la note que vous avez mis des mois à
+                bâtir » dans le hero, « Prêts à retrouver vos soirées ? » sur
+                l'appel final. Celles-là peuvent et doivent varier — deux
+                SIGNATURES, en revanche, s'affaiblissent mutuellement.
+
+                Elle disait « Devenez un meilleur hôte, chaque jour », reste de
+                l'ancien titre « Become a better Airbnb host, every day »
+                retiré la veille pour cause de marque tierce. */}
             <p className="text-xs text-hostmate-textGrey mt-1">{t.footerTagline}</p>
           </div>
           <div className="flex items-center gap-6 text-sm text-hostmate-textGrey">
