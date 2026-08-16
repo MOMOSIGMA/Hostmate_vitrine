@@ -13,6 +13,22 @@
 # une URL en prod renvoie un 404 Netlify au lieu de laisser react-router gerer
 # la route cote client.
 
+# ─── LA COMMANDE DE BUILD EST ECRITE ICI, PAS DANS LE TABLEAU DE BORD ───────
+# Ajoutee le 16/08/2026. Elle etait definie uniquement cote Netlify, donc
+# invisible depuis le depot : impossible de savoir en lisant le code si le blog
+# serait genere ou non.
+#
+# `npm run build` enchaine trois choses — tsc, vite, puis
+# scripts/generer-blog.mjs qui produit les pages HTML du blog. Si quelqu'un
+# reglait la commande sur `vite build` dans l'interface, le site continuerait
+# de se deployer normalement et le blog cesserait simplement d'exister, sans
+# erreur ni alerte.
+#
+# Ce fichier a priorite sur le tableau de bord : la question ne se pose plus.
+[build]
+  command = "npm run build"
+  publish = "dist"
+
 # La liste d'attente a ete retiree (passage en production). L'URL ayant deja
 # ete partagee, on redirige au lieu de renvoyer une 404.
 [[redirects]]
