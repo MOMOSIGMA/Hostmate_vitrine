@@ -255,6 +255,17 @@ function Nav({ lang, setLang, t }: { lang: Lang; setLang: (l: Lang) => void; t: 
         <div className="md:hidden border-t border-hostmate-ink/5 bg-white px-6 py-4 flex flex-col gap-4 text-sm">
           <a href="#features" onClick={() => setOpen(false)} className="text-hostmate-textGrey">{t.navFeatures}</a>
           <a href="#pricing" onClick={() => setOpen(false)} className="text-hostmate-textGrey">{t.navPricing}</a>
+          {/* TROISIÈME correction de ce lien en deux jours (16/08/2026) :
+              d'abord seulement dans le pied de page, puis conditionné à la
+              version française, et ici tout simplement absent du menu mobile
+              — donc introuvable pour la majorité des visiteurs.
+
+              À chaque fois j'ai ajouté le lien à UN endroit en croyant l'avoir
+              ajouté au site. Une navigation vit à trois endroits dans ce
+              fichier : la barre desktop (~ligne 232), ce menu mobile, et le
+              pied de page. Toucher l'un sans les autres donne un lien qui
+              existe et qu'on ne trouve pas. */}
+          <a href="/blog/" onClick={() => setOpen(false)} className="text-hostmate-textGrey">Blog</a>
           <button
             onClick={() => setLang(lang === 'en' ? 'fr' : 'en')}
             className="text-left text-hostmate-textGrey uppercase tracking-wide text-xs"
