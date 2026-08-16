@@ -87,3 +87,48 @@ trois ne classe nulle part, parce qu'il ne répond précisément à personne.
 
 Le lien vers le blog n'apparaît d'ailleurs que sur la version française du
 site, pour cette raison.
+
+---
+
+## Le circuit automatisé
+
+```
+1. L'IA rédige        POST /api/blog/rediger  { "sujet": "..." }
+2. Telegram alerte    titre + description + les 700 premiers caractères
+3. Un clic            ✅ Valider   ou   🗑️ Rejeter
+4. Rapatriement       npm run blog:recuperer
+5. Relecture          passer statut: brouillon → publie, puis pousser
+```
+
+Pour lancer une rédaction :
+
+```bash
+curl -X POST "https://back-hosmate.onrender.com/api/blog/rediger?secret=VOTRE_ADMIN_SECRET"   -H "Content-Type: application/json"   -d '{"sujet":"Comment répondre à un avis négatif sans envenimer"}'
+```
+
+### Valider ≠ publier
+
+L'étape 3 ne met rien en ligne. Le fichier récupéré arrive en
+`statut: brouillon` ; il faut l'ouvrir, le relire en entier, et changer ce
+champ.
+
+Ce n'est pas de la redondance. Sur Telegram on lit 700 caractères sur un
+téléphone, souvent entre deux choses : c'est assez pour juger un angle et un
+ton, pas pour vérifier un chiffre ni repérer une phrase qui engage. La
+validation dit « ce sujet me va » ; la relecture dit « chaque affirmation est
+vraie ».
+
+### `[À VÉRIFIER]`
+
+La consigne donnée à l'IA lui interdit d'inventer un chiffre, une date, un
+montant ou une démarche administrative. Quand le sujet en demande, elle écrit à
+la place une phrase commençant par `[À VÉRIFIER]`.
+
+Ces marqueurs sont comptés et signalés — dans l'alerte Telegram et à la
+récupération. **Un article qui en contient encore ne doit pas passer en
+`publie`.** Confirmez à une source officielle et datée, remplacez, puis
+publiez.
+
+Un texte plausible et faux est pire qu'un texte incomplet : il se lit, il
+convainc, et il se retourne contre vous auprès de gens qui vous confient déjà
+leurs voyageurs.

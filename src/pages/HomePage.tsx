@@ -105,7 +105,7 @@ const translations = {
     ctaTitle: 'Prêt à récupérer vos soirées ?',
     ctaSubtitle: 'Démarrez votre essai gratuit de 7 jours — 30 secondes suffisent.',
     ctaButton: "Démarrer l'essai gratuit de 7 jours",
-    footerTagline: "Moins de gestion. Plus d'accueil.",
+    footerTagline: "Moins de gestion. Plus d'hospitalité.",
     footerRights: 'Tous droits réservés.',
   },
   es: {
