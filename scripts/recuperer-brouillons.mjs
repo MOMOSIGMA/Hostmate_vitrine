@@ -79,7 +79,40 @@ async function main() {
   }
 
   if (reponse.status === 401) {
-    console.error('❌ ADMIN_SECRET refusé par le serveur.');
+    // ─── UN REFUS SEC N'AIDE PERSONNE (16/08/2026) ────────────────────────
+    // Ce message disait « ADMIN_SECRET refusé » et s'arrêtait là. Mohamed
+    // avait bien recopié la valeur depuis Render — et pourtant refusée.
+    //
+    // La cause la plus probable n'est pas une erreur de sa part : Render
+    // affiche les valeurs longues sur PLUSIEURS LIGNES dans son champ. Une
+    // copie depuis l'écran peut donc contenir un retour à la ligne, et le
+    // lecteur de .env ci-dessus ne lit qu'une ligne — il tronque en silence.
+    //
+    // On ne montre pas le secret. On montre ce qu'on en a lu : longueur et
+    // forme suffisent à repérer une troncature ou un guillemet oublié.
+    console.error('❌ ADMIN_SECRET refusé par le serveur.\n');
+    console.error(`   Valeur lue : ${secret.length} caractères`);
+
+    const suspect = [];
+    if (/\s/.test(secret)) suspect.push('elle contient un espace ou un retour à la ligne');
+    if (/^["']|["']$/.test(secret)) suspect.push('elle est entourée de guillemets');
+    if (secret.length < 20) suspect.push('elle est courte — probablement tronquée');
+
+    if (suspect.length) {
+      console.error('');
+      for (const s of suspect) console.error(`   ⚠️  ${s}`);
+    }
+
+    console.error('');
+    console.error('   À vérifier, dans cet ordre :');
+    console.error('');
+    console.error('   1. La longueur ci-dessus correspond-elle à celle de Render ?');
+    console.error('      Render affiche les valeurs longues sur PLUSIEURS LIGNES :');
+    console.error('      utiliser son bouton « copier » plutôt que la souris.');
+    console.error('   2. Dans .env, tout doit tenir sur UNE seule ligne :');
+    console.error('      ADMIN_SECRET=valeur   (sans guillemets, sans espace autour du =)');
+    console.error('   3. Le secret a-t-il été changé sur Render depuis la copie ?');
+    console.error('      Le service redémarre — attendre la fin du redéploiement.');
     process.exit(1);
   }
   if (!reponse.ok) {
