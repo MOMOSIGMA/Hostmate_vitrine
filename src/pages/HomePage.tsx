@@ -228,6 +228,12 @@ function Nav({ lang, setLang, t }: { lang: Lang; setLang: (l: Lang) => void; t: 
         <nav className="hidden md:flex items-center gap-8 text-sm text-hostmate-textGrey">
           <a href="#features" className="hover:text-hostmate-ink transition-colors">{t.navFeatures}</a>
           <a href="#pricing" className="hover:text-hostmate-ink transition-colors">{t.navPricing}</a>
+          {/* Le blog est en HTML statique, hors de React : un <a>, pas un <Link>.
+
+              Il n'était accessible que par le pied de page, tout en bas — donc
+              introuvable sans scroller le site entier. Un blog qu'on ne trouve
+              pas ne se lit pas, et ne ramène personne. */}
+          <a href="/blog/" className="hover:text-hostmate-ink transition-colors">Blog</a>
         </nav>
 
         <div className="hidden md:flex items-center gap-4">
@@ -676,18 +682,17 @@ export default function HomePage({ lang: initialLang }: { lang: Lang }) {
           </div>
           <div className="flex items-center gap-6 text-sm text-hostmate-textGrey">
             <a href="#features" className="hover:text-hostmate-ink transition-colors">{t.navFeatures}</a>
-            {/* Le blog est en HTML statique, généré au build hors de React
-                (scripts/generer-blog.mjs) — d'où un <a> et non un <Link> : il
-                faut une vraie navigation, pas une route côté client.
+            {/* Sans lien entrant depuis le site, les articles sont orphelins :
+                Google ne les découvre qu'au sitemap, avec bien moins de poids,
+                et aucun visiteur ne tombe dessus par hasard.
 
-                Ce lien n'est pas décoratif. Sans lien entrant depuis le site,
-                les articles sont orphelins : Google ne les découvre qu'au
-                sitemap, avec bien moins de poids, et aucun visiteur ne tombe
-                dessus par hasard. Seulement en français pour l'instant, le
-                temps de valider le format sur un marché. */}
-            {lang === 'fr' && (
-              <a href="/blog/" className="hover:text-hostmate-ink transition-colors">Blog</a>
-            )}
+                Ce lien était conditionné à `lang === 'fr'`, le blog n'existant
+                qu'en français. Retiré le 16/08/2026 : la condition rendait le
+                lien imprévisible — présent ou absent selon la page — au point
+                qu'on a cru le déploiement raté. Un lien vers un blog français
+                depuis la version espagnole est un inconvénient mineur ; un
+                lien qu'on ne sait pas retrouver en est un vrai. */}
+            <a href="/blog/" className="hover:text-hostmate-ink transition-colors">Blog</a>
             <a href="mailto:support@hosmateai.com" className="hover:text-hostmate-ink transition-colors">Contact</a>
             <a
               href="https://www.linkedin.com/company/129604206"
