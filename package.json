@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build && node scripts/generer-blog.mjs",
+    "build": "tsc -b && vite build && node scripts/generer-blog.mjs && node scripts/generer-guide.mjs",
     "lint": "eslint .",
     "preview": "vite preview",
     "blog:recuperer": "node scripts/recuperer-brouillons.mjs",

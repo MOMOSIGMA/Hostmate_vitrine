@@ -228,6 +228,12 @@ ${contenu}
 // blog qui informe des gens qui iront acheter ailleurs.
 function appelAction() {
   return `
+<div class="appel" style="margin-bottom:1rem">
+  <p><strong>Le guide gratuit :</strong> les six messages d'un séjour écrits en
+  entier, vingt règles reformulées et une checklist à imprimer.</p>
+  <a class="bouton" href="/guides/messages-voyageur/">Ouvrir le guide</a>
+</div>
+
 <div class="appel">
   <p><strong>Vous gérez une location courte durée ?</strong> HostMate rédige vos
   messages voyageurs, votre livret d'accueil et vos réponses aux litiges — dans

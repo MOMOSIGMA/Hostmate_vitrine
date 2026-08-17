@@ -1,4 +1,3 @@
-# HostMate AI - Professional Website
 
 A modern, professional website for HostMate AI - the intelligent hosting assistant that automates guest communications and property management.
 
