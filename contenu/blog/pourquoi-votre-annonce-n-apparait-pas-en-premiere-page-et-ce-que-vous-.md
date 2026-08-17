@@ -2,8 +2,8 @@
 titre: Pourquoi votre annonce Airbnb ou Booking n'apparaît pas en première page — et ce que vous avez oublié de vérifier
 description: Les trois erreurs cachées qui vous relèguent au-delà de la page 2. Checklist pour remonter.
 date: 2026-08-16
-slug: pourquoi-votre-annonce-Airbnb-ou-Booking-n-apparait-pas-en-premiere-page-et-ce-que-vous-
-statut: brouillon
+slug: pourquoi-votre-annonce-Airbnb-ou-Booking![alt text](image.png)-n-apparait-pas-en-premiere-page-et-ce-que-vous-
+statut: publie
 ---
 
 ## Vous avez activé la réservation immédiate, mais vous l'avez mal configurée
@@ -19,7 +19,7 @@ La plateforme ne cache pas votre annonce. Elle la classe plus bas parce qu'elle 
 
 ## Vos photos sont bien réelles, mais elles ne montrent pas ce que les voyageurs recherchent en premier
 
-L'algorithme regarde d'abord ce que les gens cliquent. Si votre première photo est un paysage de la façade, mais que 80 % des voyageurs qui ouvrent une annonce de votre catégorie cherchent d'abord la chambre, vous descendez.
+L'algorithme regarde d'abord ce que les gens cliquent. Si votre première photo est un paysage de la façade, mais que la plupart des voyageurs ouvrent une annonce pour voir d'abord où ils vont dormir, vous partez avec un handicap.
 
 C'est contre-intuitif : une belle photo, c'est une belle photo. Mais pour Google et pour les moteurs de recherche des plateformes, une belle photo qu'on clique rarement, c'est une photo qui repousse l'annonce.
 
