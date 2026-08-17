@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nous écrire — HostMate</title>
+<meta name="description" content="Une question, une suggestion, ou l'envie d'être prévenu du lancement ? Écrivez-nous, on répond vite.">
+<link rel="canonical" href="https://hostmateai.app/contact/">
+<link rel="icon" type="image/png" href="/icon.png">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Nous écrire — HostMate">
+<meta property="og:description" content="Une question, une suggestion, ou l'envie d'être prévenu du lancement ?">
+<meta property="og:url" content="https://hostmateai.app/contact/">
+<meta property="og:locale" content="fr_FR">
+
+<!--
+  PAGE STATIQUE, PAS UNE ROUTE REACT (17/08/2026).
+
+  Elle est écrite à la main dans public/ plutôt que générée : c'est une page
+  unique, un générateur pour un seul fichier coûterait plus qu'il ne rapporte.
+
+  Mais elle suit la même règle que le blog et les guides : tout est lisible
+  sans JavaScript. Le formulaire, lui, en a besoin pour envoyer — c'est
+  acceptable, un robot n'a pas à remplir de formulaire. Le TEXTE autour, qui
+  dit ce qu'on fait des données, reste lisible en toutes circonstances.
+-->
+<style>
+  :root { --corail: #EC5B63; --encre: #1C1C2E; --gris: #6B7280; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: #fff; color: var(--encre);
+    font: 16px/1.65 Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .enveloppe { max-width: 34rem; margin: 0 auto; padding: 2rem 1.25rem 5rem; }
+  header.site { border-bottom: 1px solid #eee; }
+  header.site .enveloppe { max-width: 44rem; padding: 1.1rem 1.25rem; display: flex; align-items: center; gap: .6rem; }
+  header.site a { color: var(--encre); text-decoration: none; font-weight: 650; }
+  header.site img { width: 26px; height: 26px; border-radius: 6px; }
+  h1 { font-size: 1.95rem; line-height: 1.15; letter-spacing: -.02em; margin: .5rem 0 .5rem; }
+  .intro { color: var(--gris); margin: 0 0 2rem; }
+  label { display: block; font-size: .92rem; font-weight: 600; margin: 1.1rem 0 .35rem; }
+  label .facultatif { font-weight: 400; color: var(--gris); }
+  input[type="email"], input[type="text"], textarea {
+    width: 100%; padding: .75rem .85rem; font: inherit; color: var(--encre);
+    border: 1.5px solid #dfdfe4; border-radius: 10px; background: #fff;
+  }
+  input:focus, textarea:focus { outline: none; border-color: var(--corail); }
+  textarea { min-height: 8rem; resize: vertical; }
+
+  /* LE CHAMP PIÈGE — invisible pour un humain, rempli par les robots.
+     `display:none` est évité : certains robots l'ignorent justement parce
+     qu'ils savent le détecter. On le sort de l'écran, ce qui le laisse dans
+     le document sans qu'il soit atteignable ni au doigt ni au clavier. */
+  .piege {
+    position: absolute; left: -9999px; width: 1px; height: 1px;
+    overflow: hidden;
+  }
+
+  .case { display: flex; gap: .65rem; align-items: flex-start; margin: 1.4rem 0 .4rem; }
+  .case input { margin-top: .25rem; width: 1.05rem; height: 1.05rem; accent-color: var(--corail); flex: none; }
+  .case label { margin: 0; font-weight: 400; font-size: .95rem; }
+  button {
+    margin-top: 1.5rem; width: 100%; padding: .85rem 1.5rem; font: inherit;
+    font-weight: 600; color: #fff; background: var(--corail);
+    border: 0; border-radius: 10px; cursor: pointer;
+  }
+  button:disabled { opacity: .55; cursor: default; }
+  .note { font-size: .85rem; color: var(--gris); margin-top: 1.2rem; }
+  .retour { margin-top: 1.2rem; padding: .9rem 1rem; border-radius: 10px; font-size: .95rem; display: none; }
+  .retour.ok { display: block; background: #ECFDF3; color: #067647; }
+  .retour.erreur { display: block; background: #FEF3F2; color: #B42318; }
+  footer.site { border-top: 1px solid #eee; color: var(--gris); font-size: .9rem; }
+  footer.site .enveloppe { max-width: 44rem; padding: 1.6rem 1.25rem; }
+  footer.site a { color: var(--gris); }
+</style>
+</head>
+<body>
+<header class="site">
+  <div class="enveloppe">
+    <img src="/icon.png" alt="">
+    <a href="/">HostMate AI</a>
+    <span style="color:var(--gris)">·</span>
+    <a href="/blog/" style="font-weight:500;color:var(--gris)">Blog</a>
+    <span style="color:var(--gris)">·</span>
+    <a href="/guides/messages-voyageur/" style="font-weight:500;color:var(--gris)">Guide</a>
+  </div>
+</header>
+
+<main class="enveloppe">
+  <h1>Nous écrire</h1>
+  <p class="intro">
+    Une question, une suggestion, un problème rencontré ? Écrivez-nous — c'est
+    une vraie personne qui lit, et qui répond.
+  </p>
+
+  <form id="formulaire" novalidate>
+    <label for="email">Votre adresse e-mail</label>
+    <input type="email" id="email" name="email" required autocomplete="email"
+           placeholder="vous@exemple.fr">
+
+    <label for="prenom">Votre prénom <span class="facultatif">— facultatif</span></label>
+    <input type="text" id="prenom" name="prenom" autocomplete="given-name"
+           maxlength="80" placeholder="Pour vous répondre par votre nom">
+
+    <label for="message">Votre message <span class="facultatif">— facultatif</span></label>
+    <textarea id="message" name="message" maxlength="4000"
+              placeholder="Ce que vous voulez nous dire."></textarea>
+
+    <!-- Champ piège. Ne pas retirer : c'est ce qui arrête les robots sans
+         imposer de captcha à ceux qui écrivent vraiment. -->
+    <div class="piege" aria-hidden="true">
+      <label for="site">Ne remplissez pas ce champ</label>
+      <input type="text" id="site" name="site" tabindex="-1" autocomplete="off">
+    </div>
+
+    <div class="case">
+      <input type="checkbox" id="nouvelles" name="nouvelles">
+      <label for="nouvelles">
+        Prévenez-moi de l'ouverture des inscriptions. Quelques messages par an,
+        pas davantage.
+      </label>
+    </div>
+
+    <button type="submit" id="envoyer">Envoyer</button>
+
+    <div class="retour" id="retour" role="status"></div>
+
+    <p class="note">
+      Votre adresse ne sert qu'à vous répondre et, si vous l'avez demandé, à
+      vous prévenir du lancement. Elle n'est ni vendue ni transmise. Vous pouvez
+      demander sa suppression à tout moment en écrivant à
+      <a href="mailto:support@hosmateai.com">support@hosmateai.com</a>.
+    </p>
+  </form>
+</main>
+
+<footer class="site">
+  <div class="enveloppe">
+    HostMate AI — Moins de gestion. Plus d'hospitalité. ·
+    <a href="/">Accueil</a> ·
+    <a href="/blog/">Blog</a> ·
+    <a href="/conditions">Conditions</a> ·
+    <a href="/confidentialite">Confidentialité</a>
+  </div>
+</footer>
+
+<script>
+  const formulaire = document.getElementById('formulaire');
+  const bouton = document.getElementById('envoyer');
+  const retour = document.getElementById('retour');
+
+  function afficher(texte, ok) {
+    retour.textContent = texte;
+    retour.className = 'retour ' + (ok ? 'ok' : 'erreur');
+  }
+
+  formulaire.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const email = document.getElementById('email').value.trim();
+    const message = document.getElementById('message').value.trim();
+    const veutNouvelles = document.getElementById('nouvelles').checked;
+
+    // Vérifié ici AUSSI, et pas seulement côté serveur : un aller-retour réseau
+    // pour apprendre qu'on a oublié un caractère est une frustration inutile.
+    // Le serveur revérifie de toute façon — cette vérification est un confort,
+    // jamais une protection.
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]{2,}$/.test(email)) {
+      afficher('Cette adresse e-mail ne semble pas valide.', false);
+      return;
+    }
+    if (!message && !veutNouvelles) {
+      afficher('Écrivez un message, ou cochez la case pour être prévenu du lancement.', false);
+      return;
+    }
+
+    bouton.disabled = true;
+    bouton.textContent = 'Envoi…';
+
+    try {
+      const r = await fetch('https://back-hosmate.onrender.com/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email,
+          prenom: document.getElementById('prenom').value.trim() || null,
+          message: message || null,
+          veut_nouvelles: veutNouvelles,
+          site: document.getElementById('site').value,
+        }),
+      });
+
+      if (r.ok) {
+        formulaire.reset();
+        afficher(message
+          ? 'Message bien reçu. On vous répond au plus vite.'
+          : 'C\'est noté — vous serez prévenu de l\'ouverture.', true);
+      } else {
+        const corps = await r.json().catch(() => ({}));
+        afficher(corps.error || 'Envoi impossible pour le moment. Réessayez plus tard.', false);
+      }
+    } catch {
+      // Le service d'hébergement peut mettre du temps à se réveiller : le dire
+      // évite qu'on croie le formulaire cassé et qu'on renonce.
+      afficher('Le serveur ne répond pas. Réessayez dans une minute, ou écrivez à support@hosmateai.com.', false);
+    } finally {
+      bouton.disabled = false;
+      bouton.textContent = 'Envoyer';
+    }
+  });
+</script>
+</body>
+</html>

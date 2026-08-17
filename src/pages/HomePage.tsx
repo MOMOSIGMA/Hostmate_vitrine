@@ -234,6 +234,10 @@ function Nav({ lang, setLang, t }: { lang: Lang; setLang: (l: Lang) => void; t: 
               introuvable sans scroller le site entier. Un blog qu'on ne trouve
               pas ne se lit pas, et ne ramène personne. */}
           <a href="/blog/" className="hover:text-hostmate-ink transition-colors">Blog</a>
+          {/* Le guide n'était atteignable qu'en FIN d'article : il fallait donc
+              déjà lire un article pour le découvrir. Un guide gratuit est un
+              argument d'entrée, pas une récompense de fin de parcours. */}
+          <a href="/guides/messages-voyageur/" className="text-hostmate-primary font-medium hover:opacity-80 transition-opacity">Guide gratuit</a>
         </nav>
 
         <div className="hidden md:flex items-center gap-4">
@@ -266,6 +270,7 @@ function Nav({ lang, setLang, t }: { lang: Lang; setLang: (l: Lang) => void; t: 
               pied de page. Toucher l'un sans les autres donne un lien qui
               existe et qu'on ne trouve pas. */}
           <a href="/blog/" onClick={() => setOpen(false)} className="text-hostmate-textGrey">Blog</a>
+          <a href="/guides/messages-voyageur/" onClick={() => setOpen(false)} className="text-hostmate-primary font-medium">Guide gratuit</a>
           <button
             onClick={() => setLang(lang === 'en' ? 'fr' : 'en')}
             className="text-left text-hostmate-textGrey uppercase tracking-wide text-xs"
@@ -704,6 +709,8 @@ export default function HomePage({ lang: initialLang }: { lang: Lang }) {
                 depuis la version espagnole est un inconvénient mineur ; un
                 lien qu'on ne sait pas retrouver en est un vrai. */}
             <a href="/blog/" className="hover:text-hostmate-ink transition-colors">Blog</a>
+            <a href="/guides/messages-voyageur/" className="hover:text-hostmate-ink transition-colors">Guide gratuit</a>
+            <a href="/contact/" className="hover:text-hostmate-ink transition-colors">Contact</a>
             <a href="mailto:support@hosmateai.com" className="hover:text-hostmate-ink transition-colors">Contact</a>
             <a
               href="https://www.linkedin.com/company/129604206"
