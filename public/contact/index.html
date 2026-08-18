@@ -201,9 +201,24 @@
         afficher(corps.error || 'Envoi impossible pour le moment. Réessayez plus tard.', false);
       }
     } catch {
-      // Le service d'hébergement peut mettre du temps à se réveiller : le dire
-      // évite qu'on croie le formulaire cassé et qu'on renonce.
-      afficher('Le serveur ne répond pas. Réessayez dans une minute, ou écrivez à support@hosmateai.com.', false);
+      // ─── CE MESSAGE A INDUIT EN ERREUR (17/08/2026) ───────────────────
+      // Il disait « le serveur ne répond pas ». Or `fetch` échoue de la même
+      // façon pour DEUX causes très différentes : le serveur est réellement
+      // injoignable, ou le navigateur a refusé la réponse (CORS). Le premier
+      // test grandeur nature était un blocage CORS — le serveur allait très
+      // bien, et on a cherché la panne du mauvais côté.
+      //
+      // JavaScript ne peut pas distinguer les deux : le navigateur masque
+      // volontairement la raison. Le message dit donc ce qu'on sait
+      // réellement, et laisse une porte de sortie qui fonctionne toujours.
+      afficher(
+        "L'envoi n'a pas abouti. Réessayez dans une minute — et si cela "
+        + 'persiste, écrivez directement à support@hosmateai.com, on vous '
+        + 'répondra aussi vite.', false);
+      // Visible dans la console pour nous, invisible pour le visiteur : c'est
+      // là que se lit la vraie cause quand quelqu'un nous signale le problème.
+      console.error('[Contact] Envoi échoué. Vérifier : serveur injoignable, '
+        + 'ou origine non autorisée en CORS (voir src/index.js du backend).');
     } finally {
       bouton.disabled = false;
       bouton.textContent = 'Envoyer';
