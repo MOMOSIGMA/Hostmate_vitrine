@@ -31,6 +31,37 @@
 
 # La liste d'attente a ete retiree (passage en production). L'URL ayant deja
 # ete partagee, on redirige au lieu de renvoyer une 404.
+# ─── UN SEUL DOMAINE SERT LE SITE (17/08/2026) ──────────────────────────────
+# hosmateai.com — sans le « t » — était déclaré « Domain alias » dans Netlify.
+# Un alias ne redirige PAS : il SERT le site, exactement comme le domaine
+# principal. Seul www.hostmateai.app redirigeait, et Netlify l'indiquait.
+#
+# Deux domaines servant le même contenu, c'est du contenu dupliqué : Google ne
+# sait pas lequel classer et la visibilité se partage entre les deux. Le
+# <link rel="canonical"> limite les dégâts, il ne les supprime pas.
+#
+# C'est aussi ce qui a bloqué le formulaire de contact : la page s'ouvrait sur
+# hosmateai.com, et le backend n'autorisait que hostmateai.app en CORS.
+#
+# `force = true` est REQUIS ici : sans lui, Netlify sert d'abord le fichier
+# correspondant et la redirection n'intervient jamais. C'est l'inverse du
+# catch-all plus bas, où force serait destructeur — la différence est que
+# cette règle vise un DOMAINE précis, pas un chemin.
+#
+# ⚠️ N'affecte PAS les e-mails : ils passent par les enregistrements MX, que
+# rien ne touche ici. hosmateai.com reste l'expéditeur, avec sa réputation.
+[[redirects]]
+  from = "https://hosmateai.com/*"
+  to = "https://hostmateai.app/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "https://www.hosmateai.com/*"
+  to = "https://hostmateai.app/:splat"
+  status = 301
+  force = true
+
 [[redirects]]
   from = "/waitlist"
   to = "/"
