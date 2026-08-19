@@ -19,7 +19,7 @@ La plateforme ne cache pas votre annonce. Elle la classe plus bas parce qu'elle 
 
 ## Vos photos sont bien réelles, mais elles ne montrent pas ce que les voyageurs recherchent en premier
 
-L'algorithme regarde d'abord ce que les gens cliquent. Si votre première photo est un paysage de la façade, mais que la plupart des voyageurs ouvrent une annonce pour voir d'abord où ils vont dormir, vous partez avec un handicap.
+Les plateformes ne publient pas le détail de leur classement, mais elles disent toutes tenir compte de l'intérêt que suscite une annonce. Or un voyageur qui ouvre une annonce cherche d'abord où il va dormir : si votre première photo montre la façade, vous lui demandez un effort supplémentaire au moment précis où il compare dix annonces.
 
 C'est contre-intuitif : une belle photo, c'est une belle photo. Mais pour Google et pour les moteurs de recherche des plateformes, une belle photo qu'on clique rarement, c'est une photo qui repousse l'annonce.
 
@@ -28,7 +28,7 @@ Vérifiez ce que les concurrents mettent en premier :
 - Studios ou T1 : le lit et le séjour ensemble dans le même cadre.
 - Maisons avec extérieur : le jardin ou la terrasse, PAS la maison entière de loin.
 
-Changez votre première image et attendez 7-10 jours. L'algorithme remonte progressivement.
+Changez votre première image, puis laissez passer quelques semaines avant de juger : un classement ne se recalcule pas du jour au lendemain, et la saison influe autant que vos modifications.
 
 ## Votre description est complète, mais elle ne parle pas des mots-clés que les gens tapent
 
@@ -58,7 +58,7 @@ Vérifiez une fois : un logement quasi-identique au vôtre coûte combien ? Si v
 
 ## Ce que vous faites maintenant
 
-1. Ouvrez votre annonce et votre calendrier côte à côte. Les 90 prochains jours : au moins 60 % dispo ? Non ? Débloquez des dates.
+1. Ouvrez votre annonce et votre calendrier côte à côte. Regardez les trois prochains mois : combien de nuits sont réellement réservables ? Un calendrier largement fermé donne peu d'occasions d'apparaître dans une recherche.
 
 2. Regardez votre première photo. Posez-vous : si j'étais acheteur, est-ce que je la regarderais 2 secondes ou 5 secondes ? Elle ne vous plaît pas à vous, elle plaît à vos visiteurs.
 
