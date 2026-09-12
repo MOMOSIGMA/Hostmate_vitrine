@@ -177,7 +177,7 @@ const translations = {
     heroSubtitle:
       'Una recensione negativa parla di rado dell\'alloggio — parla di ciò che non è stato detto. HostMate si occupa dei messaggi, della guida di benvenuto e dei reclami delicati, nella lingua del tuo ospite.',
     heroCta: 'Inizia la prova gratuita di 7 giorni',
-    heroNote: '7 giorni gratis · Carta richiesta, nessun addebito prima dell'8º giorno',
+    heroNote: "7 giorni gratis · Carta richiesta, nessun addebito prima dell'8º giorno",
     demoEyebrow: 'Guarda con i tuoi occhi',
     demoTitle: 'Aggiungi un ospite in pochi secondi. HostMate fa il resto.',
     flowEyebrow: 'In diretta',
