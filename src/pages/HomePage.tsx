@@ -23,20 +23,22 @@ const translations = {
     heroSubtitle:
       'A bad review rarely comes from the apartment — it comes from what was never said. HostMate handles the messages, the welcome guide and the tricky complaints, in your guest\'s language.',
     heroCta: 'Start your 7-day free trial',
-    // ⚠️ NE PAS REMETTRE « sans carte bancaire » (19/08/2026).
-    // C'était écrit dans les quatre langues, et c'était FAUX : Lemon Squeezy
-    // exige un moyen de paiement pour ouvrir un abonnement avec essai.
+    // ⚠️ UNE SEULE RÈGLE ICI : NE JAMAIS ÉCRIRE « sans carte bancaire ».
     //
-    // Le coût n'est pas théorique — le visiteur clique, arrive au checkout,
-    // découvre qu'on lui demande sa carte, et repart avec le sentiment d'avoir
-    // été trompé, au moment précis où il allait essayer. Une promesse non
-    // tenue coûte plus cher que la friction qu'elle prétendait éviter.
+    // Ç'a été écrit dans les quatre langues, et c'était FAUX : Lemon Squeezy
+    // exige un moyen de paiement pour ouvrir un abonnement avec essai. Le
+    // visiteur cliquait, arrivait au checkout, et découvrait la demande de
+    // carte au moment précis où il allait essayer.
     //
-    // On dit donc les deux : la carte est demandée, et rien n'est prélevé
-    // avant le 8e jour. La seconde répond à la vraie inquiétude — être débité
-    // sans s'en apercevoir — et cacher la première n'a plus d'intérêt une fois
-    // qu'on y répond.
-    heroNote: '7 days free · Card required, nothing charged before day 8',
+    // Se taire sur la carte n'est PAS la même chose que promettre qu'il n'y en
+    // a pas. La note dit donc seulement la durée de l'essai — c'est vrai, et
+    // c'est l'argument. La carte, le visiteur la voit au checkout, qui affiche
+    // les conditions de l'essai : c'est là qu'elle doit être dite, pas dans un
+    // titre d'accueil où elle refroidit avant même d'avoir convaincu.
+    //
+    // (19/08/2026 : retrait de « sans carte ». 12/09/2026 : retrait aussi de
+    //  « carte demandée », qui disait vrai mais au mauvais endroit.)
+    heroNote: '7 days free',
     demoEyebrow: 'See for yourself',
     demoTitle: 'Add a guest in seconds. HostMate takes it from there.',
     flowEyebrow: 'See it happen',
@@ -83,7 +85,7 @@ const translations = {
     heroSubtitle:
       "Un mauvais avis parle rarement du logement — il parle de ce qui n'a pas été dit. HostMate s'occupe des messages, du livret d'accueil et des litiges délicats, dans la langue de votre voyageur.",
     heroCta: "Démarrer l'essai gratuit de 7 jours",
-    heroNote: '7 jours gratuits · Carte demandée, aucun prélèvement avant le 8e jour',
+    heroNote: '7 jours gratuits',
     demoEyebrow: 'Voyez par vous-même',
     demoTitle: 'Ajoutez un voyageur en quelques secondes. HostMate fait le reste.',
     flowEyebrow: 'En direct',
@@ -130,7 +132,7 @@ const translations = {
     heroSubtitle:
       'Una mala reseña rara vez habla del alojamiento — habla de lo que no se dijo. HostMate se encarga de los mensajes, la guía de bienvenida y las quejas delicadas, en el idioma de tu huésped.',
     heroCta: 'Empezar la prueba gratuita de 7 días',
-    heroNote: '7 días gratis · Se pide tarjeta, ningún cargo antes del 8.º día',
+    heroNote: '7 días gratis',
     demoEyebrow: 'Compruébalo tú mismo',
     demoTitle: 'Añade un huésped en segundos. HostMate hace el resto.',
     flowEyebrow: 'En directo',
@@ -177,7 +179,7 @@ const translations = {
     heroSubtitle:
       'Una recensione negativa parla di rado dell\'alloggio — parla di ciò che non è stato detto. HostMate si occupa dei messaggi, della guida di benvenuto e dei reclami delicati, nella lingua del tuo ospite.',
     heroCta: 'Inizia la prova gratuita di 7 giorni',
-    heroNote: "7 giorni gratis · Carta richiesta, nessun addebito prima dell'8º giorno",
+    heroNote: '7 giorni gratis',
     demoEyebrow: 'Guarda con i tuoi occhi',
     demoTitle: 'Aggiungi un ospite in pochi secondi. HostMate fa il resto.',
     flowEyebrow: 'In diretta',
