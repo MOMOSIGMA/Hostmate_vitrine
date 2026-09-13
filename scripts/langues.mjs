@@ -85,6 +85,7 @@ export function alternates(langsExistantes, type, slug) {
  */
 export const MOTS = {
   fr: {
+    sommaire: 'Sommaire',
     blog: 'Blog', accueil: 'Accueil', guide: 'Guide', nousEcrire: 'Nous écrire',
     conditions: 'Conditions', confidentialite: 'Confidentialité',
     aLireEnsuite: 'À lire ensuite',
@@ -102,6 +103,7 @@ export const MOTS = {
     indexIntro: 'Des réponses concrètes aux questions que se posent les hôtes — démarches, obligations, relation voyageur.',
   },
   en: {
+    sommaire: 'Contents',
     blog: 'Blog', accueil: 'Home', guide: 'Guide', nousEcrire: 'Contact us',
     conditions: 'Terms', confidentialite: 'Privacy',
     aLireEnsuite: 'Read next',
@@ -119,6 +121,7 @@ export const MOTS = {
     indexIntro: 'Concrete answers to what hosts actually ask — paperwork, obligations, guest relations.',
   },
   es: {
+    sommaire: 'Índice',
     blog: 'Blog', accueil: 'Inicio', guide: 'Guía', nousEcrire: 'Escríbenos',
     conditions: 'Condiciones', confidentialite: 'Privacidad',
     aLireEnsuite: 'Sigue leyendo',
@@ -136,6 +139,7 @@ export const MOTS = {
     indexIntro: 'Respuestas concretas a lo que preguntan los anfitriones: trámites, obligaciones, relación con el huésped.',
   },
   it: {
+    sommaire: 'Indice',
     blog: 'Blog', accueil: 'Home', guide: 'Guida', nousEcrire: 'Scrivici',
     conditions: 'Condizioni', confidentialite: 'Privacy',
     aLireEnsuite: 'Da leggere dopo',

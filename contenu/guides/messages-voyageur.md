@@ -3,6 +3,7 @@ titre: Les messages qui protègent votre note
 sous_titre: Les six messages d'un séjour, écrits en entier. Plus vingt règles reformulées et une checklist à imprimer.
 description: Guide gratuit pour hôtes de location courte durée : les six messages d'un séjour écrits en entier, prêts à copier, et vingt règles reformulées.
 slug: messages-voyageur
+suite: messages-voyageur-quand-envoyer|Quand envoyer chaque message ; comment-repondre-a-un-avis-negatif-sans-aggraver-les-degats|Répondre à un avis négatif
 ---
 
 Un mauvais avis parle rarement du logement. Il parle de ce qui n'a pas été dit :

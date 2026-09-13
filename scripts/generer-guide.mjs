@@ -30,6 +30,10 @@
 // USAGE : node scripts/generer-guide.mjs   (appelé par `npm run build`)
 // =============================================================================
 
+import {
+  LANGUES, LANGUE_PRINCIPALE, alternates, urlDe, segmentsDist,
+  mots, liensLegaux, locale,
+} from './langues.mjs';
 import { readFileSync, writeFileSync, mkdirSync, readdirSync, existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -68,22 +72,49 @@ function lireGuide(chemin) {
 // Pensée pour DEUX usages simultanés : lue à l'écran, et imprimée en PDF.
 // Les règles `@media print` ne changent pas le fond — elles retirent ce qui
 // n'a pas de sens sur papier (le bandeau d'aide) et contrôlent les coupures.
-function gabarit({ meta, contenu, sommaire }) {
-  const url = `${SITE}/guides/${meta.slug}/`;
+/**
+ * Les articles suggérés en fin de guide, déclarés dans l'en-tête du .md :
+ *
+ *   suite: mon-article|Le titre affiché ; autre-article|Un autre titre
+ *
+ * ─── POURQUOI PAS EN DUR (13/09/2026) ───────────────────────────────────────
+ * Ils l'étaient. En passant le gabarit au multilingue, ces deux liens français
+ * se seraient retrouvés tels quels sur la version italienne — deux liens vers
+ * des pages qui n'existent pas dans cette langue, au bas d'un guide censé
+ * prouver qu'on s'adresse vraiment à son lecteur.
+ *
+ * Chaque traduction déclare donc SES articles, ou n'en déclare aucun : un
+ * guide italien sans article italien renvoie simplement vers le blog.
+ */
+function suiteLiens(brut, prefixe) {
+  if (!brut) return '';
+  return brut.split(';').map((e) => {
+    const [slug, titre] = e.split('|').map((x) => (x || '').trim());
+    if (!slug || !titre) return '';
+    return ` · <a href="${prefixe}/blog/${slug}/">${echapper(titre)}</a>`;
+  }).join('');
+}
+
+function gabarit({ meta, contenu, sommaire, langue = LANGUE_PRINCIPALE, langsExistantes = [] }) {
+  const url = urlDe(langue, 'guides', meta.slug);
+  const m = mots(langue);
+  const loc = locale(langue);
+  const balisesAlternates = alternates(langsExistantes, 'guides', meta.slug);
+  const p = langue === LANGUE_PRINCIPALE ? '' : `/${langue}`;
   return `<!doctype html>
-<html lang="fr">
+<html lang="${langue}">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>${echapper(meta.titre)} — HostMate</title>
 <meta name="description" content="${echapper(meta.description)}">
-<link rel="canonical" href="${url}">
+<link rel="canonical" href="${url}">${balisesAlternates}
 <link rel="icon" type="image/png" href="/icon.png">
 <meta property="og:type" content="article">
 <meta property="og:title" content="${echapper(meta.titre)}">
 <meta property="og:description" content="${echapper(meta.description)}">
 <meta property="og:url" content="${url}">
-<meta property="og:locale" content="fr_FR">
+<meta property="og:locale" content="${loc}">
 <style>
   :root { --corail: ${CORAIL}; --encre: ${ENCRE}; --gris: ${GRIS}; }
   * { box-sizing: border-box; }
@@ -232,9 +263,9 @@ function gabarit({ meta, contenu, sommaire }) {
 <body>
 <div class="bandeau">
   <button type="button" class="bouton-pdf" onclick="window.print()">
-    Télécharger le PDF
+    ${echapper(m.telechargerPdf)}
   </button>
-  <span class="aide">Choisissez « Enregistrer au format PDF » dans la fenêtre qui s'ouvre.</span>
+  <span class="aide">${echapper(m.aidePdf)}</span>
 </div>
 
 <div class="feuille">
@@ -252,7 +283,7 @@ function gabarit({ meta, contenu, sommaire }) {
     <p>HostMate prépare chacun d'eux dans la langue de votre voyageur, à l'heure
     où il doit partir. Vous validez d'un geste — vous gardez la main, vous perdez
     l'obligation d'y penser.</p>
-    <a href="https://app.hostmateai.app">Essayer gratuitement 7 jours</a>
+    <a href="https://app.hostmateai.app">${echapper(m.essayer)}</a>
   </div>
 
   <!-- ⚠️ CE GUIDE ETAIT UN CUL-DE-SAC (13/09/2026).
@@ -264,16 +295,15 @@ function gabarit({ meta, contenu, sommaire }) {
        Ces liens ne remplacent pas une capture d'e-mail ; ils arretent la
        fuite en attendant. -->
   <div class="suite">
-    <p><strong>À lire ensuite</strong></p>
+    <p><strong>${echapper(m.aLireEnsuite)}</strong></p>
     <p>
-      <a href="/blog/">Le blog</a> —
-      <a href="/blog/messages-voyageur-quand-envoyer/">Quand envoyer chaque message</a> ·
-      <a href="/blog/comment-repondre-a-un-avis-negatif-sans-aggraver-les-degats/">Répondre à un avis négatif</a>
+      <a href="${p}/blog/">${echapper(m.blog)}</a>${suiteLiens(meta.suite, p)}
+      · <a href="${p}/">${echapper(m.accueil)}</a>
     </p>
     <p class="discret">
-      Une question, une remarque sur ce guide ?
-      <a href="/contact/">Écrivez-nous</a> — c'est une vraie personne qui lit.
-      · <a href="/">Accueil</a>
+      ${echapper(m.question)}
+      <a href="/contact/">${echapper(m.nousEcrire)}</a> — ${echapper(m.vraiePersonne)}.
+      · <a href="${liensLegaux(langue).confidentialite}">${echapper(m.confidentialite)}</a>
     </p>
   </div>
 </div>
@@ -282,60 +312,108 @@ function gabarit({ meta, contenu, sommaire }) {
 `;
 }
 
+// Les guides d'une langue. Le français est à plat dans contenu/guides/, les
+// autres langues dans un sous-dossier — même convention que le blog, décrite
+// dans contenu/blog/LISEZ-MOI.md.
+function lireLangue(langue) {
+  const dossier = langue === LANGUE_PRINCIPALE ? SOURCE : join(SOURCE, langue);
+  if (!existsSync(dossier)) return [];
+  return readdirSync(dossier)
+    .filter((f) => {
+      const base = f.replace(/\.md$/i, '');
+      return f.endsWith('.md') && base !== base.toUpperCase();
+    })
+    .map((f) => {
+      const { meta, corps } = lireGuide(join(dossier, f));
+      return { meta, corps, fichier: `${langue}/${f}`, langue };
+    });
+}
+
 function main() {
   if (!existsSync(SOURCE)) {
     console.log('ℹ️  contenu/guides/ absent — aucun guide à générer.');
     return;
   }
 
-  const fichiers = readdirSync(SOURCE).filter((f) => {
-    const base = f.replace(/\.md$/i, '');
-    return f.endsWith('.md') && base !== base.toUpperCase();
-  });
+  // Toutes les langues sont lues AVANT d'écrire quoi que ce soit : c'est de
+  // là que sortent les hreflang, qui ne doivent désigner que ce qui existe.
+  const parLangue = {};
+  for (const l of LANGUES) parLangue[l] = lireLangue(l);
 
-  if (fichiers.length === 0) {
+  if (!LANGUES.some((l) => parLangue[l].length)) {
     console.log('ℹ️  Aucun guide dans contenu/guides/.');
     return;
   }
 
-  for (const f of fichiers) {
-    const { meta, corps } = lireGuide(join(SOURCE, f));
+  const langsParSlug = new Map();
+  for (const l of LANGUES) {
+    for (const g of parLangue[l]) {
+      // Un guide en brouillon n'existe pas encore : ni page, ni hreflang.
+      if (g.meta.statut === 'brouillon') continue;
+      if (!langsParSlug.has(g.meta.slug)) langsParSlug.set(g.meta.slug, []);
+      langsParSlug.get(g.meta.slug).push(l);
+    }
+  }
 
-    // Sommaire construit à partir des titres réels : impossible qu'il
-    // diverge du contenu, contrairement à une liste écrite à la main.
-    const titres = [...corps.matchAll(/^## (.+)$/gm)].map((m) => m[1].trim());
-    const ancre = (t) => t.toLowerCase()
-      .normalize('NFD').replace(/[̀-ͯ]/g, '')
-      .replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+  const urlsSitemap = [];
+  let total = 0;
 
-    const sommaire = titres.length > 2 ? `<nav class="sommaire">
-      <h2>Sommaire</h2>
+  for (const langue of LANGUES) {
+    for (const g of parLangue[langue]) {
+      const { meta, corps } = g;
+
+      if (meta.statut === 'brouillon') {
+        console.log(`  ⏸️  brouillon en attente : ${meta.titre}  (${g.fichier})`);
+        continue;
+      }
+
+      // Sommaire construit à partir des titres réels : impossible qu'il
+      // diverge du contenu, contrairement à une liste écrite à la main.
+      const titres = [...corps.matchAll(/^## (.+)$/gm)].map((m) => m[1].trim());
+      const ancre = (t) => t.toLowerCase()
+        .normalize('NFD').replace(/[̀-ͯ]/g, '')
+        .replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+
+      const sommaire = titres.length > 2 ? `<nav class="sommaire">
+      <h2>${echapper(mots(langue).sommaire)}</h2>
       <ol>${titres.map((t) => `<li><a href="#${ancre(t)}">${echapper(t)}</a></li>`).join('')}</ol>
     </nav>` : '';
 
-    // ─── LES ANCRES, POSÉES SUR CE QUE MARKED A PRODUIT ───────────────────
-    // La version précédente cherchait le titre tel qu'écrit dans le Markdown.
-    // Or marked échappe les apostrophes en &#39; : « Les six messages d'un
-    // séjour » ne correspondait à rien, et quatre sections sur onze restaient
-    // sans ancre — un sommaire dont la moitié des liens ne mènent nulle part.
-    //
-    // On numérote donc les <h2> dans l'ordre où marked les rend, sans jamais
-    // comparer de texte. Ce que contient le Markdown n'a plus à ressembler à
-    // ce que produit le convertisseur.
-    let rang = 0;
-    const html = marked.parse(corps).replace(/<h2>/g, () => {
-      const id = ancre(titres[rang] || `section-${rang}`);
-      rang += 1;
-      return `<h2 id="${id}">`;
-    });
+      // ─── LES ANCRES, POSÉES SUR CE QUE MARKED A PRODUIT ───────────────────
+      // La version précédente cherchait le titre tel qu'écrit dans le Markdown.
+      // Or marked échappe les apostrophes en &#39; : « Les six messages d'un
+      // séjour » ne correspondait à rien, et quatre sections sur onze restaient
+      // sans ancre — un sommaire dont la moitié des liens ne mènent nulle part.
+      //
+      // On numérote donc les <h2> dans l'ordre où marked les rend, sans jamais
+      // comparer de texte. Ce que contient le Markdown n'a plus à ressembler à
+      // ce que produit le convertisseur.
+      let rang = 0;
+      const html = marked.parse(corps).replace(/<h2>/g, () => {
+        const id = ancre(titres[rang] || `section-${rang}`);
+        rang += 1;
+        return `<h2 id="${id}">`;
+      });
 
-    const dossier = join(DIST, 'guides', meta.slug);
-    mkdirSync(dossier, { recursive: true });
-    writeFileSync(join(dossier, 'index.html'),
-      gabarit({ meta, contenu: html, sommaire }), 'utf8');
+      const dossier = join(DIST, ...segmentsDist(langue, 'guides', meta.slug));
+      mkdirSync(dossier, { recursive: true });
+      writeFileSync(join(dossier, 'index.html'), gabarit({
+        meta,
+        contenu: html,
+        sommaire,
+        langue,
+        langsExistantes: langsParSlug.get(meta.slug) || [langue],
+      }), 'utf8');
 
-    const mots = corps.split(/\s+/).length;
-    console.log(`  ✅ /guides/${meta.slug}/  (${titres.length} sections, ~${mots} mots)`);
+      // ⚠️ `nbMots` et non `mots` : `mots` est la fonction de langues.mjs, et
+      // une variable locale du même nom la masquerait — le gabarit perdrait
+      // ses libellés sans que rien ne le signale avant l'exécution.
+      const nbMots = corps.split(/\s+/).length;
+      const url = urlDe(langue, 'guides', meta.slug);
+      console.log(`  ✅ ${url.replace(SITE, '')}  (${titres.length} sections, ~${nbMots} mots)`);
+      urlsSitemap.push(url);
+      total += 1;
+    }
   }
 
   // Le guide est une page publique et indexable — l'omettre du sitemap
@@ -344,21 +422,18 @@ function main() {
   if (existsSync(cheminSitemap)) {
     const xml = readFileSync(cheminSitemap, 'utf8');
     if (!xml.includes('/guides/')) {
-      const entrees = fichiers.map((f) => {
-        const { meta } = lireGuide(join(SOURCE, f));
-        return `
+      const entrees = urlsSitemap.map((loc) => `
   <url>
-    <loc>${SITE}/guides/${meta.slug}/</loc>
+    <loc>${loc}</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
-  </url>`;
-      }).join('');
+  </url>`).join('');
       writeFileSync(cheminSitemap, xml.replace('</urlset>', `${entrees}\n</urlset>`), 'utf8');
-      console.log(`  ✅ sitemap.xml enrichi de ${fichiers.length} guide(s)`);
+      console.log(`  ✅ sitemap.xml enrichi de ${urlsSitemap.length} guide(s)`);
     }
   }
 
-  console.log(`\n${fichiers.length} guide(s) prêt(s) à imprimer.`);
+  console.log(`\n${total} guide(s) prêt(s) à imprimer.`);
 }
 
 main();
