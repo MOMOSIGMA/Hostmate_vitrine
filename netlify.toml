@@ -68,6 +68,24 @@
   status = 301
   force = true
 
+# ─── L'ARTICLE PARTI EN LIGNE AVEC UNE URL CASSÉE (13/09/2026) ──────────────
+# Son slug contenait un fragment de markdown d'image collé par mégarde pendant
+# l'écriture :
+#
+#   /blog/pourquoi-votre-annonce-Airbnb-ou-Booking![alt text](image.png)-…
+#
+# Ce n'est même pas une URL valide — `curl` la refuse. Elle a néanmoins été
+# indexée et a pu être partagée. Le joker couvre toutes les façons dont un
+# navigateur peut avoir encodé les espaces, les crochets et les parenthèses :
+# écrire la forme exacte reviendrait à parier sur un encodage particulier.
+#
+# Sans force : après reconstruction, plus aucun fichier ne correspond à ce
+# chemin, donc la redirection s'applique d'elle-même.
+[[redirects]]
+  from = "/blog/pourquoi-votre-annonce-Airbnb-ou-Booking*"
+  to = "/blog/annonce-airbnb-booking-pas-en-premiere-page/"
+  status = 301
+
 # ⚠️ NE JAMAIS AJOUTER force = true SUR CETTE RÈGLE (13/08/2026).
 #
 # Netlify n'applique une redirection que si le chemin demandé ne correspond à

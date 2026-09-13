@@ -2,7 +2,7 @@
 titre: Pourquoi votre annonce Airbnb ou Booking n'apparaît pas en première page — et ce que vous avez oublié de vérifier
 description: Les trois erreurs cachées qui vous relèguent au-delà de la page 2. Checklist pour remonter.
 date: 2026-08-16
-slug: pourquoi-votre-annonce-Airbnb-ou-Booking![alt text](image.png)-n-apparait-pas-en-premiere-page-et-ce-que-vous-
+slug: annonce-airbnb-booking-pas-en-premiere-page
 statut: publie
 ---
 

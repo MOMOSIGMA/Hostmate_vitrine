@@ -249,6 +249,25 @@ function dateFrancaise(iso) {
 }
 
 // ─── GÉNÉRATION ─────────────────────────────────────────────────────────────
+/**
+ * Rend un slug sur lequel une URL et un nom de fichier peuvent reposer.
+ *
+ * Meme regle que `slugifier` cote backend (Backend_hostmate/src/routes/blog.js),
+ * a une difference pres : on retire les tirets de bord APRES la troncature.
+ * Dans l'ordre inverse — celui du backend — couper a 70 caracteres peut
+ * retomber en plein milieu d'un mot et laisser un tiret pendant, ce qu'on
+ * observe sur deux slugs deja publies (« ...et-ce-que-vous- »).
+ */
+function nettoyerSlug(texte) {
+  return String(texte || '')
+    .normalize('NFD')
+    .replace(/[̀-ͯ]/g, '')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .slice(0, 70)
+    .replace(/^-+|-+$/g, '');
+}
+
 function main() {
   if (!existsSync(SOURCE)) {
     console.log('ℹ️  contenu/blog/ absent — aucun article à générer.');
@@ -296,6 +315,34 @@ function main() {
 
   const slugs = new Set();
   for (const a of articles) {
+    // ── LE SLUG DU FICHIER N'EST PAS DIGNE DE CONFIANCE (13/09/2026) ────────
+    // Il etait repris tel quel depuis l'en-tete du .md, ecrit a la main. Un
+    // article est parti en ligne avec ceci dans son URL :
+    //
+    //   /blog/pourquoi-votre-annonce-Airbnb-ou-Booking![alt text](image.png)-...
+    //
+    // Un bout de markdown d'image colle par megarde pendant l'ecriture. Le
+    // resultat n'est meme pas une URL valide : `curl` la refuse. Indexation
+    // perdue, lien mort au partage, et le tout sans qu'aucune etape ne
+    // proteste — le generateur ecrivait simplement le fichier a ce nom.
+    //
+    // Le backend, lui, a toujours eu une fonction de nettoyage correcte
+    // (blog.js, `slugifier`) : le slug en base etait propre. C'est ici, entre
+    // le fichier et la page, que la verification manquait.
+    const propre = nettoyerSlug(a.slug || a.titre);
+    if (!propre) {
+      throw new Error(`Slug vide ou impossible a nettoyer : ${a.fichier}`);
+    }
+    if (propre !== a.slug) {
+      // On corrige ET on le dit : corriger en silence laisserait le fichier
+      // fautif en l'etat, et la meme URL repartirait a la prochaine edition.
+      console.warn(`  ⚠️  Slug corrige dans ${a.fichier}`);
+      console.warn(`      ecrit  : ${a.slug}`);
+      console.warn(`      utilise: ${propre}`);
+      console.warn("      → corrigez l'en-tete du .md, et ajoutez une");
+      console.warn("        redirection 301 si l'ancienne URL a ete partagee.");
+      a.slug = propre;
+    }
     if (slugs.has(a.slug)) throw new Error(`Slug en double : ${a.slug}`);
     slugs.add(a.slug);
   }
