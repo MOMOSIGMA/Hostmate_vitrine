@@ -132,3 +132,45 @@ publiez.
 Un texte plausible et faux est pire qu'un texte incomplet : il se lit, il
 convainc, et il se retourne contre vous auprès de gens qui vous confient déjà
 leurs voyageurs.
+
+---
+
+## Les traductions (13/09/2026)
+
+Le français vit **à plat** dans `contenu/blog/` et garde ses URL sans préfixe :
+`/blog/mon-article/`. Ce n'est pas une question de goût — les articles français
+sont déjà indexés à ces adresses, et les déplacer échangerait un référencement
+acquis contre une symétrie que personne ne regarde.
+
+Les autres langues vivent dans un sous-dossier, avec **le même nom de fichier
+et le même `slug`** :
+
+```
+contenu/blog/mon-article.md          → /blog/mon-article/
+contenu/blog/en/mon-article.md       → /en/blog/mon-article/
+contenu/blog/es/mon-article.md       → /es/blog/mon-article/
+contenu/blog/it/mon-article.md       → /it/blog/mon-article/
+```
+
+**Le `slug` doit être identique d'une langue à l'autre.** C'est lui qui relie
+les versions entre elles : deux slugs différents donnent deux articles sans
+rapport, et aucune balise `hreflang`.
+
+### Ce que le générateur fait tout seul
+
+- Les balises `hreflang` ne désignent QUE les langues qui existent vraiment.
+  Une traduction absente n'est jamais annoncée — Google exige la réciprocité,
+  et désigner une page manquante est pire que de n'en désigner aucune.
+- `x-default` pointe vers l'anglais s'il existe, sinon vers le français.
+- `<html lang>`, `og:locale`, la date et les quelques mots d'interface suivent
+  la langue du fichier (voir `scripts/langues.mjs`).
+
+### La règle qui compte
+
+Une traduction se publie en `statut: publie`. **Tant qu'elle n'a pas été
+relue par quelqu'un qui parle la langue, elle reste en `brouillon`** — le
+générateur l'annonce à chaque build et ne la met pas en ligne.
+
+Publier de l'italien approximatif sous notre nom coûte exactement ce qu'on
+essaie de gagner : un hôte italien qui lit une phrase bancale sait
+immédiatement que personne ne parle sa langue chez nous.

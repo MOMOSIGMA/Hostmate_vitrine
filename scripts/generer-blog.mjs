@@ -26,6 +26,10 @@
 // USAGE : node scripts/generer-blog.mjs   (appelé par `npm run build`)
 // =============================================================================
 
+import {
+  LANGUES, LANGUE_PRINCIPALE, alternates, urlDe, segmentsDist,
+  mots, liensLegaux, locale,
+} from './langues.mjs';
 import { readFileSync, writeFileSync, mkdirSync, readdirSync, existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -99,7 +103,15 @@ function echapper(s) {
 // Tout est en ligne : styles compris. Une page qui dépend d'un fichier externe
 // peut s'afficher nue si ce fichier tarde — et c'est justement sur mobile en
 // 3G, là où se trouvent beaucoup de lecteurs, que ça arrive.
-function gabarit({ titre, description, url, contenu, dateISO, dateLisible, estArticle }) {
+function gabarit({
+  titre, description, url, contenu, dateISO, dateLisible, estArticle,
+  // Ajoutes le 13/09/2026 : tout ce qui dependait du francais en dur.
+  langue = LANGUE_PRINCIPALE, langsExistantes = [], slug = '',
+}) {
+  const m = mots(langue);
+  const legaux = liensLegaux(langue);
+  const loc = locale(langue);
+  const balisesAlternates = alternates(langsExistantes, 'blog', slug);
   // JSON-LD : dit explicitement à Google qu'il s'agit d'un article, avec son
   // auteur et sa date. C'est ce qui permet d'apparaître avec une date dans les
   // résultats, et ce que lisent les moteurs IA pour citer une source.
@@ -112,7 +124,7 @@ function gabarit({ titre, description, url, contenu, dateISO, dateLisible, estAr
     description,
     datePublished: dateISO,
     dateModified: dateISO,
-    inLanguage: 'fr-FR',
+    inLanguage: loc.replace('_', '-'),
     author: { '@type': 'Organization', name: 'HostMate AI', url: SITE },
     publisher: {
       '@type': 'Organization',
@@ -124,20 +136,20 @@ function gabarit({ titre, description, url, contenu, dateISO, dateLisible, estAr
   </script>` : '';
 
   return `<!doctype html>
-<html lang="fr">
+<html lang="${langue}">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>${echapper(titre)}</title>
 <meta name="description" content="${echapper(description)}">
-<link rel="canonical" href="${url}">
+<link rel="canonical" href="${url}">${balisesAlternates}
 <link rel="icon" type="image/png" href="/icon.png">
 
 <meta property="og:type" content="${estArticle ? 'article' : 'website'}">
 <meta property="og:title" content="${echapper(titre)}">
 <meta property="og:description" content="${echapper(description)}">
 <meta property="og:url" content="${url}">
-<meta property="og:locale" content="fr_FR">
+<meta property="og:locale" content="${loc}">
 <meta property="og:site_name" content="HostMate AI">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="${echapper(titre)}">
@@ -213,15 +225,15 @@ ${contenu}
 <footer class="site">
   <div class="enveloppe">
     HostMate AI — Less managing. More hosting. ·
-    <a href="/">Accueil</a> ·
-    <a href="/blog/">Blog</a> ·
-    <a href="/guides/messages-voyageur/">Guide</a> ·
+    <a href="${langue === LANGUE_PRINCIPALE ? '/' : `/${langue}`}">${m.accueil}</a> ·
+    <a href="${langue === LANGUE_PRINCIPALE ? '/blog/' : `/${langue}/blog/`}">${m.blog}</a> ·
+    <a href="${langue === LANGUE_PRINCIPALE ? '/guides/messages-voyageur/' : `/${langue}/guides/messages-voyageur/`}">${m.guide}</a> ·
     <!-- Le formulaire de contact manquait ici comme il manquait au guide : un
          lecteur qui a une question n'avait aucun endroit ou la poser, et une
          question sans destinataire se transforme en onglet ferme. -->
-    <a href="/contact/">Nous écrire</a> ·
-    <a href="/conditions">Conditions</a> ·
-    <a href="/confidentialite">Confidentialité</a>
+    <a href="/contact/">${m.nousEcrire}</a> ·
+    <a href="${legaux.conditions}">${m.conditions}</a> ·
+    <a href="${legaux.confidentialite}">${m.confidentialite}</a>
   </div>
 </footer>
 </body>
@@ -231,26 +243,28 @@ ${contenu}
 
 // L'invitation à essayer, en fin d'article. Un blog qui ne propose rien est un
 // blog qui informe des gens qui iront acheter ailleurs.
-function appelAction() {
+function appelAction(langue = LANGUE_PRINCIPALE) {
+  const m = mots(langue);
+  const lienGuide = langue === LANGUE_PRINCIPALE
+    ? '/guides/messages-voyageur/'
+    : `/${langue}/guides/messages-voyageur/`;
   return `
 <div class="appel" style="margin-bottom:1rem">
-  <p><strong>Le guide gratuit :</strong> les six messages d'un séjour écrits en
-  entier, vingt règles reformulées et une checklist à imprimer.</p>
-  <a class="bouton" href="/guides/messages-voyageur/">Ouvrir le guide</a>
+  <p><strong>${echapper(m.cpaGuideTitre)}</strong> ${echapper(m.cpaGuideTexte)}</p>
+  <a class="bouton" href="${lienGuide}">${echapper(m.cpaGuideBouton)}</a>
 </div>
 
 <div class="appel">
-  <p><strong>Vous gérez une location courte durée ?</strong> HostMate rédige vos
-  messages voyageurs, votre livret d'accueil et vos réponses aux litiges — dans
-  la langue de votre voyageur. Essai gratuit de 7 jours.</p>
-  <a class="bouton" href="https://app.hostmateai.app">Essayer HostMate</a>
+  <p><strong>${echapper(m.cpaAppTitre)}</strong> ${echapper(m.cpaAppTexte)}</p>
+  <a class="bouton" href="https://app.hostmateai.app">${echapper(m.cpaAppBouton)}</a>
 </div>`;
 }
 
-function dateFrancaise(iso) {
-  return new Date(iso + 'T12:00:00Z').toLocaleDateString('fr-FR', {
-    day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC',
-  });
+function dateLocalisee(iso, langue = LANGUE_PRINCIPALE) {
+  return new Date(iso + 'T12:00:00Z').toLocaleDateString(
+    locale(langue).replace('_', '-'),
+    { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' },
+  );
 }
 
 // ─── GÉNÉRATION ─────────────────────────────────────────────────────────────
@@ -273,11 +287,16 @@ function nettoyerSlug(texte) {
     .replace(/^-+|-+$/g, '');
 }
 
-function main() {
-  if (!existsSync(SOURCE)) {
-    console.log('ℹ️  contenu/blog/ absent — aucun article à générer.');
-    return;
-  }
+// ─── LECTURE PAR LANGUE ─────────────────────────────────────────────────────
+// Le français vit à plat dans contenu/blog/ — c'est l'existant, et le déplacer
+// casserait les trois articles déjà indexés. Les autres langues vivent dans un
+// sous-dossier : contenu/blog/en/, /es/, /it/.
+//
+// Le filtre `.md` écarte naturellement ces sous-dossiers de la lecture du
+// français : un dossier ne finit pas par « .md ».
+function lireLangue(langue) {
+  const dossier = langue === LANGUE_PRINCIPALE ? SOURCE : join(SOURCE, langue);
+  if (!existsSync(dossier)) return [];
 
   // Les fichiers dont le NOM est en majuscules sont de la documentation pour
   // nous (LISEZ-MOI.md), pas des articles : ils n'ont pas d'en-tête et
@@ -289,35 +308,17 @@ function main() {
     const base = f.replace(/\.md$/i, '');
     return base === base.toUpperCase();
   };
-  const fichiers = readdirSync(SOURCE)
-    .filter((f) => f.endsWith('.md') && !estDocumentation(f));
-  if (fichiers.length === 0) {
-    console.log('ℹ️  Aucun article dans contenu/blog/.');
-    return;
-  }
 
-  const tous = fichiers.map((f) => {
-    const { meta, corps } = lireArticle(join(SOURCE, f));
-    return { ...meta, corps, fichier: f };
-  });
+  return readdirSync(dossier)
+    .filter((f) => f.endsWith('.md') && !estDocumentation(f))
+    .map((f) => {
+      const { meta, corps } = lireArticle(join(dossier, f));
+      return { ...meta, corps, fichier: `${langue}/${f}`, langue };
+    });
+}
 
-  const brouillons = tous.filter((a) => a.statut === 'brouillon');
-  const articles = tous
-    .filter((a) => a.statut === 'publie')
-    .sort((a, b) => b.date.localeCompare(a.date)); // le plus récent en premier
-
-  // Les brouillons sont ANNONCÉS, pas générés. Les taire ferait oublier un
-  // article prêt à 90 % pendant des semaines — c'est la façon la plus banale
-  // de ne jamais publier.
-  for (const b of brouillons) {
-    console.log(`  ⏸️  brouillon en attente : ${b.titre}  (${b.fichier})`);
-  }
-
-  if (articles.length === 0) {
-    console.log('ℹ️  Aucun article publié — que des brouillons.');
-    return;
-  }
-
+// Nettoie et vérifie les slugs d'une langue — voir nettoyerSlug.
+function verifierSlugs(articles) {
   const slugs = new Set();
   for (const a of articles) {
     // ── LE SLUG DU FICHIER N'EST PAS DIGNE DE CONFIANCE (13/09/2026) ────────
@@ -351,47 +352,110 @@ function main() {
     if (slugs.has(a.slug)) throw new Error(`Slug en double : ${a.slug}`);
     slugs.add(a.slug);
   }
+}
 
-  for (const a of articles) {
-    const url = `${SITE}/blog/${a.slug}/`;
-    const html = gabarit({
-      titre: a.titre,
-      description: a.description,
-      url,
-      dateISO: a.date,
-      dateLisible: dateFrancaise(a.date),
-      estArticle: true,
-      // Le <h1> vient du frontmatter, pas du Markdown : un seul titre de
-      // niveau 1 par page, et il est forcément celui de l'onglet.
-      contenu: `<h1>${echapper(a.titre)}</h1>\n${marked.parse(a.corps)}\n${appelAction()}`,
-    });
-    const dossier = join(DIST, 'blog', a.slug);
-    mkdirSync(dossier, { recursive: true });
-    writeFileSync(join(dossier, 'index.html'), html, 'utf8');
-    console.log(`  ✅ /blog/${a.slug}/`);
+function main() {
+  if (!existsSync(SOURCE)) {
+    console.log('ℹ️  contenu/blog/ absent — aucun article à générer.');
+    return;
   }
 
-  // ── Page d'index ──────────────────────────────────────────────────────────
-  const liste = articles.map((a) => `
+  // ── UNE TRADUCTION QUI N'EXISTE PAS NE S'ANNONCE PAS ───────────────────────
+  // On lit d'abord TOUTES les langues, puis on note, pour chaque slug, dans
+  // lesquelles il existe réellement. C'est de cette liste que sortent les
+  // balises hreflang. Google exige la réciprocité : désigner une version
+  // italienne absente est pire que de n'en désigner aucune.
+  const parLangue = {};
+  for (const l of LANGUES) {
+    const tous = lireLangue(l);
+    const publies = tous
+      .filter((a) => a.statut === 'publie')
+      .sort((a, b) => b.date.localeCompare(a.date)); // le plus récent en premier
+    verifierSlugs(publies);
+    parLangue[l] = { publies, brouillons: tous.filter((a) => a.statut === 'brouillon') };
+  }
+
+  // Les brouillons sont ANNONCÉS, pas générés. Les taire ferait oublier un
+  // article prêt à 90 % pendant des semaines — c'est la façon la plus banale
+  // de ne jamais publier.
+  for (const l of LANGUES) {
+    for (const b of parLangue[l].brouillons) {
+      console.log(`  ⏸️  brouillon en attente : ${b.titre}  (${b.fichier})`);
+    }
+  }
+
+  const langsParSlug = new Map();
+  for (const l of LANGUES) {
+    for (const a of parLangue[l].publies) {
+      if (!langsParSlug.has(a.slug)) langsParSlug.set(a.slug, []);
+      langsParSlug.get(a.slug).push(l);
+    }
+  }
+
+  if (!LANGUES.some((l) => parLangue[l].publies.length)) {
+    console.log('ℹ️  Aucun article publié — que des brouillons.');
+    return;
+  }
+
+  const urlsSitemap = [];
+  let total = 0;
+
+  for (const langue of LANGUES) {
+    const articles = parLangue[langue].publies;
+    if (articles.length === 0) continue;
+    const m = mots(langue);
+
+    for (const a of articles) {
+      const url = urlDe(langue, 'blog', a.slug);
+      const html = gabarit({
+        titre: a.titre,
+        description: a.description,
+        url,
+        dateISO: a.date,
+        dateLisible: dateLocalisee(a.date, langue),
+        estArticle: true,
+        langue,
+        slug: a.slug,
+        langsExistantes: langsParSlug.get(a.slug) || [langue],
+        // Le <h1> vient du frontmatter, pas du Markdown : un seul titre de
+        // niveau 1 par page, et il est forcément celui de l'onglet.
+        contenu: `<h1>${echapper(a.titre)}</h1>\n${marked.parse(a.corps)}\n${appelAction(langue)}`,
+      });
+      const dossier = join(DIST, ...segmentsDist(langue, 'blog', a.slug));
+      mkdirSync(dossier, { recursive: true });
+      writeFileSync(join(dossier, 'index.html'), html, 'utf8');
+      console.log(`  ✅ ${url.replace(SITE, '')}`);
+      urlsSitemap.push({ loc: url, freq: 'monthly', date: a.date });
+      total += 1;
+    }
+
+    // ── Page d'index de la langue ──────────────────────────────────────────
+    const liste = articles.map((a) => `
     <li>
-      <h2><a href="/blog/${a.slug}/">${echapper(a.titre)}</a></h2>
-      <time datetime="${a.date}">${dateFrancaise(a.date)}</time>
+      <h2><a href="${urlDe(langue, 'blog', a.slug).replace(SITE, '')}">${echapper(a.titre)}</a></h2>
+      <time datetime="${a.date}">${dateLocalisee(a.date, langue)}</time>
       <p>${echapper(a.description)}</p>
     </li>`).join('');
 
-  writeFileSync(join(DIST, 'blog', 'index.html'), gabarit({
-    titre: 'Le blog HostMate — louer en courte durée, sans y passer ses journées',
-    description: 'Procédures, obligations et bonnes pratiques pour les hôtes de '
-      + 'location courte durée en France. Des réponses concrètes, vérifiées.',
-    url: `${SITE}/blog/`,
-    estArticle: false,
-    contenu: `<h1>Le blog HostMate</h1>
-      <p style="color:var(--gris);font-size:1.05rem">Des réponses concrètes aux
-      questions que se posent les hôtes en France — démarches, obligations,
-      relation voyageur.</p>
+    const urlIndex = urlDe(langue, 'blog', '');
+    const dossierIndex = join(DIST, ...segmentsDist(langue, 'blog'));
+    mkdirSync(dossierIndex, { recursive: true });
+    writeFileSync(join(dossierIndex, 'index.html'), gabarit({
+      titre: m.indexTitre,
+      description: m.indexDescription,
+      url: urlIndex,
+      estArticle: false,
+      langue,
+      slug: '',
+      // L'index existe dans chaque langue qui a au moins un article.
+      langsExistantes: LANGUES.filter((l) => parLangue[l].publies.length),
+      contenu: `<h1>${echapper(m.indexH1)}</h1>
+      <p style="color:var(--gris);font-size:1.05rem">${echapper(m.indexIntro)}</p>
       <ul class="liste-articles">${liste}</ul>`,
-  }), 'utf8');
-  console.log('  ✅ /blog/');
+    }), 'utf8');
+    console.log(`  ✅ ${urlIndex.replace(SITE, '')}`);
+    urlsSitemap.push({ loc: urlIndex, freq: 'weekly' });
+  }
 
   // ── Sitemap ───────────────────────────────────────────────────────────────
   // On PROLONGE le sitemap existant au lieu de le réécrire : il contient les
@@ -399,10 +463,7 @@ function main() {
   // écrites à la main. Les régénérer ici les ferait diverger en silence.
   const cheminSitemap = join(DIST, 'sitemap.xml');
   if (existsSync(cheminSitemap)) {
-    const entrees = [
-      { loc: `${SITE}/blog/`, freq: 'weekly' },
-      ...articles.map((a) => ({ loc: `${SITE}/blog/${a.slug}/`, freq: 'monthly', date: a.date })),
-    ].map(({ loc, freq, date }) => `
+    const entrees = urlsSitemap.map(({ loc, freq, date }) => `
   <url>
     <loc>${loc}</loc>${date ? `\n    <lastmod>${date}</lastmod>` : ''}
     <changefreq>${freq}</changefreq>
@@ -412,15 +473,16 @@ function main() {
     const xml = readFileSync(cheminSitemap, 'utf8');
     if (!xml.includes('/blog/')) {
       writeFileSync(cheminSitemap, xml.replace('</urlset>', `${entrees}\n</urlset>`), 'utf8');
-      console.log(`  ✅ sitemap.xml enrichi de ${articles.length + 1} URL`);
+      console.log(`  ✅ sitemap.xml enrichi de ${urlsSitemap.length} URL`);
     }
   } else {
     console.warn('  ⚠️  dist/sitemap.xml introuvable — articles non déclarés.');
   }
 
+  const brouillons = LANGUES.reduce((n, l) => n + parLangue[l].brouillons.length, 0);
   console.log(
-    `\n${articles.length} article(s) publié(s) en HTML statique` +
-    `${brouillons.length ? `, ${brouillons.length} brouillon(s) en attente` : ''}.`);
+    `\n${total} article(s) publié(s) en HTML statique` +
+    `${brouillons ? `, ${brouillons} brouillon(s) en attente` : ''}.`);
 }
 
 main();
