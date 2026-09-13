@@ -215,6 +215,11 @@ ${contenu}
     HostMate AI — Less managing. More hosting. ·
     <a href="/">Accueil</a> ·
     <a href="/blog/">Blog</a> ·
+    <a href="/guides/messages-voyageur/">Guide</a> ·
+    <!-- Le formulaire de contact manquait ici comme il manquait au guide : un
+         lecteur qui a une question n'avait aucun endroit ou la poser, et une
+         question sans destinataire se transforme en onglet ferme. -->
+    <a href="/contact/">Nous écrire</a> ·
     <a href="/conditions">Conditions</a> ·
     <a href="/confidentialite">Confidentialité</a>
   </div>
