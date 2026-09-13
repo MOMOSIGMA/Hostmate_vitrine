@@ -1,72 +1,72 @@
 ---
 titre: Come rispondere a una recensione negativa senza peggiorare la situazione
-description: Quando ignorare, quando rispondere, e un modello di risposta pronto da adattare. Per host di affitti brevi.
+description: Quando ignorare, quando rispondere e un modello di risposta pronto da adattare per host di affitti brevi.
 date: 2026-08-16
 slug: comment-repondre-a-un-avis-negatif-sans-aggraver-les-degats
-statut: publie
+statut: brouillon
 ---
 
-## La vera domanda non è come rispondere, ma se dovreste farlo
+## La vera domanda non è come rispondere, ma se dovrebbe farlo
 
-Avete appena letto una valutazione negativa. L'istinto è spiegare immediatamente perché sia ingiusta. È quasi sempre un errore. In particolare se l'opinione vi infastidisce.
+Ha appena visto una valutazione negativa. L'istinto è spiegare immediatamente perché è ingiusta. È quasi sempre un errore. Soprattutto se il giudizio La irrita.
 
-Aspettate 48 ore. Non solo per calmarvi — anche quello, certo — ma perché leggete male la situazione quando siete sulla difensiva. Rileggete l'opinione a mente fredda. Chiedetevi sinceramente: c'è dentro qualcosa di vero?
+Lascii passare 48 ore. Non solo per calmarsi — anche quello — ma perché legge male la situazione quando è sulla difensiva. Rilegga il giudizio con distacco. Si chieda sinceramente: c'è dentro qualcosa di vero?
 
-- Se davvero non c'è niente ("sporco" e avevate pulito meticolosamente, con foto datate), potete rispondere brevemente.
-- Se c'è un fondo di verità (il wifi era lento, c'è stato effettivamente un problema di riscaldamento), rispondere è utile, ma non per giustificarvi.
-- Se si tratta di un'opinione ("I muri sono brutti", "Il quartiere è rumoroso"), non rispondete. È un parere. Non si convince qualcuno su una questione di gusto.
+- Se non c'è davvero nulla ("sporco" e Lei aveva pulito meticolosamente, con foto datate), può rispondere brevemente.
+- Se c'è una parte di vero (il wifi era lento, c'è stato effettivamente un problema di riscaldamento), rispondere è utile, ma non per giustificarsi.
+- Se si tratta di un'opinione ("Le pareti sono brutte", "Il quartiere è rumoroso"), non risponda. È un parere. Non si fa cambiare idea a qualcuno su una questione di gusto.
 
-## Rispondere significa scrivere per i prossimi ospiti, non per chi si è lamentato
+## Rispondere significa scrivere per i prossimi clienti, non per chi si è lamentato
 
-Ecco quello che non vi dicono mai: la vostra risposta a un'opinione negativa non convincerà MAI la persona che l'ha scritta. Se n'è andata scontenta. Rileggera la vostra risposta solo per verificare se siete goffo (conferma della sua opinione), oppure non la leggerà affatto.
+Ecco quello che non Le dicono mai: la Sua risposta a un giudizio negativo non convincerà MAI la persona che l'ha scritto. Se n'è andata arrabbiata. Rileggerà la Sua risposta solo per verificare se è goffo (conferma del suo giudizio), oppure non la leggerà affatto.
 
-La vostra risposta è rivolta ai 50 prossimi che leggeranno questa opinione. Loro sì, possono essere influenzati se scrivete bene.
+La Sua risposta si rivolge ai 50 prossimi che leggeranno questo giudizio. Quelli sì, possono essere influenzati se scrive bene.
 
-Questo cambia tutto. Significa:
-- Non siete sulla difensiva. Spiegate.
-- Riconoscete i fatti senza scuse vuote.
-- Mostrate cosa avete fatto dopo (o fate ora).
+Cambia tutto. Significa:
+- Non è sulla difensiva. Spiega.
+- Riconosce i fatti senza scuse banali.
+- Mostra cosa ha fatto dopo (o fa adesso).
 
-## Le tre risposte che funzionano (e le tre che non funzionano)
+## Le tre risposte che funzionano (e le tre che falliscono)
 
-**Quelle che non funzionano:**
+**Quelle che falliscono:**
 
-1. La scusa generica: "Dispiace che non abbiate apprezzato" oppure "Siamo spiacenti che il vostro soggiorno non abbia corrisposto alle vostre aspettative". È vuoto. I prossimi lettori sentono: non è successo niente, c'è solo un cliente difficile.
+1. La scusa generica: "Spiacente che non abbia apprezzato" oppure "Dispiacevole che il soggiorno non abbia corrisposto alle Sue aspettative." È vuoto. I prossimi lettori sentono: non è successo nulla, c'è solo un cliente difficile.
 
-2. La spiegazione esaustiva del problema: "In realtà, il radiatore era guasto dal giorno prima, l'installatore doveva venire lunedì..." Sembra che stiate facendo la lezione. Il lettore sente: questo qui si giustifica continuamente.
+2. La spiegazione esaustiva del problema: "In realtà, il radiatore era rotto dal giorno prima, il tecnico doveva venire lunedì..." Sembra che faccia la lezione. Il lettore sente: questo qui si giustifica di continuo.
 
-3. Il rimprovero mascherato: "Siamo rimasti delusi di apprendere che non avete segnalato il problema di riscaldamento durante il vostro soggiorno, perché ci avrebbe permesso..." Gli rimproverate di non aver segnalato il problema. Il lettore, invece, nota che cercate un colpevole.
+3. Il rimprovero mascherato: "Siamo rimasti delusi di sapere che non aveva segnalato il problema di riscaldamento durante il soggiorno, perché ci avrebbe permesso..." Le rimprovera di non aver segnalato il problema. Il lettore, invece, ricorda che Lei cerca un colpevole.
 
 **Quello che funziona:**
 
-1. **Riconoscere precisamente**: "Avete ragione: il riscaldamento ha avuto un problema il 15 gennaio. È un guasto che non avrebbe dovuto accadere." Niente scuse, niente spiegazioni, solo il riconoscimento del fatto. I lettori vedono sincerità.
+1. **Riconoscere precisamente**: "Ha ragione: il riscaldamento ha avuto un malfunzionamento il 15 gennaio. È un problema che non avremmo dovuto avere." Nessuna scusa, nessuna spiegazione, solo l'ammissione del fatto. I lettori vedono franchezza.
 
-2. **Dire cosa avete fatto**: "Da allora, la caldaia è stata controllata da un professionista e è stato sottoscritto un contratto di manutenzione. Lascio le foto del rapporto nell'annuncio." (Oppure: "Per il futuro...", "Abbiamo installato...".) Il lettore si chiede come gestite un imprevisto. Glielo avete appena dimostrato.
+2. **Dire cosa ha fatto**: "Da allora, la caldaia è stata controllata da un professionista e abbiamo sottoscritto un contratto di manutenzione. Lascio le foto del rapporto nell'annuncio." (Oppure: "Per il futuro...", "Abbiamo installato..."). Il lettore si chiede come gestisce un imprevisto. Glielo ha appena mostrato.
 
-3. **Chiudere senza supplicare**: "Avremmo voluto poter correggere questo durante il vostro soggiorno. Se tornaste a darci una chance..." No. Concludete con: "Grazie di avercelo segnalato, ci ha resi migliori." Secco, vero, finito.
+3. **Chiudere senza supplicare**: "Avremmo voluto poter correggere questo durante il Suo soggiorno. Se tornasse a darci un'opportunità..." No. Concluda con: "La ringraziamo per avercelo segnalato, ci ha resi migliori." Secco, vero, finito.
 
-## Il caso in cui dovete ignorare l'opinione (sì, davvero)
+## Il caso in cui deve ignorare il giudizio (sì, davvero)
 
-L'opinione descrive una fantasia. "I muri trasudano muffa" (avete foto che provano il contrario e nessun'altra opinione lo dice). "Il proprietario ci ha molestati" (è falso: avevate chiesto una chiave alle 18, ve l'hanno portata alle 18:30). "Mancavano delle cose" (un inventario fotografico firmato lo dimostra il contrario).
+Il giudizio descrive una fantasia. "Le pareti trasudano muffa" (ha foto che provano il contrario e nessun altro giudizio lo dice). "Il proprietario ci ha molestato" (è falso: aveva chiesto una chiave alle 18, l'hanno portata alle 18:30). "Mancavano delle cose" (un inventario fotografico firmato lo dimostra il contrario).
 
-In questo caso, rispondere significa alimentare l'opinione negativa. Ogni parola che scrivete la affonda ancora più nella memoria di chi la legge. La fate risalire alla superficie.
+Lì, rispondere significa alimentare il giudizio negativo. Ogni parola che scrive lo fissa ancora di più nella memoria di chi lo legge. Lo fa risalire in superficie.
 
-Ignoratela. Se l'accumulo di falsità si ripete regolarmente, è un'altra questione (segnalazione alla piattaforma).
+Ignori. Se l'accumulo di falsità ritorna regolarmente, è un'altra questione (segnalazione alla piattaforma).
 
 ## Il modello che funziona
 
-Adattate al vostro caso, mantenetene il tono:
+Lo adatti al Suo caso, mantenga il tono:
 
-> "Grazie di questo riscontro. Descrivete un problema reale [specificate: wifi, riscaldamento, pulizia di una stanza]. Avevate ragione di essere frustrati. [UNA frase su cosa avete fatto da allora per evitare che si ripeta]. Dispiace non poter correggere questo retroattivamente, ma i vostri prossimi soggiorni non incontreranno questo problema. Grazie della vostra pazienza."
+> "Grazie per questo commento. Descrive un problema reale [specifichi: wifi, riscaldamento, pulizia di una stanza]. Aveva ragione di essere frustrato. [UNA frase su cosa ha fatto da allora perché non si ripeta]. Dispiacevole non poter correggere questo retroattivamente, ma i Suoi prossimi ospiti non incontreranno questo problema. La ringraziamo della Sua pazienza."
 
-Quattro frasi, non di più. Oltre, si legge una difesa — e una difesa dà ragione a chi si lamenta.
+Quattro frasi, non di più. Oltre, si legge una arringa — e un'arringa dà ragione a chi si lamenta.
 
-## Attenti alla trappola della fretta
+## Attenzione alla trappola della fretta
 
-Avete voglia di rispondere in meno di un'ora. È un segnale che siete infastiditi. Non inviate prima di aver chiuso la scheda e fatto altro. Rileggete una volta senza emozione. Qualsiasi frase dove vi difendete o accusate l'ospite: cancellatela.
+Ha voglia di rispondere in meno di un'ora. È un segnale che è arrabbiato. Non prema invia prima di aver chiuso la scheda e fatto altro. Rilegga una volta senza emozione. Qualsiasi frase dove si difende o dove accusa il viaggiatore: la elimini.
 
 ## Adesso
 
-Se avete un'opinione negativa in sospeso: aspettate 48 ore. Poi rileggete l'articolo. C'è qualcosa di vero? Scrivete una risposta che rispetti il modello sopra — riconoscimento preciso, un'azione concreta da allora, punto. Non c'è niente di vero? Lasciate perdere.
+Se ha un giudizio negativo in sospeso: aspetti 48 ore. Poi rilegga l'articolo. C'è qualcosa di vero? Scriva una risposta che rispetti il modello sopra — riconoscimento preciso, un'azione concreta da allora, punto. Non c'è nulla di vero? Lascio perdere.
 
-In ogni caso, fate una copia dell'opinione e della vostra risposta. Se lo stesso rimprovero si ripete tre volte, non è più un ospite difficile — è qualcosa da correggere nella vostra proprietà.
+In ogni caso, conservi una copia dello screenshot del giudizio e della Sua risposta. Se lo stesso rimprovero ritorna tre volte, non è più un ospite difficile — è qualcosa che deve correggere.
