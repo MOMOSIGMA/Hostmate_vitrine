@@ -99,10 +99,35 @@ function gabarit({ meta, contenu, sommaire }) {
     background: var(--encre); color: #fff; padding: .9rem 1.25rem;
     text-align: center; font-size: .9rem; position: sticky; top: 0; z-index: 5;
   }
-  .bandeau kbd {
-    background: rgba(255,255,255,.14); border-radius: 5px;
-    padding: .1em .45em; font-family: inherit; font-size: .95em;
+  /* ⚠️ « Ctrl+P » NE S'ECRIT PAS SUR UN TELEPHONE (13/09/2026).
+     Le bandeau donnait un raccourci clavier comme SEUL moyen d'obtenir le
+     PDF. Sur mobile — ou se trouve l'essentiel du trafic d'un guide partage
+     par lien — il n'y a pas de clavier, donc pas de PDF du tout : le lecteur
+     lisait une page qui lui expliquait comment faire une chose impossible.
+
+     window.print() remplace le raccourci et fonctionne partout : Chrome
+     Android ouvre sa feuille d'impression avec « Enregistrer au format PDF »,
+     Safari iOS ouvre la sienne d'ou l'on partage ou enregistre le document.
+     Aucune bibliotheque, aucun service tiers. */
+  .bandeau .bouton-pdf {
+    background: #fff; color: var(--encre); border: 0;
+    border-radius: 9px; padding: .55rem 1.15rem;
+    font: inherit; font-weight: 650; cursor: pointer;
   }
+  .bandeau .bouton-pdf:hover { background: #f0f0f2; }
+  .bandeau .aide {
+    display: block; margin-top: .5rem; font-size: .82rem; opacity: .72;
+  }
+
+  /* La suite de lecture ne s'imprime pas : des liens sur du papier ne mènent
+     nulle part, et ils prendraient la place du contenu. */
+  .suite {
+    max-width: 210mm; margin: 0 auto 2.5rem; padding: 0 16mm;
+    font-size: .93rem; line-height: 1.7;
+  }
+  .suite a { color: var(--corail, #EC5B63); }
+  .suite .discret { color: #6B7280; font-size: .87rem; }
+  @media print { .suite { display: none !important; } }
 
   .feuille {
     max-width: 210mm; margin: 1.5rem auto; background: #fff;
@@ -206,7 +231,10 @@ function gabarit({ meta, contenu, sommaire }) {
 </head>
 <body>
 <div class="bandeau">
-  Pour obtenir le PDF : <kbd>Ctrl</kbd>+<kbd>P</kbd> puis « Enregistrer au format PDF »
+  <button type="button" class="bouton-pdf" onclick="window.print()">
+    Télécharger le PDF
+  </button>
+  <span class="aide">Choisissez « Enregistrer au format PDF » dans la fenêtre qui s'ouvre.</span>
 </div>
 
 <div class="feuille">
@@ -225,6 +253,28 @@ function gabarit({ meta, contenu, sommaire }) {
     où il doit partir. Vous validez d'un geste — vous gardez la main, vous perdez
     l'obligation d'y penser.</p>
     <a href="https://app.hostmateai.app">Essayer gratuitement 7 jours</a>
+  </div>
+
+  <!-- ⚠️ CE GUIDE ETAIT UN CUL-DE-SAC (13/09/2026).
+       Ses seuls liens sortants etaient l'application et sa propre canonique.
+       Un lecteur venu de Google lisait 2 200 mots puis n'avait que deux
+       issues : s'inscrire, ou fermer l'onglet. Pour quelqu'un qui decouvre la
+       marque, la seconde gagne presque toujours — et il repart sans laisser
+       de trace, alors qu'il venait de lire le contenu en entier.
+       Ces liens ne remplacent pas une capture d'e-mail ; ils arretent la
+       fuite en attendant. -->
+  <div class="suite">
+    <p><strong>À lire ensuite</strong></p>
+    <p>
+      <a href="/blog/">Le blog</a> —
+      <a href="/blog/messages-voyageur-quand-envoyer/">Quand envoyer chaque message</a> ·
+      <a href="/blog/comment-repondre-a-un-avis-negatif-sans-aggraver-les-degats/">Répondre à un avis négatif</a>
+    </p>
+    <p class="discret">
+      Une question, une remarque sur ce guide ?
+      <a href="/contact/">Écrivez-nous</a> — c'est une vraie personne qui lit.
+      · <a href="/">Accueil</a>
+    </p>
   </div>
 </div>
 </body>
