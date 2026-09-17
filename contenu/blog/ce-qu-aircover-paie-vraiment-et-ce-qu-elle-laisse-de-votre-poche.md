@@ -3,7 +3,7 @@ titre: Ce qu'AirCover paie vraiment, et ce qu'elle laisse de votre poche
 description: Les trois situations où AirCover ne vous aide pas, et comment vous protéger à la place.
 date: 2026-09-16
 slug: ce-qu-aircover-paie-vraiment-et-ce-qu-elle-laisse-de-votre-poche
-statut: brouillon
+statut: publie
 ---
 
 ## AirCover n'existe que si vous êtes sur Airbnb

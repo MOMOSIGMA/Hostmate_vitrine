@@ -3,7 +3,7 @@ titre: Votre réclamation est ignorée : les trois étapes qui forcent vraiment 
 description: Quand contacter l'administration, comment documenter sans traîner, et si vous devez laisser tomber.
 date: 2026-09-16
 slug: votre-reclamation-est-ignoree-les-trois-etapes-qui-forcent-vraiment-un
-statut: brouillon
+statut: publie
 ---
 
 ## La situation : vous attendez depuis trois semaines
@@ -50,14 +50,14 @@ Le ton factuel (pas accusateur) marche mieux. Vous avez documenté les dates et 
 
 Si 48 heures après ce deuxième envoi vous n'avez rien, et que c'est de l'argent en attente :
 
-**Pour Airbnb**, le centre de résolution des différends existe, mais il faut d'abord avoir épuisé le support interne. Les avis clients sur les forums rapportent que 10-15 % seulement des gens qui l'activent obtiennent satisfaction. C'est long (3-4 semaines).
+**Pour Airbnb**, le centre de résolution des différends existe, mais il faut d'abord avoir épuisé le support interne. Beaucoup d'hôtes qui l'activent rapportent une issue décevante et un délai de plusieurs semaines — n'y comptez pas comme un recours rapide ni garanti.
 
 **Pour Booking**, il n'existe pas d'équivalent direct. Votre recours est :
 - Les forums de consommateurs de votre pays.
 - La direction générale des finances (DGCCRF en France) si c'est un remboursement qui traîne anormalement longtemps.
-- Une plainte auprès de votre banque (chargeback) SEULEMENT si c'est vous qui avez payé directement et que l'argent n'est pas revenu après 60 jours.
+- Une plainte auprès de votre banque (chargeback) SEULEMENT si c'est vous qui avez payé directement et que l'argent n'est pas revenu.
 
-[À VÉRIFIER] Les délais exacts de chargeback auprès de votre banque et si Airbnb/Booking en font automatiquement un après 90 jours.
+C'est TOUJOURS vous, le titulaire de la carte, qui déclenchez le chargeback auprès de votre banque — Airbnb et Booking n'en initient jamais un automatiquement de leur côté. Pour agir à temps : Visa et Mastercard donnent en général 120 jours à compter de la transaction (ou de la date de livraison prévue du service) pour déposer une contestation, avec des exceptions selon le motif. Ne traînez pas jusqu'à cette limite : plus vous attendez, plus votre banque vous demandera de preuves pour justifier le délai.
 
 La vraie escalade administrative prend du temps et demande des preuves écrites. Ne la commencez que si le montant en jeu le justifie.
 

@@ -3,7 +3,7 @@ titre: Se faire rembourser d'un dégât : ce que Airbnb accepte vraiment et ce q
 description: Dégâts à la caution, garantie Airbnb, délai de réclamation : la marche à suivre quand un voyageur casse quelque chose.
 date: 2026-09-16
 slug: se-faire-rembourser-d-un-degat-ce-que-airbnb-accepte-vraiment-et-ce-qu
-statut: brouillon
+statut: publie
 ---
 
 ## Le dégât que vous découvrez après le départ
@@ -23,11 +23,11 @@ La preuve qui marche :
 
 Ne nettoyez pas, ne réparez pas, ne touchez à rien avant d'avoir photographié. Une fois que vous avez nettoyé, vous avez aussi supprimé la preuve.
 
-## Signaler le dégât dans les 72 heures après le départ
+## Signaler le dégât dans les 14 jours après le départ
 
-C'est le délai légal chez Airbnb. Passé ce délai, vous ne pouvez plus réclamer via la plateforme. C'est strict : si vous découvrez le dégât samedi soir et que vous signalez lundi matin, vous êtes passé en dessous de 72 heures. Si vous signalez mardi, c'est trop tard.
+C'est le délai chez Airbnb, d'après le centre d'aide officiel (article « Host damage protection ») : la demande de remboursement doit être déposée dans le Centre de résolution dans les 14 jours suivant le départ du voyageur responsable. Passé ce délai, la réclamation n'est plus recevable via la plateforme.
 
-[À VÉRIFIER] : Ce délai s'applique-t-il au délai de signalement ou au délai de première action de votre part ? À confirmer auprès du centre d'aide Airbnb ou en cherchant la date exacte dans les conditions de service actuelles, car il a pu changer.
+Ne confondez pas avec les 72 heures dont dispose le VOYAGEUR pour répondre une fois que vous avez soumis votre demande — c'est un délai différent, qui vient après le vôtre, pas à sa place.
 
 Dans l'application ou le site, allez dans **Résolutions et litiges** ou **Message à propos d'un problème**, puis sélectionnez le séjour concerné. Vous verrez un formulaire qui vous demande de décrire le problème et d'uploader les photos.
 

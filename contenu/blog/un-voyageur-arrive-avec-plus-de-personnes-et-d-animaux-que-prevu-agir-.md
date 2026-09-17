@@ -2,8 +2,8 @@
 titre: Un voyageur arrive avec plus de personnes et d'animaux que prévu : agir avant la mauvaise note
 description: La situation réelle diffère du contrat. Trois décisions selon le moment où vous découvrez le problème, et ce que vous écrivez pour vous protéger.
 date: 2026-09-16
-slug: un-voyageur-arrive-avec-plus-de-personnes-et-d-animaux-que-prevu-agir-
-statut: brouillon
+slug: un-voyageur-arrive-avec-plus-de-personnes-et-d-animaux-que-prevu-agir
+statut: publie
 ---
 
 ## La situation : vous avez signé un accord qui n'existe plus

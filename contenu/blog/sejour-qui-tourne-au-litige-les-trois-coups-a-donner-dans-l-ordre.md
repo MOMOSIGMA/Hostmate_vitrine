@@ -3,7 +3,7 @@ titre: Séjour qui tourne au litige : les trois coups à donner dans l'ordre
 description: L'ordre des actions compte plus que leur contenu. Voici ce que vous devez faire en premier, en deuxième, en troisième—et pourquoi.
 date: 2026-09-16
 slug: sejour-qui-tourne-au-litige-les-trois-coups-a-donner-dans-l-ordre
-statut: brouillon
+statut: publie
 ---
 
 ## La panique, puis l'attente : le piège où on s'enferme
