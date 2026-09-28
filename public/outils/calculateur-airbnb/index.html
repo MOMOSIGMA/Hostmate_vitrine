@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Calculateur de rentabilité Airbnb & Booking (frais 15,5 %) | HostMate AI</title>
+<meta name="description" content="Calculez ce que vous touchez vraiment après les nouveaux frais Airbnb de 15,5 % (à la charge de l'hôte depuis le 13 octobre 2026) et la commission Booking. Et trouvez le prix à afficher pour atteindre le revenu net que vous visez.">
+<link rel="canonical" href="https://hostmateai.app/outils/calculateur-airbnb/">
+<meta property="og:title" content="Calculateur de rentabilité Airbnb & Booking — frais 15,5 %">
+<meta property="og:description" content="Combien vous touchez vraiment après commission, et quel prix afficher pour viser un revenu net précis.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://hostmateai.app/outils/calculateur-airbnb/">
+<meta name="robots" content="index,follow">
+<style>
+  :root{ --corail:#EC5B63; --encre:#1C1C2E; --gris:#6B7280; --bordure:#E5E7EB; --fond:#F7F8FA; --vert:#067647; }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;color:var(--encre);background:var(--fond);line-height:1.6}
+  .wrap{max-width:760px;margin:0 auto;padding:24px 16px 64px}
+  header .logo{display:flex;align-items:center;gap:10px;margin-bottom:28px}
+  header .logo img{width:40px;height:40px;border-radius:10px}
+  header .logo span{font-weight:800;font-size:16px}
+  h1{font-size:26px;line-height:1.25;margin:0 0 12px}
+  h2{font-size:19px;margin:36px 0 10px}
+  p.lead{color:var(--gris);font-size:16px}
+  .card{background:#fff;border:1px solid var(--bordure);border-radius:16px;padding:20px;margin-top:18px}
+  .card h3{margin:0 0 4px;font-size:17px}
+  .card .sub{color:var(--gris);font-size:13.5px;margin:0 0 16px}
+  label{display:block;font-size:13.5px;font-weight:600;margin:12px 0 4px}
+  .hint{font-weight:400;color:var(--gris);font-size:12.5px}
+  input,select{width:100%;padding:11px 12px;border:1px solid var(--bordure);border-radius:10px;font-size:15px;background:#fff}
+  input:focus,select:focus{outline:none;border-color:var(--corail)}
+  .row{display:flex;gap:12px;flex-wrap:wrap}
+  .row>div{flex:1;min-width:140px}
+  .res{margin-top:18px;background:var(--fond);border-radius:12px;padding:16px}
+  .res .line{display:flex;justify-content:space-between;padding:6px 0;font-size:14.5px}
+  .res .line span:last-child{font-weight:700}
+  .res .big{border-top:1px solid var(--bordure);margin-top:8px;padding-top:12px;font-size:16px}
+  .res .big span:last-child{color:var(--vert);font-size:20px;font-weight:800}
+  .cta{display:block;text-align:center;background:var(--corail);color:#fff;font-weight:700;text-decoration:none;padding:15px 20px;border-radius:12px;margin-top:20px}
+  .cta:hover{background:#d4525a}
+  .ctacard{background:linear-gradient(135deg,#1C1C2E,#33334d);color:#fff;border-radius:16px;padding:24px;margin-top:32px;text-align:center}
+  .ctacard h2{margin:0 0 8px;color:#fff}
+  .ctacard p{color:#cfcfe0;margin:0 0 16px;font-size:14.5px}
+  .note{font-size:12.5px;color:var(--gris);margin-top:10px}
+  a{color:var(--corail)}
+  footer{margin-top:40px;font-size:12px;color:var(--gris);text-align:center}
+  .tabs{display:flex;gap:8px;margin-top:20px}
+  .tab{flex:1;padding:12px;text-align:center;border:1px solid var(--bordure);border-radius:10px;background:#fff;font-weight:600;font-size:14px;cursor:pointer}
+  .tab.on{background:var(--encre);color:#fff;border-color:var(--encre)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="logo">
+      <img src="/icon.png" alt="HostMate AI">
+      <span>HostMate AI</span>
+    </div>
+  </header>
+
+  <h1>Calculateur de rentabilité Airbnb &amp; Booking</h1>
+  <p class="lead">Depuis le 13 octobre 2026, dans l'Union européenne, Airbnb applique un frais unique de <strong>15,5 % à la charge de l'hôte</strong> : le voyageur ne voit plus de frais de service séparé, et c'est vous qui portez la commission. Ce calculateur vous dit ce que vous touchez réellement, et quel prix afficher pour viser un revenu net précis.</p>
+
+  <div class="tabs">
+    <div class="tab on" id="tab-net" onclick="montrer('net')">Combien je touche vraiment</div>
+    <div class="tab" id="tab-prix" onclick="montrer('prix')">Quel prix afficher</div>
+  </div>
+
+  <!-- ── CALCULATEUR 1 : NET ─────────────────────────────────────────── -->
+  <div class="card" id="bloc-net">
+    <h3>Ce que vous touchez réellement</h3>
+    <p class="sub">Entrez le prix que voit le voyageur. On en déduit votre versement après commission, puis votre marge réelle.</p>
+
+    <label>Plateforme
+      <select id="n_plateforme" onchange="prefill('n')">
+        <option value="15.5">Airbnb — frais hôte 15,5 %</option>
+        <option value="15">Booking.com — commission ~15 %</option>
+        <option value="19">Booking.com — coût réel ~19 % (TVA, Genius)</option>
+        <option value="custom">Autre / taux personnalisé</option>
+      </select>
+    </label>
+
+    <div class="row">
+      <div>
+        <label>Commission (%) <span class="hint">modifiable</span></label>
+        <input type="number" id="n_commission" value="15.5" step="0.1" min="0" max="40">
+      </div>
+      <div>
+        <label>Prix par nuit (€) <span class="hint">côté voyageur</span></label>
+        <input type="number" id="n_nuit" value="90" min="0">
+      </div>
+    </div>
+
+    <div class="row">
+      <div>
+        <label>Nombre de nuits</label>
+        <input type="number" id="n_nuits" value="3" min="1">
+      </div>
+      <div>
+        <label>Frais de ménage facturés (€) <span class="hint">au voyageur</span></label>
+        <input type="number" id="n_menage" value="40" min="0">
+      </div>
+    </div>
+
+    <div class="row">
+      <div>
+        <label>Coût réel de votre ménage (€) <span class="hint">ce que vous payez</span></label>
+        <input type="number" id="n_menagecout" value="40" min="0">
+      </div>
+      <div>
+        <label>Autres charges du séjour (€) <span class="hint">linge, consommables…</span></label>
+        <input type="number" id="n_charges" value="0" min="0">
+      </div>
+    </div>
+
+    <div class="res" id="n_res"></div>
+    <p class="note">La commission s'applique au sous-total (nuits + frais de ménage), hors taxe de séjour. Ce calcul est <strong>avant impôt</strong> : votre imposition dépend de votre régime (voir plus bas) et de votre tranche.</p>
+  </div>
+
+  <!-- ── CALCULATEUR 2 : PRIX INVERSÉ ────────────────────────────────── -->
+  <div class="card" id="bloc-prix" style="display:none">
+    <h3>Le prix à afficher pour toucher ce que vous voulez</h3>
+    <p class="sub">Vous savez combien vous voulez encaisser par nuit ? On remonte au prix à saisir côté plateforme.</p>
+
+    <label>Plateforme
+      <select id="p_plateforme" onchange="prefill('p')">
+        <option value="15.5">Airbnb — frais hôte 15,5 %</option>
+        <option value="15">Booking.com — commission ~15 %</option>
+        <option value="19">Booking.com — coût réel ~19 % (TVA, Genius)</option>
+        <option value="custom">Autre / taux personnalisé</option>
+      </select>
+    </label>
+
+    <div class="row">
+      <div>
+        <label>Commission (%) <span class="hint">modifiable</span></label>
+        <input type="number" id="p_commission" value="15.5" step="0.1" min="0" max="40">
+      </div>
+      <div>
+        <label>Revenu net visé par nuit (€) <span class="hint">ce que vous voulez toucher</span></label>
+        <input type="number" id="p_net" value="80" min="0">
+      </div>
+    </div>
+
+    <div class="res" id="p_res"></div>
+    <p class="note">Astuce channel manager : avec le modèle « frais hôte », Airbnb fonctionne désormais comme Booking (le voyageur paie le prix affiché, la plateforme prélève sa commission). Il reste juste l'écart de taux entre plateformes — d'où l'intérêt de régler un prix par plateforme plutôt qu'un prix unique poussé partout.</p>
+  </div>
+
+  <!-- ── CTA APP ─────────────────────────────────────────────────────── -->
+  <div class="ctacard">
+    <h2>Fixer le bon prix, c'est une chose. Ne plus perdre de temps sur le reste, c'en est une autre.</h2>
+    <p>HostMate AI automatise vos messages voyageurs (arrivée, suivi, départ), génère votre livret d'accueil digital multilingue avec chatbot, et vous aide à gérer les litiges. Testez gratuitement.</p>
+    <a class="cta" href="https://app.hostmateai.app" target="_blank" rel="noopener">Essayer HostMate AI gratuitement →</a>
+  </div>
+
+  <!-- ── CONTENU SEO ─────────────────────────────────────────────────── -->
+  <h2>Le changement de frais Airbnb du 13 octobre 2026, en clair</h2>
+  <p>Jusqu'ici, Airbnb partageait ses frais : environ 3 % pour l'hôte et 14 à 16 % pour le voyageur, ajoutés à part sur la facture. Depuis le 13 octobre 2026 dans l'Union européenne, ce modèle disparaît au profit d'un <strong>frais unique de 15,5 % entièrement à la charge de l'hôte</strong>. Concrètement : le voyageur ne voit plus de ligne « frais de service » et paie simplement le prix que vous affichez ; de votre côté, Airbnb prélève 15,5 % sur le sous-total (nuits + frais de ménage, hors taxes) avant de vous verser le reste.</p>
+
+  <h2>Faut-il augmenter ses prix ?</h2>
+  <p>Airbnb conseille d'ajuster ses tarifs pour conserver le même revenu net. C'est logique pour votre versement — mais attention au piège si vous utilisez un channel manager (Hospitable, Smoobu…) qui pousse un prix unique sur toutes les plateformes. Booking prélève sa propre commission (~15 %, souvent ~19 % en coût réel avec la TVA et le programme Genius) selon une mécanique différente : augmenter aveuglément votre prix de 15,5 % partout fausserait votre tarif Booking. La bonne pratique est de régler un prix par plateforme, en partant du revenu net que vous visez — c'est exactement ce que fait l'onglet « Quel prix afficher » ci-dessus.</p>
+
+  <h2>Combien vous coûte vraiment une location courte durée ?</h2>
+  <p>Au-delà de la commission de la plateforme, votre rentabilité réelle dépend du coût de votre ménage, de vos consommables, et surtout de votre <strong>fiscalité</strong>. Depuis la loi Le Meur, un meublé de tourisme non classé n'a plus qu'un abattement de 30 % au micro-BIC (contre 50 % pour un meublé classé). Pour comprendre quel régime vous convient, lisez notre article <a href="/blog/micro-bic-ou-reel-le-piege-du-calcul-fait-trop-tard/">Micro-BIC ou régime réel</a>.</p>
+
+  <footer>
+    Cet outil donne une estimation indicative, hors imposition, à partir des taux que vous saisissez. Les taux de commission évoluent : vérifiez-les sur votre espace hôte. © HostMate AI
+  </footer>
+</div>
+
+<script>
+  function euros(n){ return (Math.round(n*100)/100).toLocaleString('fr-FR',{minimumFractionDigits:2,maximumFractionDigits:2}) + ' €'; }
+  function val(id){ var v = parseFloat(document.getElementById(id).value); return isNaN(v)?0:v; }
+
+  function prefill(prefixe){
+    var sel = document.getElementById(prefixe+'_plateforme').value;
+    if(sel !== 'custom'){ document.getElementById(prefixe+'_commission').value = sel; }
+    calc();
+  }
+
+  function montrer(quel){
+    document.getElementById('bloc-net').style.display  = quel==='net' ? 'block':'none';
+    document.getElementById('bloc-prix').style.display = quel==='prix'? 'block':'none';
+    document.getElementById('tab-net').classList.toggle('on', quel==='net');
+    document.getElementById('tab-prix').classList.toggle('on', quel==='prix');
+  }
+
+  function calc(){
+    // ── Calcul 1 : net ──
+    var c   = val('n_commission')/100;
+    var sousTotal = val('n_nuit')*val('n_nuits') + val('n_menage');
+    var commission = sousTotal * c;
+    var versement  = sousTotal - commission;
+    var margeNette = versement - val('n_menagecout') - val('n_charges');
+    document.getElementById('n_res').innerHTML =
+      ligne('Le voyageur paie (hors taxes)', euros(sousTotal)) +
+      ligne('Commission plateforme (' + val('n_commission') + ' %)', '− ' + euros(commission)) +
+      ligne('Votre versement', euros(versement)) +
+      ligne('Ménage + charges', '− ' + euros(val('n_menagecout')+val('n_charges'))) +
+      ligneBig('Votre marge nette (avant impôt)', euros(margeNette));
+
+    // ── Calcul 2 : prix inversé ──
+    var c2 = val('p_commission')/100;
+    var netVise = val('p_net');
+    // versement souhaité par nuit = netVise ; prix à afficher = versement / (1 - c)
+    var prixAffiche = (1-c2) > 0 ? netVise/(1-c2) : 0;
+    document.getElementById('p_res').innerHTML =
+      ligne('Revenu net visé / nuit', euros(netVise)) +
+      ligne('Commission plateforme (' + val('p_commission') + ' %)', euros(prixAffiche-netVise)) +
+      ligneBig('Prix à afficher / nuit', euros(prixAffiche));
+  }
+  function ligne(g,d){ return '<div class="line"><span>'+g+'</span><span>'+d+'</span></div>'; }
+  function ligneBig(g,d){ return '<div class="line big"><span>'+g+'</span><span>'+d+'</span></div>'; }
+
+  document.querySelectorAll('input,select').forEach(function(el){ el.addEventListener('input', calc); });
+  calc();
+</script>
+</body>
+</html>
