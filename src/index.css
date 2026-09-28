@@ -10,6 +10,19 @@
   scroll-behavior: smooth;
 }
 
+/* Anti-débordement horizontal (constaté sur mobile le 28/09/2026 : la page
+   était plus large que l'écran, il fallait dézoomer ou tirer vers la gauche
+   pour atteindre le menu burger). Des décorations de fond volontairement
+   pleine largeur (halos, grilles) « saignent » hors du cadre ; sur petit
+   écran elles créaient un défilement horizontal parasite. Le contenu réel
+   est déjà contraint (max-w-*), donc rogner l'axe X ne coupe aucun contenu
+   utile — ça supprime juste le débordement décoratif. Le header est `fixed`,
+   pas `sticky` : cette règle ne casse donc pas son comportement. */
+html, body {
+  overflow-x: hidden;
+  max-width: 100%;
+}
+
 /* Blanc légèrement teinté (pas #FFFFFF pur) + grain SVG très discret en
    superposition — la texture qu'utilisent Linear/Stripe/Vercel pour éviter
    l'effet "blanc stérile" sans ajouter de couleur ni d'asset externe. */
