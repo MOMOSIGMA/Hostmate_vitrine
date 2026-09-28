@@ -253,6 +253,11 @@ function Nav({ lang, setLang, t }: { lang: Lang; setLang: (l: Lang) => void; t: 
               déjà lire un article pour le découvrir. Un guide gratuit est un
               argument d'entrée, pas une récompense de fin de parcours. */}
           <a href="/guides/messages-voyageur/" className="text-hostmate-primary font-medium hover:opacity-80 transition-opacity">Guide gratuit</a>
+          {/* Calculateur : outil gratuit d'appel (sujet frais Airbnb 15,5 %),
+              secondaire par rapport au bouton "Essayer l'app" — il ramène vers
+              l'app plutôt que de lui faire concurrence. Nav à 3 endroits : voir
+              le commentaire du menu mobile plus bas. */}
+          <a href="/outils/calculateur-airbnb/" className="text-hostmate-primary font-medium hover:opacity-80 transition-opacity">Calculateur</a>
         </nav>
 
         <div className="hidden md:flex items-center gap-4">
@@ -286,6 +291,7 @@ function Nav({ lang, setLang, t }: { lang: Lang; setLang: (l: Lang) => void; t: 
               existe et qu'on ne trouve pas. */}
           <a href="/blog/" onClick={() => setOpen(false)} className="text-hostmate-textGrey">Blog</a>
           <a href="/guides/messages-voyageur/" onClick={() => setOpen(false)} className="text-hostmate-primary font-medium">Guide gratuit</a>
+          <a href="/outils/calculateur-airbnb/" onClick={() => setOpen(false)} className="text-hostmate-primary font-medium">Calculateur</a>
           <button
             onClick={() => setLang(lang === 'en' ? 'fr' : 'en')}
             className="text-left text-hostmate-textGrey uppercase tracking-wide text-xs"
@@ -725,6 +731,7 @@ export default function HomePage({ lang: initialLang }: { lang: Lang }) {
                 lien qu'on ne sait pas retrouver en est un vrai. */}
             <a href="/blog/" className="hover:text-hostmate-ink transition-colors">Blog</a>
             <a href="/guides/messages-voyageur/" className="hover:text-hostmate-ink transition-colors">Guide gratuit</a>
+            <a href="/outils/calculateur-airbnb/" className="hover:text-hostmate-ink transition-colors">Calculateur</a>
             <a href="/contact/" className="hover:text-hostmate-ink transition-colors">Contact</a>
             <a href="mailto:support@hosmateai.com" className="hover:text-hostmate-ink transition-colors">Contact</a>
             <a
