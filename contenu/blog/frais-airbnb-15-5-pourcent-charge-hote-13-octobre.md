@@ -1,12 +1,12 @@
 ---
 titre: Frais Airbnb à la charge de l'hôte : ce qui change le 13 octobre, et comment réajuster vos prix sans casser Booking
 description: Airbnb passe aux frais de 15,5 % côté hôte le 13 octobre. Ce que ça change pour votre versement, et le piège du channel manager avec Booking.
-date: 2026-09-28
+date: 2026-10-10
 slug: frais-airbnb-15-5-pourcent-charge-hote-13-octobre
 statut: publie
 ---
 
-Si vous louez en France, votre facturation Airbnb bascule le 13 octobre 2026, et le sujet remplit déjà les groupes d'hôtes. Voici ce qui change réellement — et surtout, le piège qui guette ceux qui utilisent un channel manager, parce que la réponse « augmentez vos prix de 15,5 % » y est en partie fausse.
+Si vous louez en France, votre facturation Airbnb bascule ce mardi 13 octobre 2026, et le sujet remplit déjà les groupes d'hôtes. Voici ce qui change réellement — et surtout, le piège qui guette ceux qui utilisent un channel manager, parce que la réponse « augmentez vos prix de 15,5 % » y est en partie fausse.
 
 ## Ce qui change, concrètement
 
