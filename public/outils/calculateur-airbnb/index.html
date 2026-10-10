@@ -106,6 +106,7 @@
   .ligne-reglage{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:8px 0}
   .ligne-reglage span{font-size:14px;color:var(--texte)}
   .ligne-reglage small{display:block;font-size:12px;color:var(--gris)}
+  .reset{background:none;border:0;padding:0;color:var(--corail);font-weight:600;font-size:12px}
   .mini{position:relative;width:104px;flex:none}
   .mini input{width:100%;border:1px solid var(--bord);border-radius:10px;padding:8px 26px 8px 10px;font-size:15px;font-weight:600;text-align:right;-moz-appearance:textfield}
   .mini input::-webkit-outer-spin-button,.mini input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
@@ -119,9 +120,36 @@
   /* Résultat */
   .sep{height:1px;background:var(--bord);margin:22px 0}
   .res-t{font-size:14px;color:var(--gris);margin:0}
-  .res-v{font-size:clamp(44px,10vw,60px);font-weight:800;letter-spacing:-.035em;line-height:1.05;color:var(--corail);margin:4px 0 6px;font-variant-numeric:tabular-nums}
+  .res-v{font-size:clamp(44px,10vw,60px);font-weight:800;letter-spacing:-.035em;line-height:1.05;color:var(--ink);margin:4px 0 6px;font-variant-numeric:tabular-nums}
   .res-s{font-size:15px;color:var(--texte);margin:0}
   .res-s b{color:var(--ink)}
+  .etape{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:600;margin:0 0 10px}
+  .etape b{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;background:var(--anth);color:#fff;font-size:12px}
+  .cible{display:flex;align-items:center;gap:12px}
+  .cible .champ{width:150px;flex:none}
+  .cible>span{font-size:14px;color:var(--texte);line-height:1.35}
+  .cible small{display:block;font-size:12.5px;color:var(--gris)}
+  .cible small button{background:none;border:0;padding:0;color:var(--corail);font-weight:600;font-size:12.5px}
+  .tuiles{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .tuile{border-radius:16px;padding:14px 14px 16px}
+  .tuile p{margin:0}
+  .tu-l{font-size:12.5px;font-weight:600}
+  .tu-v{font-size:clamp(26px,7vw,36px);font-weight:800;letter-spacing:-.03em;line-height:1.1;margin:6px 0 4px!important;font-variant-numeric:tabular-nums;white-space:nowrap}
+  .tu-u{font-size:14px;font-weight:600;letter-spacing:0;opacity:.75}
+  .tu-s{font-size:12.5px;line-height:1.35}
+  .tuile.perte{background:var(--corail-voile)}
+  .tuile.perte .tu-l,.tuile.perte .tu-s{color:#8F1F26}
+  .tuile.perte .tu-v{color:var(--corail)}
+  .tuile.prix{background:var(--anth);color:#fff}
+  .tuile.prix .tu-l,.tuile.prix .tu-s{color:#D1D5DB}
+  .garde{font-size:14px;color:var(--vert);font-weight:600;margin:12px 0 0;text-align:center}
+  .piege{font-size:12.5px;color:var(--gris);margin:6px 0 0;text-align:center}
+  .piege:empty{display:none}
+  .res-v .unite{font-size:20px;font-weight:600;color:var(--gris);letter-spacing:0}
+  .res-s2{font-size:14px;color:var(--vert);margin:6px 0 0;font-weight:500}
+  .risque{margin-top:18px;background:var(--fond);border-radius:14px;padding:14px 16px}
+  .risque p{margin:0;font-size:14px;color:var(--texte)}
+  .risque .fix-n{margin-top:6px}
   .fix{margin-top:20px;background:var(--fond);border-radius:14px;padding:16px 18px}
   .fix-t{font-size:13px;color:var(--gris);margin:0 0 4px}
   .fix-v{font-size:19px;font-weight:700;margin:0;font-variant-numeric:tabular-nums}
@@ -218,7 +246,7 @@
 <main class="col">
   <section class="hero">
     <span class="date" id="compte">Date limite Airbnb : mardi 13 octobre 2026</span>
-    <h1>Frais Airbnb à 15,5 % : combien allez-vous perdre ?</h1>
+    <h1>Frais Airbnb à 15,5 % : quel prix afficher pour ne rien perdre ?</h1>
   </section>
 
   <!-- ── Le calcul ─────────────────────────────────── -->
@@ -226,13 +254,14 @@
     <div class="card-tete">
       <div>
         <h2>Calculateur frais Airbnb 2026</h2>
-        <p>Entrez votre séjour type : le résultat se calcule tout seul.</p>
+        <p>Mettez vos prix actuels, on fait le reste.</p>
       </div>
       <span class="maj">✓ À jour au 10 oct. 2026</span>
     </div>
+    <p class="etape"><b>1</b>Vos prix actuels</p>
     <div class="champs">
       <div class="champ"><label for="prix">Prix / nuit</label><div class="in"><input id="prix" type="number" inputmode="decimal" min="0" step="1" value="90"><span class="u">€</span></div></div>
-      <div class="champ"><label for="nuits">Nuits</label><div class="in"><input id="nuits" type="number" inputmode="numeric" min="1" step="1" value="3"></div></div>
+      <div class="champ"><label for="nuits">Nuits / séjour</label><div class="in"><input id="nuits" type="number" inputmode="numeric" min="1" step="1" value="3"></div></div>
       <div class="champ"><label for="menage">Ménage</label><div class="in"><input id="menage" type="number" inputmode="decimal" min="0" step="1" value="40"><span class="u">€</span></div></div>
     </div>
 
@@ -241,6 +270,7 @@
       <div class="pli-corps">
         <div class="ligne-reglage"><span>TVA sur les frais Airbnb<small>Non, si vous êtes assujetti avec un n° de TVA</small></span>
           <div class="seg" role="group" aria-label="TVA sur les frais Airbnb"><button type="button" data-tva="1" class="on">Oui</button><button type="button" data-tva="0">Non</button></div></div>
+        <div class="ligne-reglage"><span>Ce que vous voulez toucher par nuit<small id="cible-note">= ce que vous touchez aujourd’hui</small></span><div class="mini"><input id="cible" type="number" inputmode="decimal" min="0" step="0.01"><span class="u">€</span></div></div>
         <div class="ligne-reglage"><span>Nuits réservées sur Airbnb par an</span><div class="mini"><input id="nuitsAn" type="number" inputmode="numeric" min="0" step="1" value="120"></div></div>
         <div class="ligne-reglage"><span>Votre taux avant<small>frais partagés</small></span><div class="mini"><input id="tauxAvant" type="number" inputmode="decimal" min="0" max="50" step="0.1" value="3"><span class="u">%</span></div></div>
         <div class="ligne-reglage"><span>Votre taux après<small>frais unique</small></span><div class="mini"><input id="tauxApres" type="number" inputmode="decimal" min="0" max="50" step="0.1" value="15.5"><span class="u">%</span></div></div>
@@ -248,25 +278,27 @@
       </div>
     </details>
 
-    <div class="sep"></div>
-
-    <div aria-live="polite">
-      <p class="res-t">Vous perdez, à chaque séjour</p>
-      <p class="res-v" id="r-perte">—</p>
-      <p class="res-s" id="r-an">—</p>
-
-      <div class="fix">
-        <p class="fix-t">Pour garder le même versement, affichez</p>
-        <p class="fix-v" id="r-prix">—</p>
-        <p class="fix-n" id="r-piege"></p>
+    <p class="etape" style="margin-top:22px"><b>2</b>Avec les nouveaux frais Airbnb</p>
+    <div class="tuiles" aria-live="polite">
+      <div class="tuile perte">
+        <p class="tu-l">Si vous ne changez rien</p>
+        <p class="tu-v" id="r-perte">—</p>
+        <p class="tu-s" id="r-perte-s">par séjour</p>
+      </div>
+      <div class="tuile prix">
+        <p class="tu-l">Nouveau prix à afficher</p>
+        <p class="tu-v"><span id="r-prix">—</span><span class="tu-u"> /nuit</span></p>
+        <p class="tu-s" id="r-menage">ménage —</p>
       </div>
     </div>
+    <p class="garde" id="r-garde">—</p>
+    <p class="piege" id="r-piege"></p>
 
     <details class="pli">
       <summary>Voir le détail du calcul</summary>
       <div class="pli-corps scroll">
         <table class="t">
-          <thead><tr><th></th><th>Avant</th><th>Même prix</th><th>Prix ajusté</th></tr></thead>
+          <thead><tr><th></th><th>Aujourd'hui</th><th>Sans rien changer</th><th>Nouveau prix</th></tr></thead>
           <tbody id="detail"></tbody>
         </table>
       </div>
@@ -293,8 +325,8 @@
 
   <!-- ── Le pont vers l'application ────────────────── -->
   <section class="cta">
-    <h2 id="cta-h">Airbnb va garder davantage sur chacun de vos séjours.</h2>
-    <p>Chaque réservation compte plus que jamais. HostMate s'occupe de vos messages voyageurs, de votre livret d'accueil et de vos litiges, pour que chaque séjour se passe bien.</p>
+    <h2 id="cta-h">Votre nouveau prix est prêt. Et le reste de votre gestion ?</h2>
+    <p>Avec une commission plus lourde, chaque réservation compte. HostMate s'occupe de vos messages voyageurs, de votre livret d'accueil et de vos litiges, pour que chaque séjour se passe bien.</p>
     <a class="btn lg" href="https://app.hostmateai.app/?utm_source=calculateur&amp;utm_medium=outil&amp;utm_campaign=frais-airbnb-13-octobre&amp;utm_content=resultat" target="_blank" rel="noopener">Essayer HostMate gratuitement</a>
     <small>Compte gratuit · Pro : 7 jours offerts, sans débit si vous annulez avant</small>
   </section>
@@ -305,10 +337,9 @@
       <summary><div><b>Vous utilisez un channel manager ?</b><span>Le prix à afficher sur Airbnb et sur Booking</span></div></summary>
       <div class="outil-corps">
         <div class="duo">
-          <div class="champ"><label for="net">Versement visé / nuit</label><div class="in"><input id="net" type="number" inputmode="decimal" min="0" step="0.01"><span class="u">€</span></div></div>
           <div class="champ"><label for="bTaux">Coût Booking</label><div class="in"><input id="bTaux" type="number" inputmode="decimal" min="0" max="50" step="0.1" value="15"><span class="u">%</span></div></div>
         </div>
-        <p class="note">Versement visé : par défaut, celui que vous touchiez avant sur Airbnb. Booking : 15 % n'est qu'un exemple, votre taux figure dans votre contrat. Ajoutez-y les frais de paiement et la TVA s'ils apparaissent sur vos relevés.</p>
+        <p class="note">Pour toucher le montant de l'étape 2 sur chaque plateforme. Booking : 15 % n'est qu'un exemple, votre taux figure dans votre contrat. Ajoutez-y les frais de paiement et la TVA s'ils apparaissent sur vos relevés.</p>
         <div style="margin-top:8px">
           <div class="plat"><div class="n">Airbnb<small id="a-reg">15,5 % + TVA</small></div><div class="v"><b id="a-prix">—</b><small id="a-maj">—</small></div></div>
           <div class="plat"><div class="n">Booking.com<small id="b-reg">15 %</small></div><div class="v"><b id="b-prix">—</b><small id="b-maj">—</small></div></div>
@@ -374,7 +405,7 @@
 </main>
 
 <div class="stick" id="stick">
-  <div class="tx">Vous perdez <b id="stick-v">—</b> par an</div>
+  <div class="tx">Nouveau prix : <b id="stick-v">—</b> / nuit</div>
   <a class="btn" href="https://app.hostmateai.app/?utm_source=calculateur&amp;utm_medium=outil&amp;utm_campaign=frais-airbnb-13-octobre&amp;utm_content=barre-mobile" target="_blank" rel="noopener">Essayer HostMate</a>
 </div>
 <div class="toast" id="toast"></div>
@@ -406,7 +437,7 @@
   var $ = function(id){ return document.getElementById(id); };
   var tvaOn = true;
   // Champs dérivés : suivent le séjour type tant que l'hôte ne les a pas modifiés.
-  var lie = { net: true, recettes: true };
+  var lie = { cible: true, recettes: true };
 
   function num(id){ var v = parseFloat(String($(id).value).replace(',', '.')); return isFinite(v) && v >= 0 ? v : 0; }
   function eur(n, dec){
@@ -426,39 +457,54 @@
     var eA = ta * (1 + t), eN = tn * (1 + t);            // part réellement retenue
     var st = prix * nuits + menage;                      // sous-total (base de la commission)
     var k = (1 - eA) / (1 - eN);                         // coefficient pour garder le versement
+    // Étape 2 : ce que l'hôte veut toucher par nuit. Tant qu'il n'y touche pas,
+    // c'est ce qu'il touche aujourd'hui — valeur EXACTE, pas celle arrondie du
+    // champ, sinon le nouveau versement différerait d'un centime de l'actuel.
+    var netAuj = prix * (1 - eA);
+    if (lie.cible) $('cible').value = arr(netAuj);
+    var cible = lie.cible ? netAuj : num('cible');
+    var nouveauPrix = cible / (1 - eN), nouveauMenage = menage * k;  // le ménage garde son versement actuel
+    var stNouv = nouveauPrix * nuits + nouveauMenage;
     return { prix: prix, nuits: nuits, menage: menage, ta: ta, tn: tn, t: t, eA: eA, eN: eN, st: st, k: k,
-             versAvant: st * (1 - eA), versApres: st * (1 - eN), sejoursAn: num('nuitsAn') / nuits };
+             versAvant: st * (1 - eA), versApres: st * (1 - eN), sejoursAn: num('nuitsAn') / nuits,
+             netAuj: netAuj, cible: cible, nouveauPrix: nouveauPrix, nouveauMenage: nouveauMenage, stNouv: stNouv };
   }
 
   function calcPrincipal(m){
-    var perte = m.versAvant - m.versApres, an = perte * m.sejoursAn, hausse = (m.k - 1) * 100;
+    var perte = m.versAvant - m.versApres, an = perte * m.sejoursAn;
+    var hausse = m.prix > 0 ? (m.nouveauPrix / m.prix - 1) * 100 : 0;
+    var signe = function(x){ return (x >= 0 ? '+' : '−') + pct(Math.abs(x)); };
+
+    // Deux tuiles : ce qui arrive si on ne fait rien, et quoi faire.
     $('r-perte').textContent = perte > 0.004 ? '−' + eur(perte) : eur(0);
-    $('r-an').innerHTML = 'soit <b>' + (an > 0.5 ? '−' : '') + eur(an, 0) + ' par an</b> pour ' + num('nuitsAn').toLocaleString('fr-FR') + ' nuits' + (m.t ? ', TVA comprise' : '');
-    $('r-prix').innerHTML = eur(m.prix * m.k) + ' la nuit · ' + eur(m.menage * m.k) + ' de ménage<span class="tag">+' + pct(hausse) + '</span>';
+    $('r-perte-s').textContent = 'par séjour · −' + eur(Math.max(an, 0), 0) + ' / an';
+    $('r-prix').textContent = eur(m.nouveauPrix);
+    $('r-menage').textContent = 'au lieu de ' + eur(m.prix, 0) + ' · ménage ' + eur(m.nouveauMenage);
+    $('r-garde').textContent = lie.cible
+      ? '✓ Vous gardez ' + eur(m.stNouv * (1 - m.eN)) + ' par séjour, comme aujourd’hui'
+      : '✓ Vous toucherez ' + eur(m.cible) + ' par nuit (aujourd’hui : ' + eur(m.netAuj) + ')';
+    $('cible-note').innerHTML = lie.cible
+      ? '= ce que vous touchez aujourd’hui'
+      : 'aujourd’hui : ' + eur(m.netAuj) + ' · <button type="button" class="reset" data-reset="cible">revenir</button>';
     var naif = m.st * (1 + m.tn) * (1 - m.eN), ecart = m.versAvant - naif;
-    $('r-piege').textContent = (m.tn > 0 && ecart > 0.005)
-      ? 'Et non +' + pct(m.tn * 100) + ' : la commission se prélève aussi sur la hausse. Avec +' + pct(m.tn * 100) + ', il vous manquerait encore ' + eur(ecart) + ' par séjour.'
+    $('r-piege').textContent = (lie.cible && m.tn > 0 && ecart > 0.005)
+      ? 'Soit ' + signe(hausse) + ', et non +' + pct(m.tn * 100) + ' : la commission s’applique aussi à la hausse.'
       : '';
-    $('stick-v').textContent = (an > 0.5 ? '−' : '') + eur(an, 0);
-    $('cta-h').textContent = an > 0.5
-      ? 'Airbnb va garder ' + eur(an, 0) + ' de plus par an sur vos séjours.'
-      : 'Airbnb va garder davantage sur chacun de vos séjours.';
+    $('stick-v').textContent = eur(m.nouveauPrix);
     $('resume-reglages').textContent = (m.t ? 'TVA comprise' : 'Sans TVA') + ' · ' + num('nuitsAn').toLocaleString('fr-FR') + ' nuits par an · taux ' + pct(m.ta * 100).replace(',0', '') + ' → ' + pct(m.tn * 100).replace(',0', '');
 
-    var stAj = m.st * m.k;
-    var comA = m.st * m.ta, comN = m.st * m.tn, comJ = stAj * m.tn;
+    var comA = m.st * m.ta, comN = m.st * m.tn, comJ = m.stNouv * m.tn;
     $('detail').innerHTML =
-      ligne(['Nuits + ménage', eur(m.st), eur(m.st), eur(stAj)]) +
-      ligne(['Le voyageur paie', eur(m.st * (1 + VOY_MIN), 0) + '–' + eur(m.st * (1 + VOY_MAX), 0).replace(' €', '') + ' €', eur(m.st), eur(stAj)]) +
+      ligne(['Nuits + ménage', eur(m.st), eur(m.st), eur(m.stNouv)]) +
+      ligne(['Le voyageur paie', eur(m.st * (1 + VOY_MIN), 0) + '–' + eur(m.st * (1 + VOY_MAX), 0), eur(m.st), eur(m.stNouv)]) +
       ligne(['Commission Airbnb', '−' + eur(comA), '−' + eur(comN), '−' + eur(comJ)]) +
       (m.t ? ligne(['TVA sur la commission', '−' + eur(comA * m.t), '−' + eur(comN * m.t), '−' + eur(comJ * m.t)]) : '') +
-      ligne(['Votre versement', eur(m.versAvant), eur(m.versApres), eur(stAj * (1 - m.eN))], 'tot');
+      ligne(['Votre versement', eur(m.versAvant), eur(m.versApres), eur(m.stNouv * (1 - m.eN))], 'tot');
   }
 
   var plateformes = null;
   function calcPlateformes(m){
-    if (lie.net) $('net').value = arr(m.prix * (1 - m.eA));
-    var net = num('net'), base = m.prix;
+    var net = m.cible, base = m.prix;
     function sortie(prefixe, retenue){
       var p = retenue < 1 ? net / (1 - retenue) : 0, maj = base > 0 ? (p / base - 1) * 100 : 0;
       $(prefixe + '-prix').textContent = eur(p) + ' / nuit';
@@ -473,7 +519,7 @@
 
   function calcImpots(m){
     if (lie.recettes) $('recettes').value = Math.round(m.prix * num('nuitsAn') + m.menage * m.sejoursAn);
-    var R = num('recettes'), h = m.k - 1, f = FISC[$('type').value], R2 = R * (1 + h);
+    var R = num('recettes'), h = m.st > 0 ? m.stNouv / m.st - 1 : 0, f = FISC[$('type').value], R2 = R * (1 + h);
     function baseImp(r){ return Math.max(0, r - Math.max(r * f.abat, Math.min(ABAT_MIN, r))); }
     $('f-col').textContent = 'Après +' + pct(h * 100);
     $('fisc').innerHTML =
@@ -536,6 +582,11 @@
     el.addEventListener('input', function(){ if (lie.hasOwnProperty(el.id)) lie[el.id] = false; calc(); voir(); });
     el.addEventListener('change', calc);
   });
+  // « revenir » est recréé à chaque calcul : délégation sur le document.
+  document.addEventListener('click', function(e){
+    var b = e.target.closest && e.target.closest('[data-reset]');
+    if (b) { lie[b.getAttribute('data-reset')] = true; calc(); }
+  });
   document.querySelectorAll('[data-tva]').forEach(function(b){
     b.addEventListener('click', function(){ setTva(b.getAttribute('data-tva') === '1'); calc(); });
   });
@@ -584,7 +635,7 @@
     var m = dernierModele; if (!m) return undefined;
     return { prix: m.prix, nuits: m.nuits, menage: m.menage, nuitsAn: num('nuitsAn'),
              tauxAvant: m.ta * 100, tauxApres: m.tn * 100, tva: !!m.t,
-             perte: arr(m.versAvant - m.versApres), perteAn: Math.round((m.versAvant - m.versApres) * m.sejoursAn) };
+             perte: arr(m.versAvant - m.versApres), cible: arr(m.cible), nouveauPrix: arr(m.nouveauPrix), perteAn: Math.round((m.versAvant - m.versApres) * m.sejoursAn) };
   }
 
   (function(){
