@@ -90,6 +90,16 @@ function lireArticle(chemin) {
       `${chemin} : description de ${meta.description.length} caractères. ` +
       'Google tronque au-delà de 160 — raccourcir.');
   }
+  // ─── IMAGE DE PARTAGE (facultative, 10/10/2026) ──────────────────────────
+  // Sans og:image, Facebook prend la première image venue — le logo — et
+  // l'affiche en énorme sous le lien. `image: /chemin/vers.png` (1200 × 630,
+  // servie depuis public/) en donne une vraie. Refusée si le fichier n'existe
+  // pas : une image cassée s'afficherait en carré gris sur chaque partage.
+  if (meta.image) {
+    if (!meta.image.startsWith('/') || !existsSync(join(RACINE, 'public', meta.image))) {
+      throw new Error(`${chemin} : image « ${meta.image} » introuvable dans public/.`);
+    }
+  }
   return { meta, corps: m[2] };
 }
 
@@ -106,7 +116,7 @@ function echapper(s) {
 function gabarit({
   titre, description, url, contenu, dateISO, dateLisible, estArticle,
   // Ajoutes le 13/09/2026 : tout ce qui dependait du francais en dur.
-  langue = LANGUE_PRINCIPALE, langsExistantes = [], slug = '',
+  langue = LANGUE_PRINCIPALE, langsExistantes = [], slug = '', image = null,
 }) {
   const m = mots(langue);
   const legaux = liensLegaux(langue);
@@ -151,7 +161,11 @@ function gabarit({
 <meta property="og:url" content="${url}">
 <meta property="og:locale" content="${loc}">
 <meta property="og:site_name" content="HostMate AI">
-<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:card" content="summary_large_image">${image ? `
+<meta property="og:image" content="${SITE}${image}">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:image" content="${SITE}${image}">` : ''}
 <meta name="twitter:title" content="${echapper(titre)}">
 <meta name="twitter:description" content="${echapper(description)}">
 ${donneesStructurees}
@@ -416,6 +430,7 @@ function main() {
         estArticle: true,
         langue,
         slug: a.slug,
+        image: a.image || null,
         langsExistantes: langsParSlug.get(a.slug) || [langue],
         // Le <h1> vient du frontmatter, pas du Markdown : un seul titre de
         // niveau 1 par page, et il est forcément celui de l'onglet.

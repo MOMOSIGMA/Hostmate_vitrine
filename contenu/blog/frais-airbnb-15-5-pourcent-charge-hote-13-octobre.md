@@ -4,6 +4,7 @@ description: Frais Airbnb uniques de 15,5 % côté hôte, date limite le 13 octo
 date: 2026-10-10
 slug: frais-airbnb-15-5-pourcent-charge-hote-13-octobre
 statut: publie
+image: /outils/calculateur-airbnb/apercu.png
 ---
 
 Airbnb fait passer tous ses hôtes à des frais de service uniques, et sa page dédiée fixe la date limite de bascule au **mardi 13 octobre 2026**. Le sujet remplit déjà les groupes d'hôtes. Voici ce qui change réellement, le calcul TVA comprise que la plupart des articles oublient — et le piège qui guette ceux qui utilisent un channel manager, parce que la réponse « augmentez vos prix de 15,5 % » y est fausse.
