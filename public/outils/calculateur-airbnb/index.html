@@ -4,10 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Calculateur frais Airbnb 15,5 % (TVA comprise) — impact du 13 octobre 2026 | HostMate AI</title>
-<meta name="description" content="Frais Airbnb uniques de 15,5 % à la charge de l'hôte, date limite le 13 octobre 2026 : calculez votre perte réelle TVA comprise, le prix à afficher sur Airbnb et Booking, la majoration à régler dans votre channel manager et l'effet sur vos impôts.">
+<meta name="description" content="Frais Airbnb uniques de 15,5 % à la charge de l'hôte, date limite le 13 octobre 2026 : calculez votre perte réelle TVA comprise, le prix à afficher sur Airbnb et Booking, et l'effet sur vos impôts.">
 <link rel="canonical" href="https://hostmateai.app/outils/calculateur-airbnb/">
 <meta property="og:title" content="Frais Airbnb 15,5 % : combien vous allez vraiment perdre (TVA comprise)">
-<meta property="og:description" content="Perte par séjour et par an, prix à afficher par plateforme, majoration channel manager, seuils micro-BIC. Gratuit, avec vos propres chiffres.">
+<meta property="og:description" content="Votre perte par séjour et par an, et le prix à afficher pour la compenser. Gratuit, avec vos propres chiffres.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://hostmateai.app/outils/calculateur-airbnb/">
 <meta property="og:image" content="https://hostmateai.app/icon.png">
@@ -15,7 +15,9 @@
 <link rel="icon" href="/icon.png">
 <!--
   CALCULATEUR FRAIS AIRBNB — page statique autonome (HTML indexable + JS inline,
-  aucune dépendance). Refonte du 10/10/2026.
+  aucune dépendance). Refonte du 10/10/2026, allégée le même jour : une seule
+  question à l'écran (combien je perds, quel prix afficher) ; tout le reste
+  (réglages, channel manager, impôts, détail) est replié.
 
   RÈGLE ABSOLUE : AUCUN CHIFFRE AFFIRMÉ SANS SOURCE OFFICIELLE.
   Une erreur ici ne tue pas que le calculateur : elle tue la crédibilité de
@@ -33,385 +35,311 @@
     (classé), abattement minimum 305 €                       → impots.gouv.fr
 
   Ce qui N'EST PAS affirmé, donc laissé à la saisie de l'hôte :
-  - le taux Booking (dépend du contrat — 15 % n'est qu'un exemple affiché
-    comme tel), la TVA sur la commission Booking, les frais de paiement.
-  - le taux de TVA (20 %) reste un interrupteur : l'hôte assujetti qui a
-    renseigné son numéro n'en paie pas (aide Airbnb 436).
+  - le coût Booking (dépend du contrat — 15 % n'est qu'un exemple affiché
+    comme tel ; l'hôte y ajoute frais de paiement / TVA s'ils figurent sur
+    ses relevés).
+  - la TVA (20 %) reste un interrupteur : l'hôte assujetti qui a renseigné
+    son numéro n'en paie pas (aide Airbnb 436).
+
+  CTA : le bouton mène à la création de compte (gratuite), PAS à l'essai Pro.
+  Ne jamais écrire « 7 jours d'essai » sur un bouton : les 7 jours ne
+  s'ouvrent qu'au passage Pro, carte bancaire saisie.
 
   Si un taux change : modifier les valeurs par défaut ET les textes ET la FAQ
-  JSON-LD en bas, puis le commentaire ci-dessus.
+  JSON-LD en bas, puis ce commentaire.
 -->
 <style>
   :root{
-    --corail:#EC5B63; --corail-fonce:#D4525A; --corail-pale:#FBD9DB; --corail-voile:#FDF0F1;
-    --anth:#1F2937; --anth2:#374151; --ink:#1A1A1A; --gris:#6B7280; --gris2:#9CA3AF;
-    --bord:#E5E7EB; --fond:#F5F7FA; --blanc:#fff; --vert:#067647; --vert-pale:#ECFDF3; --ambre:#B54708; --ambre-pale:#FFFAEB;
+    --corail:#EC5B63; --corail-fonce:#D4525A; --corail-voile:#FDF0F1;
+    --anth:#1F2937; --ink:#111827; --texte:#374151; --gris:#6B7280; --gris-clair:#9CA3AF;
+    --bord:#E5E7EB; --fond:#F7F8FA; --blanc:#fff; --vert:#067647;
+    --ambre-fond:#FFFAEB; --ambre-texte:#7A2E0E;
   }
   *{box-sizing:border-box}
   html{-webkit-text-size-adjust:100%}
   body{margin:0;font-family:Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;color:var(--ink);background:var(--fond);line-height:1.55;overflow-x:hidden}
   a{color:var(--corail)}
   button{font:inherit;cursor:pointer}
-  .wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+  .col{max-width:640px;margin:0 auto;padding:0 16px}
 
-  /* ── Barre du haut ─────────────────────────────── */
-  .topbar{position:sticky;top:0;z-index:30;background:rgba(255,255,255,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--bord)}
-  .topbar .wrap{display:flex;align-items:center;gap:12px;height:60px}
-  .brand{display:flex;align-items:center;gap:9px;text-decoration:none;color:var(--ink);font-weight:800;font-size:15px;white-space:nowrap}
-  .brand img{width:32px;height:32px;border-radius:8px}
-  .topbar .sp{flex:1}
-  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--corail);color:#fff;font-weight:700;text-decoration:none;border:0;border-radius:10px;padding:10px 16px;font-size:14px;white-space:nowrap;transition:background .15s}
+  /* Barre du haut */
+  .top{position:sticky;top:0;z-index:30;background:rgba(247,248,250,.85);backdrop-filter:blur(10px)}
+  .top .col{display:flex;align-items:center;justify-content:space-between;height:52px;max-width:960px}
+  .btn-top{color:var(--corail);font-weight:600;font-size:13.5px;text-decoration:none;border:1px solid var(--corail-voile);background:var(--corail-voile);border-radius:999px;padding:5px 12px;white-space:nowrap}
+  .btn-top:hover{border-color:var(--corail)}
+  .brand{display:flex;align-items:center;gap:9px;text-decoration:none;color:var(--ink);font-weight:700;font-size:15px}
+  .brand img{width:28px;height:28px;border-radius:7px}
+  .btn{display:inline-flex;align-items:center;justify-content:center;background:var(--corail);color:#fff;font-weight:600;text-decoration:none;border:0;border-radius:999px;padding:9px 18px;font-size:14px;white-space:nowrap;transition:background .15s}
   .btn:hover{background:var(--corail-fonce)}
-  .btn.lg{padding:15px 22px;font-size:16px;border-radius:12px}
-  .btn.ghost{background:transparent;color:var(--anth);border:1px solid var(--bord)}
-  .btn.ghost:hover{background:var(--fond)}
-  .lien-blog{color:var(--gris);font-size:14px;text-decoration:none}
-  @media(max-width:560px){.lien-blog{display:none}}
+  .btn.lg{padding:14px 26px;font-size:16px}
 
-  /* ── En-tête ───────────────────────────────────── */
-  .hero{padding:34px 0 22px}
-  .pill{display:inline-flex;align-items:center;gap:8px;background:var(--anth);color:#fff;border-radius:999px;padding:6px 12px 6px 6px;font-size:13px;font-weight:600}
-  .pill b{background:var(--corail);border-radius:999px;padding:2px 9px;font-size:12px}
-  h1{font-size:clamp(26px,4.2vw,40px);line-height:1.15;margin:14px 0 10px;letter-spacing:-.02em;max-width:860px}
-  h1 em{font-style:normal;color:var(--corail)}
-  .lead{color:var(--gris);font-size:16.5px;max-width:780px;margin:0}
+  /* En-tête */
+  .hero{padding:14px 0 16px;text-align:center}
+  .date{display:inline-block;font-size:13px;font-weight:600;color:var(--corail);background:var(--corail-voile);border-radius:999px;padding:5px 12px}
+  h1{font-size:clamp(22px,4.2vw,32px);line-height:1.2;letter-spacing:-.02em;margin:10px 0 0}
+  .card-tete{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:16px}
+  .card-tete h2{font-size:16px;margin:0;letter-spacing:-.01em}
+  .card-tete p{font-size:13.5px;color:var(--gris);margin:2px 0 0}
+  @media(max-width:480px){.card-tete{flex-direction:column;gap:8px}}
+  .maj{flex:none;font-size:11.5px;font-weight:600;color:var(--vert);background:#ECFDF3;border-radius:999px;padding:4px 9px;white-space:nowrap}
 
-  /* ── L'application ─────────────────────────────── */
-  .appwin{background:var(--blanc);border:1px solid var(--bord);border-radius:18px;box-shadow:0 1px 2px rgba(16,24,40,.04),0 12px 32px rgba(16,24,40,.07);overflow:hidden;margin-top:22px}
-  .chrome{display:flex;align-items:center;gap:7px;padding:11px 16px;background:var(--anth);color:#cbd5e1;font-size:12.5px}
-  .chrome i{width:10px;height:10px;border-radius:50%;background:#4B5563;display:inline-block}
-  .chrome i:first-child{background:var(--corail)}
-  .chrome span{margin-left:8px}
-  .grid{display:grid;grid-template-columns:330px 1fr}
-  @media(max-width:900px){.grid{grid-template-columns:1fr}}
-  .side{background:#FAFBFC;border-right:1px solid var(--bord);padding:20px}
-  @media(max-width:900px){.side{border-right:0;border-bottom:1px solid var(--bord)}}
-  .side h2{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--gris);margin:0 0 12px;font-weight:700}
-  .side h2:not(:first-child){margin-top:24px}
-  .f{margin-bottom:12px}
-  .f label{display:flex;justify-content:space-between;align-items:baseline;gap:8px;font-size:13.5px;font-weight:600;margin-bottom:5px}
-  .f label small{font-weight:400;color:var(--gris);font-size:12px}
-  .inp{position:relative}
-  .inp input,.inp select{width:100%;padding:10px 36px 10px 12px;border:1px solid var(--bord);border-radius:10px;font-size:15px;background:#fff;color:var(--ink);font-variant-numeric:tabular-nums;-moz-appearance:textfield}
-  .inp select{padding-right:12px}
-  .inp input::-webkit-outer-spin-button,.inp input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
-  .inp .u{position:absolute;right:12px;top:50%;transform:translateY(-50%);color:var(--gris);font-size:14px;pointer-events:none}
-  .inp input:focus,.inp select:focus{outline:none;border-color:var(--corail);box-shadow:0 0 0 3px var(--corail-voile)}
-  .duo{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-  .seg{display:grid;grid-template-columns:1fr 1fr;background:#EEF0F3;border-radius:10px;padding:3px;gap:3px}
-  .seg button{border:0;background:transparent;border-radius:8px;padding:8px 6px;font-size:13px;font-weight:600;color:var(--gris)}
+  /* Carte du calcul */
+  .card{background:var(--blanc);border-radius:20px;box-shadow:0 1px 2px rgba(16,24,40,.04),0 8px 28px rgba(16,24,40,.06);padding:24px}
+  @media(max-width:480px){.card{padding:20px 18px}}
+  .champs{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+  .champ label{display:block;font-size:12.5px;color:var(--gris);margin-bottom:6px;font-weight:500}
+  .champ .in{position:relative}
+  .champ input,.champ select{width:100%;border:1px solid var(--bord);border-radius:12px;padding:12px 30px 12px 12px;font-size:17px;font-weight:600;color:var(--ink);background:#fff;font-variant-numeric:tabular-nums;-moz-appearance:textfield;transition:border-color .15s,box-shadow .15s}
+  .champ select{font-size:14.5px;font-weight:500;padding-right:12px}
+  .champ input::-webkit-outer-spin-button,.champ input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+  .champ input:focus,.champ select:focus{outline:none;border-color:var(--corail);box-shadow:0 0 0 3px var(--corail-voile)}
+  .champ .u{position:absolute;right:12px;top:50%;transform:translateY(-50%);color:var(--gris-clair);font-size:14px;pointer-events:none}
+
+  /* Zones repliables */
+  details.pli{margin-top:14px}
+  details.pli>summary{list-style:none;cursor:pointer;font-size:13.5px;color:var(--gris);font-weight:500;display:inline-flex;align-items:center;gap:6px;user-select:none}
+  details.pli>summary::-webkit-details-marker{display:none}
+  details.pli>summary::before{content:"";width:6px;height:6px;border-right:1.5px solid currentColor;border-bottom:1.5px solid currentColor;transform:rotate(-45deg);transition:transform .15s;margin-right:2px}
+  details.pli[open]>summary::before{transform:rotate(45deg)}
+  details.pli>summary:hover{color:var(--ink)}
+  .pli-corps{padding-top:14px}
+  .ligne-reglage{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:8px 0}
+  .ligne-reglage span{font-size:14px;color:var(--texte)}
+  .ligne-reglage small{display:block;font-size:12px;color:var(--gris)}
+  .mini{position:relative;width:104px;flex:none}
+  .mini input{width:100%;border:1px solid var(--bord);border-radius:10px;padding:8px 26px 8px 10px;font-size:15px;font-weight:600;text-align:right;-moz-appearance:textfield}
+  .mini input::-webkit-outer-spin-button,.mini input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+  .mini input:focus{outline:none;border-color:var(--corail)}
+  .mini .u{position:absolute;right:9px;top:50%;transform:translateY(-50%);color:var(--gris-clair);font-size:13px;pointer-events:none}
+  .seg{display:inline-flex;background:#F1F2F4;border-radius:999px;padding:3px;flex:none}
+  .seg button{border:0;background:transparent;border-radius:999px;padding:6px 14px;font-size:13px;font-weight:600;color:var(--gris)}
   .seg button.on{background:#fff;color:var(--ink);box-shadow:0 1px 2px rgba(0,0,0,.08)}
-  .aide{font-size:12px;color:var(--gris);margin:6px 0 0;line-height:1.45}
+  .note{font-size:12.5px;color:var(--gris);margin:8px 0 0;line-height:1.5}
 
-  .main{padding:20px;min-width:0}
-  .tabs{display:flex;gap:4px;background:#EEF0F3;border-radius:12px;padding:4px;margin-bottom:18px;overflow-x:auto}
-  .tabs button{flex:1;border:0;background:transparent;border-radius:9px;padding:10px 12px;font-size:14px;font-weight:600;color:var(--gris);white-space:nowrap}
-  .tabs button.on{background:#fff;color:var(--ink);box-shadow:0 1px 2px rgba(0,0,0,.08)}
-  .panel{display:none}
-  .panel.on{display:block}
-
-  .kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-  @media(max-width:640px){.kpis{grid-template-columns:1fr}}
-  .kpi{border:1px solid var(--bord);border-radius:14px;padding:14px 16px;background:#fff}
-  .kpi .t{font-size:12.5px;color:var(--gris);font-weight:600}
-  .kpi .v{font-size:28px;font-weight:800;letter-spacing:-.02em;margin-top:2px;font-variant-numeric:tabular-nums;line-height:1.2}
-  .kpi .s{font-size:12.5px;color:var(--gris);margin-top:2px}
-  .kpi.neg .v{color:var(--corail)}
-  .kpi.dark{background:var(--anth);border-color:var(--anth);color:#fff}
-  .kpi.dark .t,.kpi.dark .s{color:#cbd5e1}
-
-  .bloc{border:1px solid var(--bord);border-radius:14px;padding:16px;margin-top:14px;background:#fff}
-  .bloc h3{margin:0 0 4px;font-size:15.5px}
-  .bloc .sub{margin:0 0 12px;color:var(--gris);font-size:13px}
-
-  .scen{display:grid;grid-template-columns:150px 1fr;gap:6px 12px;align-items:center;margin:10px 0}
-  @media(max-width:560px){.scen{grid-template-columns:1fr}}
-  .scen .nom{font-size:13px;font-weight:700}
-  .scen .nom small{display:block;font-weight:400;color:var(--gris);font-size:12px}
-  .bar{display:flex;height:30px;border-radius:8px;overflow:hidden;background:#F3F4F6}
-  .bar span{display:flex;align-items:center;justify-content:center;font-size:11.5px;font-weight:700;color:#fff;white-space:nowrap;overflow:hidden;min-width:0;transition:width .25s}
-  .bar .net{background:var(--anth)}
-  .bar .com{background:var(--corail)}
-  .bar .tva{background:var(--corail-pale);color:var(--corail-fonce)}
-  .leg{display:flex;flex-wrap:wrap;gap:14px;font-size:12px;color:var(--gris);margin-top:8px}
-  .leg i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+  /* Résultat */
+  .sep{height:1px;background:var(--bord);margin:22px 0}
+  .res-t{font-size:14px;color:var(--gris);margin:0}
+  .res-v{font-size:clamp(44px,10vw,60px);font-weight:800;letter-spacing:-.035em;line-height:1.05;color:var(--corail);margin:4px 0 6px;font-variant-numeric:tabular-nums}
+  .res-s{font-size:15px;color:var(--texte);margin:0}
+  .res-s b{color:var(--ink)}
+  .fix{margin-top:20px;background:var(--fond);border-radius:14px;padding:16px 18px}
+  .fix-t{font-size:13px;color:var(--gris);margin:0 0 4px}
+  .fix-v{font-size:19px;font-weight:700;margin:0;font-variant-numeric:tabular-nums}
+  .fix-v .tag{display:inline-block;font-size:13px;font-weight:700;color:#fff;background:var(--anth);border-radius:999px;padding:2px 9px;margin-left:6px;vertical-align:2px}
+  .fix-n{font-size:13px;color:var(--gris);margin:8px 0 0}
 
   table.t{width:100%;border-collapse:collapse;font-size:13.5px;font-variant-numeric:tabular-nums}
-  table.t th,table.t td{padding:9px 8px;border-bottom:1px solid var(--bord);text-align:right}
-  table.t th:first-child,table.t td:first-child{text-align:left}
-  table.t thead th{font-size:12px;color:var(--gris);font-weight:600}
-  table.t tr.tot td{font-weight:800;border-bottom:0}
+  table.t th,table.t td{padding:8px 4px;border-bottom:1px solid var(--bord);text-align:right;white-space:nowrap}
+  table.t th:first-child,table.t td:first-child{text-align:left;white-space:normal;color:var(--texte)}
+  table.t thead th{font-size:12px;color:var(--gris);font-weight:500}
+  table.t tr.tot td{font-weight:700;color:var(--ink);border-bottom:0}
   .scroll{overflow-x:auto}
-  table.t td{white-space:nowrap}
-  table.t td:first-child{white-space:normal}
-  @media(max-width:560px){
-    table.t{font-size:12.5px}
-    table.t th,table.t td{padding:8px 5px}
-    table.t td:first-child{min-width:96px}
-    .tabs button{padding:9px 6px;font-size:13px}
-    .main,.side{padding:16px}
-  }
 
-  .alerte{border-radius:12px;padding:12px 14px;font-size:13.5px;margin-top:14px;line-height:1.5}
-  .alerte.ambre{background:var(--ambre-pale);color:#7A2E0E;border:1px solid #FEDF89}
-  .alerte.rouge{background:var(--corail-voile);color:#8F1F26;border:1px solid var(--corail-pale)}
-  .alerte.vert{background:var(--vert-pale);color:#05603A;border:1px solid #ABEFC6}
-  .alerte b{font-weight:800}
+  /* Avis */
+  .avis{margin-top:18px;padding-top:16px;border-top:1px solid var(--bord)}
+  .avis-q{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+  .avis-q span{font-size:14px;color:var(--texte)}
+  .avis-btns{display:flex;gap:6px}
+  .avis-btns button,.puces button{border:1px solid var(--bord);background:#fff;border-radius:999px;padding:7px 14px;font-size:13.5px;color:var(--texte);transition:border-color .15s,background .15s}
+  .avis-btns button:hover,.puces button:hover{border-color:var(--gris-clair)}
+  .puces button.on{border-color:var(--anth);background:var(--anth);color:#fff}
+  .avis-t{font-size:14px;color:var(--texte);margin:0 0 10px;font-weight:500}
+  .puces{display:flex;flex-wrap:wrap;gap:6px}
+  .avis textarea{display:block;width:100%;margin-top:10px;border:1px solid var(--bord);border-radius:12px;padding:10px 12px;font:inherit;font-size:14px;resize:vertical}
+  .avis textarea:focus{outline:none;border-color:var(--corail);box-shadow:0 0 0 3px var(--corail-voile)}
+  .avis .btn{margin-top:10px}
+  .avis-merci{font-size:14px;color:var(--vert);margin:0}
 
-  .plats{display:grid;gap:10px}
-  .plat{display:grid;grid-template-columns:1.1fr 1.4fr 1fr 1fr;gap:10px;align-items:center;border:1px solid var(--bord);border-radius:12px;padding:12px 14px}
-  @media(max-width:700px){.plat{grid-template-columns:1fr 1fr}}
-  .plat .pn{font-weight:800;font-size:14px}
-  .plat .pn small{display:block;font-weight:400;color:var(--gris);font-size:12px}
-  .plat .reg{display:flex;gap:6px;align-items:center;flex-wrap:wrap;font-size:12.5px;color:var(--gris)}
-  .plat .reg input{width:68px;padding:6px 8px;border:1px solid var(--bord);border-radius:8px;font-size:13.5px}
-  .plat .reg label{display:flex;align-items:center;gap:4px;white-space:nowrap}
-  .plat .o .k{font-size:11.5px;color:var(--gris)}
-  .plat .o .v{font-weight:800;font-size:18px;font-variant-numeric:tabular-nums}
-  .plat .o .v.c{color:var(--corail)}
+  /* Appel à l'action */
+  .cta{margin-top:16px;background:var(--anth);color:#fff;border-radius:20px;padding:26px 24px;text-align:center}
+  .cta h2{font-size:20px;line-height:1.3;margin:0 0 8px;letter-spacing:-.01em}
+  .cta p{color:#D1D5DB;font-size:14.5px;margin:0 auto 18px;max-width:440px}
+  .cta small{display:block;color:#9CA3AF;font-size:12.5px;margin-top:10px}
 
-  .actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
-  .reset{background:none;border:0;color:var(--corail);font-size:12px;font-weight:600;padding:0}
+  /* Outils secondaires */
+  .outils{margin-top:16px;display:grid;gap:10px}
+  details.outil{background:var(--blanc);border-radius:16px;box-shadow:0 1px 2px rgba(16,24,40,.04);padding:0 20px}
+  details.outil>summary{list-style:none;cursor:pointer;padding:18px 0;display:flex;justify-content:space-between;align-items:center;gap:12px}
+  details.outil>summary::-webkit-details-marker{display:none}
+  details.outil>summary b{font-size:15.5px;display:block}
+  details.outil>summary span{font-size:13px;color:var(--gris)}
+  details.outil>summary::after{content:"+";font-size:22px;font-weight:300;color:var(--gris);flex:none}
+  details.outil[open]>summary::after{content:"−"}
+  .outil-corps{padding:0 0 20px}
+  .duo{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .plat{display:flex;justify-content:space-between;align-items:baseline;padding:12px 0;border-bottom:1px solid var(--bord);gap:10px}
+  .plat:last-of-type{border-bottom:0}
+  .plat .n{font-size:14.5px;font-weight:600}
+  .plat .n small{display:block;font-weight:400;color:var(--gris);font-size:12.5px}
+  .plat .v{text-align:right;font-variant-numeric:tabular-nums}
+  .plat .v b{font-size:17px}
+  .plat .v small{display:block;color:var(--gris);font-size:12.5px}
+  .regles{margin:12px 0 0;padding:12px 14px 12px 32px;background:var(--fond);border-radius:12px;font-size:13px;color:var(--texte)}
+  .regles li{margin:3px 0}
+  .lien-btn{background:none;border:0;color:var(--corail);font-weight:600;font-size:13.5px;padding:0;margin-top:12px}
+  .alerte{border-radius:12px;padding:12px 14px;font-size:13.5px;margin-top:12px;line-height:1.5}
+  .alerte.ambre{background:var(--ambre-fond);color:var(--ambre-texte)}
+  .alerte.rouge{background:var(--corail-voile);color:#8F1F26}
+  .alerte.vert{background:#ECFDF3;color:#05603A}
 
-  /* ── Pont vers l'application ───────────────────── */
-  .pont{display:grid;grid-template-columns:1.3fr 1fr;gap:20px;align-items:center;background:linear-gradient(135deg,#1F2937,#374151);color:#fff;border-radius:16px;padding:22px;margin-top:18px}
-  @media(max-width:760px){.pont{grid-template-columns:1fr}}
-  .pont h3{margin:0 0 6px;font-size:19px;line-height:1.3}
-  .pont h3 em{font-style:normal;color:#FF9AA0}
-  .pont p{margin:0;color:#D1D5DB;font-size:14px}
-  .pont ul{margin:12px 0 0;padding:0;list-style:none;display:grid;gap:6px;font-size:13.5px;color:#E5E7EB}
-  .pont li::before{content:"✓";color:var(--corail);font-weight:800;margin-right:8px}
-  .pont .go{text-align:center}
-  .pont .go .btn{width:100%}
-  .pont .go small{display:block;color:#9CA3AF;font-size:12px;margin-top:8px}
+  /* Contenu éditorial */
+  .doc{padding:56px 0 10px}
+  .doc h2{font-size:22px;line-height:1.3;margin:36px 0 10px;letter-spacing:-.015em}
+  .doc p{font-size:16px;color:var(--texte)}
+  .formule{background:var(--blanc);border-radius:12px;padding:12px 16px;font-size:15px;font-variant-numeric:tabular-nums;border-left:3px solid var(--corail)}
+  .doc details{border-bottom:1px solid var(--bord)}
+  .doc summary{cursor:pointer;font-weight:600;padding:14px 0;font-size:15.5px;list-style:none;display:flex;justify-content:space-between;gap:12px}
+  .doc summary::-webkit-details-marker{display:none}
+  .doc summary::after{content:"+";color:var(--gris);font-weight:300;font-size:20px;line-height:1}
+  .doc details[open] summary::after{content:"−"}
+  .doc details p{margin:0 0 14px}
+  .sources,.sources li{font-size:13.5px;color:var(--gris)}
+  footer{padding:30px 0 110px;font-size:12.5px;color:var(--gris);text-align:center}
 
-  /* ── Contenu éditorial ─────────────────────────── */
-  .doc{max-width:780px;margin:0 auto;padding:46px 0 10px}
-  .doc h2{font-size:23px;line-height:1.3;margin:38px 0 10px;letter-spacing:-.01em}
-  .doc p,.doc li{font-size:16px;color:#374151}
-  .doc .formule{background:#fff;border:1px solid var(--bord);border-left:4px solid var(--corail);border-radius:10px;padding:12px 16px;font-size:15px;font-variant-numeric:tabular-nums}
-  details{background:#fff;border:1px solid var(--bord);border-radius:12px;padding:0 16px;margin:10px 0}
-  summary{cursor:pointer;font-weight:700;padding:14px 0;font-size:15.5px;list-style:none}
-  summary::-webkit-details-marker{display:none}
-  summary::after{content:"+";float:right;color:var(--corail);font-weight:800}
-  details[open] summary::after{content:"−"}
-  details p{margin:0 0 14px}
-  .sources{font-size:13.5px;color:var(--gris)}
-  .sources li{font-size:13.5px;color:var(--gris)}
-  .ctafin{background:#fff;border:1px solid var(--bord);border-radius:18px;padding:28px 22px;text-align:center;margin:44px auto 0;max-width:780px}
-  .ctafin h2{margin:0 0 8px;font-size:22px}
-  .ctafin p{color:var(--gris);margin:0 0 18px}
-  footer{max-width:780px;margin:30px auto 0;padding:0 0 110px;font-size:12.5px;color:var(--gris);text-align:center}
-
-  /* ── Barre CTA mobile ──────────────────────────── */
-  .stick{position:fixed;left:0;right:0;bottom:0;z-index:40;background:var(--anth);color:#fff;padding:10px 16px calc(10px + env(safe-area-inset-bottom));display:none;align-items:center;gap:12px;box-shadow:0 -6px 20px rgba(0,0,0,.15);transform:translateY(110%);transition:transform .25s}
+  /* Barre mobile */
+  .stick{position:fixed;left:12px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom));z-index:40;background:var(--anth);color:#fff;border-radius:16px;padding:10px 10px 10px 16px;display:none;align-items:center;gap:12px;box-shadow:0 8px 24px rgba(0,0,0,.18);transform:translateY(140%);transition:transform .3s}
   .stick.vu{transform:none}
   .stick .tx{flex:1;font-size:13px;line-height:1.3;min-width:0}
-  .stick .tx b{color:#FF9AA0;font-size:15px}
-  @media(max-width:900px){.stick{display:flex}}
-  .toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:var(--ink);color:#fff;padding:10px 16px;border-radius:10px;font-size:13.5px;opacity:0;pointer-events:none;transition:opacity .2s;z-index:50}
+  .stick .tx b{color:#FF9AA0}
+  @media(max-width:760px){.stick{display:flex}}
+  .toast{position:fixed;left:50%;bottom:96px;transform:translateX(-50%);background:var(--ink);color:#fff;padding:10px 16px;border-radius:10px;font-size:13.5px;opacity:0;pointer-events:none;transition:opacity .2s;z-index:50}
   .toast.on{opacity:1}
 </style>
 </head>
 <body>
 
-<header class="topbar">
-  <div class="wrap">
+<header class="top">
+  <div class="col">
     <a class="brand" href="/"><img src="/icon.png" alt="">HostMate AI</a>
-    <span class="sp"></span>
-    <a class="lien-blog" href="/blog/frais-airbnb-15-5-pourcent-charge-hote-13-octobre/">Comprendre le changement</a>
-    <a class="btn" href="https://app.hostmateai.app/?utm_source=calculateur&amp;utm_medium=outil&amp;utm_campaign=frais-airbnb-13-octobre&amp;utm_content=topbar" target="_blank" rel="noopener">Essayer gratuitement</a>
+    <a class="btn-top" href="https://app.hostmateai.app/?utm_source=calculateur&amp;utm_medium=outil&amp;utm_campaign=frais-airbnb-13-octobre&amp;utm_content=topbar" target="_blank" rel="noopener">Essayer HostMate</a>
   </div>
 </header>
 
-<main class="wrap">
+<main class="col">
   <section class="hero">
-    <span class="pill"><b id="compte">13 oct.</b><span id="compte-tx">Date limite Airbnb : mardi 13 octobre 2026</span></span>
-    <h1>Frais Airbnb à 15,5 % : combien vous allez <em>vraiment</em> perdre</h1>
-    <p class="lead">Airbnb fait passer tous ses hôtes à un frais de service unique, à votre charge, et le voyageur ne paie plus de frais séparés. Entrez votre séjour type : le calculateur vous donne votre perte réelle <strong>TVA comprise</strong>, le prix à afficher sur chaque plateforme et l'effet sur vos impôts.</p>
+    <span class="date" id="compte">Date limite Airbnb : mardi 13 octobre 2026</span>
+    <h1>Frais Airbnb à 15,5 % : combien allez-vous perdre ?</h1>
   </section>
 
-  <section class="appwin" aria-label="Calculateur">
-    <div class="chrome"><i></i><i></i><i></i><span>Calculateur frais Airbnb · mis à jour le 10 octobre 2026</span></div>
-    <div class="grid">
-
-      <!-- ── Réglages ─────────────────────────────── -->
-      <aside class="side">
-        <h2>Votre séjour type</h2>
-        <div class="duo">
-          <div class="f"><label for="prix">Prix / nuit</label><div class="inp"><input id="prix" type="number" inputmode="decimal" min="0" step="1" value="90"><span class="u">€</span></div></div>
-          <div class="f"><label for="nuits">Nuits / séjour</label><div class="inp"><input id="nuits" type="number" inputmode="numeric" min="1" step="1" value="3"></div></div>
-        </div>
-        <div class="f"><label for="menage">Frais de ménage facturés <small>et autres frais</small></label><div class="inp"><input id="menage" type="number" inputmode="decimal" min="0" step="1" value="40"><span class="u">€</span></div></div>
-        <div class="f"><label for="nuitsAn">Nuits réservées sur Airbnb / an</label><div class="inp"><input id="nuitsAn" type="number" inputmode="numeric" min="0" step="1" value="120"><span class="u">nuits</span></div></div>
-
-        <h2>Frais Airbnb</h2>
-        <div class="duo">
-          <div class="f"><label for="tauxAvant">Avant <small>frais partagés</small></label><div class="inp"><input id="tauxAvant" type="number" inputmode="decimal" min="0" max="30" step="0.1" value="3"><span class="u">%</span></div></div>
-          <div class="f"><label for="tauxApres">Après <small>frais unique</small></label><div class="inp"><input id="tauxApres" type="number" inputmode="decimal" min="0" max="30" step="0.1" value="15.5"><span class="u">%</span></div></div>
-        </div>
-        <p class="aide">15,5 % pour la plupart des hôtes, 14 à 16 % pour les autres (Centre d'aide Airbnb). Votre taux exact figure dans la section Paiements de votre compte.</p>
-
-        <div class="f" style="margin-top:14px"><label>TVA sur les frais Airbnb</label>
-          <div class="seg" role="group" aria-label="TVA sur les frais Airbnb">
-            <button type="button" data-tva="1" class="on">Oui, 20 %</button>
-            <button type="button" data-tva="0">Non, assujetti</button>
-          </div>
-        </div>
-        <p class="aide">Airbnb applique la TVA sur les frais de service hôte. Si vous êtes assujetti et avez renseigné votre numéro de TVA, elle ne vous est pas facturée. Dans le doute : regardez la ligne « Frais de service hôte » d'un de vos versements.</p>
-      </aside>
-
-      <!-- ── Résultats ────────────────────────────── -->
-      <div class="main">
-        <div class="tabs" role="tablist">
-          <button type="button" role="tab" data-tab="impact" class="on">Impact</button>
-          <button type="button" role="tab" data-tab="prix">Prix par plateforme</button>
-          <button type="button" role="tab" data-tab="impots">Impôts</button>
-        </div>
-
-        <!-- Onglet 1 : impact -->
-        <section class="panel on" id="p-impact" aria-live="polite">
-          <div class="kpis">
-            <div class="kpi neg"><div class="t">Perte par séjour</div><div class="v" id="k-perte">—</div><div class="s" id="k-perte-s">au même prix</div></div>
-            <div class="kpi neg"><div class="t">Perte sur un an</div><div class="v" id="k-an">—</div><div class="s" id="k-an-s">—</div></div>
-            <div class="kpi dark"><div class="t">Hausse de prix pour compenser</div><div class="v" id="k-hausse">—</div><div class="s" id="k-hausse-s">nuits et ménage</div></div>
-          </div>
-
-          <div class="bloc">
-            <h3>Où part l'argent de votre séjour</h3>
-            <p class="sub">Ce que paie le voyageur, hors taxe de séjour, et ce qu'il vous reste.</p>
-            <div id="scens"></div>
-            <div class="leg"><span><i style="background:var(--anth)"></i>Votre versement</span><span><i style="background:var(--corail)"></i>Commission Airbnb</span><span id="leg-tva"><i style="background:var(--corail-pale)"></i>TVA sur la commission</span></div>
-          </div>
-
-          <div class="bloc">
-            <h3>Le détail</h3>
-            <div class="scroll">
-              <table class="t">
-                <thead><tr><th></th><th>Avant</th><th>Après, même prix</th><th>Après, prix ajusté</th></tr></thead>
-                <tbody id="detail"></tbody>
-              </table>
-            </div>
-            <div id="piege"></div>
-          </div>
-
-          <div class="pont" id="pont">
-            <div>
-              <h3 id="pont-h">Airbnb va garder <em>davantage</em> sur chacun de vos séjours.</h3>
-              <p>Chaque réservation compte plus que jamais. HostMate s'occupe de ce qui la protège : un séjour sans accroc, un voyageur bien accueilli, un avis qui vous fait remonter.</p>
-              <ul>
-                <li>Messages voyageurs envoyés au bon moment, en pilote automatique</li>
-                <li>Livret d'accueil digital en 10 langues, avec assistant</li>
-                <li>Score de votre logement : ce qu'il faut améliorer, dans l'ordre</li>
-                <li>Gestion des litiges et des dégâts, pas à pas</li>
-              </ul>
-            </div>
-            <div class="go">
-              <a class="btn lg" href="https://app.hostmateai.app/?utm_source=calculateur&amp;utm_medium=outil&amp;utm_campaign=frais-airbnb-13-octobre&amp;utm_content=resultat" target="_blank" rel="noopener">Essayer HostMate gratuitement →</a>
-              <small>Compte gratuit · Pro : 7 jours offerts, sans débit si vous annulez avant</small>
-            </div>
-          </div>
-        </section>
-
-        <!-- Onglet 2 : prix par plateforme -->
-        <section class="panel" id="p-prix" aria-live="polite">
-          <div class="bloc" style="margin-top:0">
-            <h3>Le prix à afficher, plateforme par plateforme</h3>
-            <p class="sub">Partez de ce que vous voulez toucher. Chaque plateforme a son taux : la majoration se règle par plateforme dans votre channel manager, pas sur le prix de base.</p>
-            <div class="duo">
-              <div class="f"><label for="net">Versement visé / nuit <button type="button" class="reset" data-reset="net" title="Revenir à mon versement d’avant">↺</button></label><div class="inp"><input id="net" type="number" inputmode="decimal" min="0" step="0.01"><span class="u">€</span></div></div>
-              <div class="f"><label for="base">Prix de base <small>channel manager</small> <button type="button" class="reset" data-reset="base" title="Revenir à mon prix par nuit">↺</button></label><div class="inp"><input id="base" type="number" inputmode="decimal" min="0" step="0.01"><span class="u">€</span></div></div>
-            </div>
-          </div>
-
-          <div class="plats" style="margin-top:12px">
-            <div class="plat">
-              <div class="pn">Airbnb<small id="a-reg">15,5 % + TVA</small></div>
-              <div class="reg">Réglé dans la colonne de gauche</div>
-              <div class="o"><div class="k">Prix à afficher</div><div class="v" id="a-prix">—</div></div>
-              <div class="o"><div class="k">Majoration</div><div class="v c" id="a-maj">—</div></div>
-            </div>
-            <div class="plat">
-              <div class="pn">Booking.com<small>votre contrat</small></div>
-              <div class="reg">
-                <label><input id="bTaux" type="number" inputmode="decimal" min="0" max="40" step="0.1" value="15"> % commission</label>
-                <label><input id="bFrais" type="number" inputmode="decimal" min="0" max="10" step="0.1" value="0"> % frais paiement</label>
-                <label><input id="bTva" type="checkbox"> + TVA 20 %</label>
-              </div>
-              <div class="o"><div class="k">Prix à afficher</div><div class="v" id="b-prix">—</div></div>
-              <div class="o"><div class="k">Majoration</div><div class="v c" id="b-maj">—</div></div>
-            </div>
-            <div class="plat">
-              <div class="pn">Réservation directe<small>votre site</small></div>
-              <div class="reg"><label><input id="dFrais" type="number" inputmode="decimal" min="0" max="10" step="0.1" value="0"> % frais paiement</label></div>
-              <div class="o"><div class="k">Prix à afficher</div><div class="v" id="d-prix">—</div></div>
-              <div class="o"><div class="k">Majoration</div><div class="v c" id="d-maj">—</div></div>
-            </div>
-          </div>
-          <p class="aide" style="margin-top:10px">Booking : 15 % n'est qu'un exemple. Votre taux exact figure dans votre contrat (extranet Booking). Ajoutez les frais de paiement et la TVA seulement s'ils apparaissent sur vos relevés.</p>
-
-          <div class="alerte ambre"><b>Deux règles pour ne pas se tromper.</b><br>1. Appliquez la même majoration à vos frais de ménage : ils sont commissionnés comme les nuits.<br>2. N'appliquez la hausse qu'à un seul endroit, soit dans votre channel manager, soit dans Airbnb. Jamais les deux, sinon elles s'additionnent.</div>
-          <div class="actions">
-            <button type="button" class="btn ghost" id="copier-reglages">Copier mes réglages</button>
-            <button type="button" class="btn ghost" data-partager>Partager ce calcul</button>
-          </div>
-
-          <div class="pont">
-            <div>
-              <h3>Vos prix sont réglés. Et le reste de votre gestion ?</h3>
-              <p>Messages voyageurs, livret d'accueil, suivi des séjours, litiges : HostMate automatise ce qui vous prend du temps, quelle que soit la plateforme de réservation.</p>
-            </div>
-            <div class="go">
-              <a class="btn lg" href="https://app.hostmateai.app/?utm_source=calculateur&amp;utm_medium=outil&amp;utm_campaign=frais-airbnb-13-octobre&amp;utm_content=plateformes" target="_blank" rel="noopener">Essayer HostMate gratuitement →</a>
-              <small>Compte gratuit · Pro : 7 jours offerts, sans débit si vous annulez avant</small>
-            </div>
-          </div>
-        </section>
-
-        <!-- Onglet 3 : impôts -->
-        <section class="panel" id="p-impots" aria-live="polite">
-          <div class="bloc" style="margin-top:0">
-            <h3>Votre micro-BIC après la hausse de prix</h3>
-            <p class="sub">Au micro-BIC, vous déclarez vos recettes brutes : vos frais, commission comprise, sont couverts par l'abattement forfaitaire. Si vous montez vos prix pour garder le même versement, vos recettes déclarées montent aussi.</p>
-            <div class="duo">
-              <div class="f"><label for="recettes">Recettes annuelles actuelles <button type="button" class="reset" data-reset="recettes">↺</button></label><div class="inp"><input id="recettes" type="number" inputmode="decimal" min="0" step="1"><span class="u">€</span></div></div>
-              <div class="f"><label for="hausseF">Hausse de prix appliquée <button type="button" class="reset" data-reset="hausseF">↺</button></label><div class="inp"><input id="hausseF" type="number" inputmode="decimal" min="0" max="100" step="0.1"><span class="u">%</span></div></div>
-            </div>
-            <div class="f"><label for="type">Votre meublé de tourisme</label><div class="inp">
-              <select id="type">
-                <option value="nc">Non classé (seuil 15 000 €, abattement 30 %)</option>
-                <option value="c">Classé (seuil 77 700 €, abattement 50 %)</option>
-              </select></div></div>
-            <p class="aide">Recettes de toutes vos plateformes, pas seulement Airbnb. Seuils et abattements applicables aux revenus 2025 (impots.gouv.fr).</p>
-          </div>
-
-          <div class="bloc">
-            <div class="scroll">
-              <table class="t">
-                <thead><tr><th></th><th>Aujourd'hui</th><th>Après la hausse</th></tr></thead>
-                <tbody id="fisc"></tbody>
-              </table>
-            </div>
-            <div id="fisc-alerte"></div>
-            <p class="aide" style="margin-top:10px">Ce calcul donne votre base imposable, pas votre impôt : celui-ci dépend de votre tranche et des prélèvements sociaux. Si vous êtes proche d'un seuil, faites valider votre situation par un comptable avant d'ajuster vos prix.</p>
-          </div>
-
-          <div class="pont">
-            <div>
-              <h3>Moins de marge, donc moins de place pour l'erreur.</h3>
-              <p>Un séjour qui tourne mal coûte plus cher quand la commission monte. HostMate vous aide à les éviter, et à réagir quand ils arrivent.</p>
-            </div>
-            <div class="go">
-              <a class="btn lg" href="https://app.hostmateai.app/?utm_source=calculateur&amp;utm_medium=outil&amp;utm_campaign=frais-airbnb-13-octobre&amp;utm_content=impots" target="_blank" rel="noopener">Essayer HostMate gratuitement →</a>
-              <small>Compte gratuit · Pro : 7 jours offerts, sans débit si vous annulez avant</small>
-            </div>
-          </div>
-        </section>
+  <!-- ── Le calcul ─────────────────────────────────── -->
+  <section class="card" aria-label="Calculateur">
+    <div class="card-tete">
+      <div>
+        <h2>Calculateur frais Airbnb 2026</h2>
+        <p>Entrez votre séjour type : le résultat se calcule tout seul.</p>
       </div>
+      <span class="maj">✓ À jour au 10 oct. 2026</span>
+    </div>
+    <div class="champs">
+      <div class="champ"><label for="prix">Prix / nuit</label><div class="in"><input id="prix" type="number" inputmode="decimal" min="0" step="1" value="90"><span class="u">€</span></div></div>
+      <div class="champ"><label for="nuits">Nuits</label><div class="in"><input id="nuits" type="number" inputmode="numeric" min="1" step="1" value="3"></div></div>
+      <div class="champ"><label for="menage">Ménage</label><div class="in"><input id="menage" type="number" inputmode="decimal" min="0" step="1" value="40"><span class="u">€</span></div></div>
+    </div>
+
+    <details class="pli">
+      <summary id="resume-reglages">TVA comprise · 120 nuits par an · taux 3 % → 15,5 %</summary>
+      <div class="pli-corps">
+        <div class="ligne-reglage"><span>TVA sur les frais Airbnb<small>Non, si vous êtes assujetti avec un n° de TVA</small></span>
+          <div class="seg" role="group" aria-label="TVA sur les frais Airbnb"><button type="button" data-tva="1" class="on">Oui</button><button type="button" data-tva="0">Non</button></div></div>
+        <div class="ligne-reglage"><span>Nuits réservées sur Airbnb par an</span><div class="mini"><input id="nuitsAn" type="number" inputmode="numeric" min="0" step="1" value="120"></div></div>
+        <div class="ligne-reglage"><span>Votre taux avant<small>frais partagés</small></span><div class="mini"><input id="tauxAvant" type="number" inputmode="decimal" min="0" max="50" step="0.1" value="3"><span class="u">%</span></div></div>
+        <div class="ligne-reglage"><span>Votre taux après<small>frais unique</small></span><div class="mini"><input id="tauxApres" type="number" inputmode="decimal" min="0" max="50" step="0.1" value="15.5"><span class="u">%</span></div></div>
+        <p class="note">15,5 % pour la plupart des hôtes, 14 à 16 % pour les autres (Centre d'aide Airbnb). Airbnb applique la TVA sur ses frais de service hôte : vérifiez la ligne « Frais de service hôte » d'un de vos versements.</p>
+      </div>
+    </details>
+
+    <div class="sep"></div>
+
+    <div aria-live="polite">
+      <p class="res-t">Vous perdez, à chaque séjour</p>
+      <p class="res-v" id="r-perte">—</p>
+      <p class="res-s" id="r-an">—</p>
+
+      <div class="fix">
+        <p class="fix-t">Pour garder le même versement, affichez</p>
+        <p class="fix-v" id="r-prix">—</p>
+        <p class="fix-n" id="r-piege"></p>
+      </div>
+    </div>
+
+    <details class="pli">
+      <summary>Voir le détail du calcul</summary>
+      <div class="pli-corps scroll">
+        <table class="t">
+          <thead><tr><th></th><th>Avant</th><th>Même prix</th><th>Prix ajusté</th></tr></thead>
+          <tbody id="detail"></tbody>
+        </table>
+      </div>
+    </details>
+
+    <!-- Avis : jamais affiché publiquement, lu par l'équipe (voir l'en-tête du script). -->
+    <div class="avis" id="avis">
+      <div class="avis-q" id="avis-q">
+        <span>Ce calcul vous aide ?</span>
+        <div class="avis-btns">
+          <button type="button" data-note="utile">👍 Oui</button>
+          <button type="button" data-note="pas_utile">👎 Pas vraiment</button>
+        </div>
+      </div>
+      <div class="avis-suite" id="avis-suite" hidden>
+        <p class="avis-t" id="avis-t"></p>
+        <div class="puces" id="avis-puces"></div>
+        <textarea id="avis-texte" rows="2" maxlength="1000"></textarea>
+        <button type="button" class="btn" id="avis-envoyer">Envoyer</button>
+      </div>
+      <p class="avis-merci" id="avis-merci" hidden>Merci, c'est noté. Vos retours nous servent à améliorer l'outil.</p>
     </div>
   </section>
 
-  <!-- ── Contenu éditorial (indexable) ───────────────── -->
+  <!-- ── Le pont vers l'application ────────────────── -->
+  <section class="cta">
+    <h2 id="cta-h">Airbnb va garder davantage sur chacun de vos séjours.</h2>
+    <p>Chaque réservation compte plus que jamais. HostMate s'occupe de vos messages voyageurs, de votre livret d'accueil et de vos litiges, pour que chaque séjour se passe bien.</p>
+    <a class="btn lg" href="https://app.hostmateai.app/?utm_source=calculateur&amp;utm_medium=outil&amp;utm_campaign=frais-airbnb-13-octobre&amp;utm_content=resultat" target="_blank" rel="noopener">Essayer HostMate gratuitement</a>
+    <small>Compte gratuit · Pro : 7 jours offerts, sans débit si vous annulez avant</small>
+  </section>
+
+  <!-- ── Pour aller plus loin (replié) ─────────────── -->
+  <div class="outils">
+    <details class="outil">
+      <summary><div><b>Vous utilisez un channel manager ?</b><span>Le prix à afficher sur Airbnb et sur Booking</span></div></summary>
+      <div class="outil-corps">
+        <div class="duo">
+          <div class="champ"><label for="net">Versement visé / nuit</label><div class="in"><input id="net" type="number" inputmode="decimal" min="0" step="0.01"><span class="u">€</span></div></div>
+          <div class="champ"><label for="bTaux">Coût Booking</label><div class="in"><input id="bTaux" type="number" inputmode="decimal" min="0" max="50" step="0.1" value="15"><span class="u">%</span></div></div>
+        </div>
+        <p class="note">Versement visé : par défaut, celui que vous touchiez avant sur Airbnb. Booking : 15 % n'est qu'un exemple, votre taux figure dans votre contrat. Ajoutez-y les frais de paiement et la TVA s'ils apparaissent sur vos relevés.</p>
+        <div style="margin-top:8px">
+          <div class="plat"><div class="n">Airbnb<small id="a-reg">15,5 % + TVA</small></div><div class="v"><b id="a-prix">—</b><small id="a-maj">—</small></div></div>
+          <div class="plat"><div class="n">Booking.com<small id="b-reg">15 %</small></div><div class="v"><b id="b-prix">—</b><small id="b-maj">—</small></div></div>
+        </div>
+        <ol class="regles">
+          <li>Gardez votre prix de base, et réglez une majoration par plateforme.</li>
+          <li>Appliquez-la aussi au ménage : il est commissionné comme les nuits.</li>
+          <li>Une seule hausse : dans le channel manager <em>ou</em> dans Airbnb, jamais les deux.</li>
+        </ol>
+        <button type="button" class="lien-btn" id="copier">Copier ces réglages</button>
+      </div>
+    </details>
+
+    <details class="outil">
+      <summary><div><b>Et vos impôts ?</b><span>Micro-BIC : vos recettes déclarées montent avec vos prix</span></div></summary>
+      <div class="outil-corps">
+        <div class="duo">
+          <div class="champ"><label for="recettes">Recettes par an</label><div class="in"><input id="recettes" type="number" inputmode="decimal" min="0" step="1"><span class="u">€</span></div></div>
+          <div class="champ"><label for="type">Meublé</label><div class="in"><select id="type"><option value="nc">Non classé</option><option value="c">Classé</option></select></div></div>
+        </div>
+        <p class="note">Recettes de toutes vos plateformes. Au micro-BIC, vous déclarez vos recettes brutes, et l'abattement forfaitaire (30 % non classé, 50 % classé) couvre vos frais, commission comprise. Seuils des revenus 2025 : 15 000 € et 77 700 € (impots.gouv.fr).</p>
+        <div class="scroll" style="margin-top:8px">
+          <table class="t"><thead><tr><th></th><th>Aujourd'hui</th><th id="f-col">Après +18,4 %</th></tr></thead><tbody id="fisc"></tbody></table>
+        </div>
+        <div id="fisc-alerte"></div>
+        <p class="note">Base imposable, pas impôt : celui-ci dépend de votre tranche. Proche d'un seuil ? Faites valider par un comptable avant d'ajuster vos prix.</p>
+      </div>
+    </details>
+  </div>
+
+  <!-- ── Contenu éditorial (indexable) ─────────────── -->
   <article class="doc">
     <h2>Ce qui change avec les frais uniques Airbnb</h2>
     <p>Jusqu'ici, la plupart des hôtes étaient sur des <strong>frais partagés</strong> : 3 % retenus sur le versement de l'hôte, et des frais de 14,1 à 16,5 % ajoutés à la note du voyageur. Airbnb fait passer tous ses hôtes à des <strong>frais uniques</strong> : 15,5 % pour la plupart des hôtes (14 à 16 % pour les autres), entièrement à la charge de l'hôte. Le voyageur ne voit plus de ligne « frais de service » et paie le prix que vous affichez.</p>
@@ -423,7 +351,7 @@
     <p>Pour retrouver exactement votre versement d'avant (3 % + TVA), le coefficient est de 0,964 ÷ 0,814, soit une hausse de <strong>18,4 %</strong> sur les nuits et sur le ménage. Sans TVA, 0,97 ÷ 0,845, soit 14,8 %.</p>
 
     <h2>Channel manager : réglez une majoration par plateforme</h2>
-    <p>Avec un channel manager (Hospitable, Smoobu…), vous saisissez un prix de base poussé partout. L'augmenter pour compenser Airbnb augmenterait aussi votre prix Booking, dont la commission n'a pas changé. La bonne pratique : garder le prix de base, et régler une majoration propre à chaque plateforme. L'onglet « Prix par plateforme » vous la donne. Bonne nouvelle au passage : Airbnb fonctionne désormais comme Booking, avec un prix affiché qui est le prix payé, et une commission prélevée côté hôte.</p>
+    <p>Avec un channel manager (Hospitable, Smoobu…), vous saisissez un prix de base poussé partout. L'augmenter pour compenser Airbnb augmenterait aussi votre prix Booking, dont la commission n'a pas changé. La bonne pratique : garder le prix de base, et régler une majoration propre à chaque plateforme. Bonne nouvelle au passage : Airbnb fonctionne désormais comme Booking, avec un prix affiché qui est le prix payé, et une commission prélevée côté hôte.</p>
 
     <h2>Questions fréquentes</h2>
     <details><summary>Qui est concerné par les frais de 15,5 % ?</summary><p>Airbnb fait passer tous les hôtes de logements à des frais de service uniques. La plupart paient 15,5 % ; les autres généralement 14 à 16 %, et les logements au Brésil et au Mexique 16 %. Votre taux et votre date de bascule figurent dans la section Paiements de votre compte Airbnb.</p></details>
@@ -442,18 +370,12 @@
     <p class="sources">À lire aussi : <a href="/blog/frais-airbnb-15-5-pourcent-charge-hote-13-octobre/">Frais Airbnb à la charge de l'hôte, l'article complet</a> · <a href="/blog/micro-bic-ou-reel-le-piege-du-calcul-fait-trop-tard/">Micro-BIC ou régime réel</a></p>
   </article>
 
-  <section class="ctafin">
-    <h2>Le calcul est fait. Maintenant, gagnez du temps sur tout le reste.</h2>
-    <p>HostMate AI gère vos messages voyageurs, votre livret d'accueil multilingue et vos litiges, pour que chaque réservation se passe bien.</p>
-    <a class="btn lg" href="https://app.hostmateai.app/?utm_source=calculateur&amp;utm_medium=outil&amp;utm_campaign=frais-airbnb-13-octobre&amp;utm_content=bas-de-page" target="_blank" rel="noopener">Créer mon compte gratuit →</a>
-  </section>
-
-  <footer>Estimation indicative à partir des taux que vous saisissez. Les taux de commission évoluent : vérifiez-les sur votre espace hôte. Ce calculateur ne constitue pas un conseil fiscal. © HostMate AI</footer>
+  <footer>Estimation indicative à partir des taux que vous saisissez. Les taux de commission évoluent : vérifiez-les sur votre espace hôte. Ce calculateur ne constitue pas un conseil fiscal. Mesure d'audience anonyme, sans cookie. © HostMate AI</footer>
 </main>
 
 <div class="stick" id="stick">
-  <div class="tx">Perte estimée : <b id="stick-v">—</b> / an<br>HostMate · compte gratuit</div>
-  <a class="btn" href="https://app.hostmateai.app/?utm_source=calculateur&amp;utm_medium=outil&amp;utm_campaign=frais-airbnb-13-octobre&amp;utm_content=barre-mobile" target="_blank" rel="noopener">Essayer</a>
+  <div class="tx">Vous perdez <b id="stick-v">—</b> par an</div>
+  <a class="btn" href="https://app.hostmateai.app/?utm_source=calculateur&amp;utm_medium=outil&amp;utm_campaign=frais-airbnb-13-octobre&amp;utm_content=barre-mobile" target="_blank" rel="noopener">Essayer HostMate</a>
 </div>
 <div class="toast" id="toast"></div>
 
@@ -484,15 +406,18 @@
   var $ = function(id){ return document.getElementById(id); };
   var tvaOn = true;
   // Champs dérivés : suivent le séjour type tant que l'hôte ne les a pas modifiés.
-  var lie = { net: true, base: true, recettes: true, hausseF: true };
+  var lie = { net: true, recettes: true };
 
   function num(id){ var v = parseFloat(String($(id).value).replace(',', '.')); return isFinite(v) && v >= 0 ? v : 0; }
   function eur(n, dec){
     var d = dec === undefined ? 2 : dec;
-    return n.toLocaleString('fr-FR', { minimumFractionDigits: d, maximumFractionDigits: d }) + ' €';
+    return n.toLocaleString('fr-FR', { minimumFractionDigits: d, maximumFractionDigits: d }) + ' €';   // espace insécable : « € » ne part jamais seul à la ligne
   }
-  function pct(n, dec){ return n.toLocaleString('fr-FR', { minimumFractionDigits: dec || 1, maximumFractionDigits: dec || 1 }) + ' %'; }
+  function pct(n){ return n.toLocaleString('fr-FR', { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + ' %'; }
   function arr(n){ return Math.round(n * 100) / 100; }
+  function ligne(cells, cls){
+    return '<tr' + (cls ? ' class="' + cls + '"' : '') + '>' + cells.map(function(c){ return '<td>' + c + '</td>'; }).join('') + '</tr>';
+  }
 
   function modele(){
     var prix = num('prix'), nuits = Math.max(1, Math.round(num('nuits'))), menage = num('menage');
@@ -500,115 +425,79 @@
     var ta = Math.min(num('tauxAvant'), 50) / 100, tn = Math.min(num('tauxApres'), 50) / 100, t = tvaOn ? TVA : 0;
     var eA = ta * (1 + t), eN = tn * (1 + t);            // part réellement retenue
     var st = prix * nuits + menage;                      // sous-total (base de la commission)
-    var k = eN < 1 ? (1 - eA) / (1 - eN) : 0;            // coefficient pour garder le versement
-    var sejoursAn = num('nuitsAn') / nuits;
+    var k = (1 - eA) / (1 - eN);                         // coefficient pour garder le versement
     return { prix: prix, nuits: nuits, menage: menage, ta: ta, tn: tn, t: t, eA: eA, eN: eN, st: st, k: k,
-             versAvant: st * (1 - eA), versApres: st * (1 - eN), sejoursAn: sejoursAn };
+             versAvant: st * (1 - eA), versApres: st * (1 - eN), sejoursAn: num('nuitsAn') / nuits };
   }
 
-  function barre(nom, sousNom, total, com, tva, max){
-    var w = function(x){ return max > 0 ? (x / max * 100) : 0; };
-    var net = total - com - tva;
-    var lab = function(x, l){ return (max > 0 && x / max > 0.13) ? l : ''; };
-    return '<div class="scen"><div class="nom">' + nom + '<small>' + sousNom + '</small></div>' +
-      '<div class="bar" role="img" aria-label="' + nom + ' : versement ' + eur(net) + ', commission ' + eur(com) + (tva ? ', TVA ' + eur(tva) : '') + '">' +
-      '<span class="net" style="width:' + w(net) + '%">' + lab(net, eur(net, 0)) + '</span>' +
-      '<span class="com" style="width:' + w(com) + '%">' + lab(com, eur(com, 0)) + '</span>' +
-      (tva > 0 ? '<span class="tva" style="width:' + w(tva) + '%">' + lab(tva, eur(tva, 0)) + '</span>' : '') +
-      '</div></div>';
-  }
-  function ligne(cells, cls){
-    return '<tr' + (cls ? ' class="' + cls + '"' : '') + '>' + cells.map(function(c){ return '<td>' + c + '</td>'; }).join('') + '</tr>';
-  }
-
-  function calcImpact(m){
-    var perte = m.versAvant - m.versApres;
-    var hausse = m.k - 1;
-    $('k-perte').textContent = (perte > 0 ? '−' : '') + eur(Math.abs(perte));
-    $('k-perte-s').textContent = 'au même prix, sur ' + m.nuits + ' nuit' + (m.nuits > 1 ? 's' : '');
-    var an = perte * m.sejoursAn;
-    $('k-an').textContent = (an > 0 ? '−' : '') + eur(Math.abs(an), 0);
-    $('k-an-s').textContent = 'pour ' + num('nuitsAn').toLocaleString('fr-FR') + ' nuits Airbnb';
-    $('k-hausse').textContent = '+' + pct(hausse * 100);
-    $('k-hausse-s').textContent = 'nuit à ' + eur(m.prix * m.k) + ', ménage à ' + eur(m.menage * m.k);
-    $('stick-v').textContent = (an > 0 ? '−' : '') + eur(Math.abs(an), 0);
-    $('pont-h').innerHTML = an > 0
-      ? 'Airbnb va garder <em>' + eur(an, 0) + ' de plus</em> par an sur vos séjours.'
-      : 'Airbnb va garder <em>davantage</em> sur chacun de vos séjours.';
+  function calcPrincipal(m){
+    var perte = m.versAvant - m.versApres, an = perte * m.sejoursAn, hausse = (m.k - 1) * 100;
+    $('r-perte').textContent = perte > 0.004 ? '−' + eur(perte) : eur(0);
+    $('r-an').innerHTML = 'soit <b>' + (an > 0.5 ? '−' : '') + eur(an, 0) + ' par an</b> pour ' + num('nuitsAn').toLocaleString('fr-FR') + ' nuits' + (m.t ? ', TVA comprise' : '');
+    $('r-prix').innerHTML = eur(m.prix * m.k) + ' la nuit · ' + eur(m.menage * m.k) + ' de ménage<span class="tag">+' + pct(hausse) + '</span>';
+    var naif = m.st * (1 + m.tn) * (1 - m.eN), ecart = m.versAvant - naif;
+    $('r-piege').textContent = (m.tn > 0 && ecart > 0.005)
+      ? 'Et non +' + pct(m.tn * 100) + ' : la commission se prélève aussi sur la hausse. Avec +' + pct(m.tn * 100) + ', il vous manquerait encore ' + eur(ecart) + ' par séjour.'
+      : '';
+    $('stick-v').textContent = (an > 0.5 ? '−' : '') + eur(an, 0);
+    $('cta-h').textContent = an > 0.5
+      ? 'Airbnb va garder ' + eur(an, 0) + ' de plus par an sur vos séjours.'
+      : 'Airbnb va garder davantage sur chacun de vos séjours.';
+    $('resume-reglages').textContent = (m.t ? 'TVA comprise' : 'Sans TVA') + ' · ' + num('nuitsAn').toLocaleString('fr-FR') + ' nuits par an · taux ' + pct(m.ta * 100).replace(',0', '') + ' → ' + pct(m.tn * 100).replace(',0', '');
 
     var stAj = m.st * m.k;
     var comA = m.st * m.ta, comN = m.st * m.tn, comJ = stAj * m.tn;
-    var max = Math.max(m.st, stAj);
-    $('scens').innerHTML =
-      barre('Avant', 'frais partagés ' + pct(m.ta * 100), m.st, comA, comA * m.t, max) +
-      barre('Après, même prix', 'frais unique ' + pct(m.tn * 100), m.st, comN, comN * m.t, max) +
-      barre('Après, prix ajusté', '+' + pct(hausse * 100), stAj, comJ, comJ * m.t, max);
-    $('leg-tva').style.display = m.t ? '' : 'none';
-
-    var voy = eur(m.st * (1 + VOY_MIN), 0) + ' à ' + eur(m.st * (1 + VOY_MAX), 0);
     $('detail').innerHTML =
-      ligne(['Prix des nuits + ménage', eur(m.st), eur(m.st), eur(stAj)]) +
-      ligne(['Le voyageur paie <small style="color:var(--gris)">hors taxe de séjour</small>', voy + '<br><small style="color:var(--gris)">frais voyageur 14,1–16,5 %</small>', eur(m.st), eur(stAj)]) +
+      ligne(['Nuits + ménage', eur(m.st), eur(m.st), eur(stAj)]) +
+      ligne(['Le voyageur paie', eur(m.st * (1 + VOY_MIN), 0) + '–' + eur(m.st * (1 + VOY_MAX), 0).replace(' €', '') + ' €', eur(m.st), eur(stAj)]) +
       ligne(['Commission Airbnb', '−' + eur(comA), '−' + eur(comN), '−' + eur(comJ)]) +
       (m.t ? ligne(['TVA sur la commission', '−' + eur(comA * m.t), '−' + eur(comN * m.t), '−' + eur(comJ * m.t)]) : '') +
       ligne(['Votre versement', eur(m.versAvant), eur(m.versApres), eur(stAj * (1 - m.eN))], 'tot');
-
-    // Le piège le plus répandu : ajouter le taux au lieu de diviser.
-    var naif = m.st * (1 + m.tn) * (1 - m.eN);
-    var ecart = m.versAvant - naif;
-    $('piege').innerHTML = (m.tn > 0 && ecart > 0.005)
-      ? '<div class="alerte rouge"><b>Le piège :</b> si vous augmentez simplement vos prix de ' + pct(m.tn * 100) + ', vous touchez ' + eur(naif) + ', soit encore <b>' + eur(ecart) + ' de moins qu\'avant</b> à chaque séjour. La commission se prélève aussi sur la hausse : il faut monter de ' + pct(hausse * 100) + '.</div>'
-      : '';
   }
 
-  function calcPrix(m){
-    if (lie.net)  $('net').value  = arr(m.prix * (1 - m.eA));
-    if (lie.base) $('base').value = arr(m.prix);
-    var net = num('net'), base = num('base');
-    $('a-reg').textContent = pct(m.tn * 100) + (m.t ? ' + TVA' : ' hors TVA');
+  var plateformes = null;
+  function calcPlateformes(m){
+    if (lie.net) $('net').value = arr(m.prix * (1 - m.eA));
+    var net = num('net'), base = m.prix;
     function sortie(prefixe, retenue){
-      var p = retenue < 1 ? net / (1 - retenue) : 0;
-      $(prefixe + '-prix').textContent = eur(p);
-      var maj = base > 0 ? (p / base - 1) * 100 : 0;
-      $(prefixe + '-maj').textContent = (maj >= 0 ? '+' : '−') + pct(Math.abs(maj));
+      var p = retenue < 1 ? net / (1 - retenue) : 0, maj = base > 0 ? (p / base - 1) * 100 : 0;
+      $(prefixe + '-prix').textContent = eur(p) + ' / nuit';
+      $(prefixe + '-maj').textContent = 'majoration ' + (maj >= 0 ? '+' : '−') + pct(Math.abs(maj)) + ' sur ' + eur(base, 0);
       return { prix: p, maj: maj };
     }
-    var bRet = num('bTaux') / 100 * ($('bTva').checked ? 1 + TVA : 1) + num('bFrais') / 100;
-    return {
-      a: sortie('a', m.eN),
-      b: sortie('b', bRet),
-      d: sortie('d', num('dFrais') / 100)
-    };
+    var bRet = Math.min(num('bTaux'), 50) / 100;
+    $('a-reg').textContent = pct(m.tn * 100) + (m.t ? ' + TVA' : '');
+    $('b-reg').textContent = pct(bRet * 100) + ', votre contrat';
+    plateformes = { a: sortie('a', m.eN), b: sortie('b', bRet), net: net, base: base };
   }
 
   function calcImpots(m){
     if (lie.recettes) $('recettes').value = Math.round(m.prix * num('nuitsAn') + m.menage * m.sejoursAn);
-    if (lie.hausseF)  $('hausseF').value  = arr((m.k - 1) * 100);
-    var R = num('recettes'), h = num('hausseF') / 100, f = FISC[$('type').value];
-    var R2 = R * (1 + h);
+    var R = num('recettes'), h = m.k - 1, f = FISC[$('type').value], R2 = R * (1 + h);
     function baseImp(r){ return Math.max(0, r - Math.max(r * f.abat, Math.min(ABAT_MIN, r))); }
+    $('f-col').textContent = 'Après +' + pct(h * 100);
     $('fisc').innerHTML =
       ligne(['Recettes déclarées', eur(R, 0), eur(R2, 0)]) +
-      ligne(['Abattement ' + Math.round(f.abat * 100) + ' %', '−' + eur(R - baseImp(R), 0), '−' + eur(R2 - baseImp(R2), 0)]) +
       ligne(['Base imposable', eur(baseImp(R), 0), eur(baseImp(R2), 0)], 'tot');
     var msg = '';
     if (R <= f.seuil && R2 > f.seuil) {
-      msg = '<div class="alerte rouge"><b>Attention : vous dépasseriez le seuil du micro-BIC.</b> Avec cette hausse, vos recettes passent de ' + eur(R, 0) + ' à ' + eur(R2, 0) + ', au-dessus des ' + eur(f.seuil, 0) + ' du ' + f.nom + ' : vous risquez de sortir du micro-BIC. Parlez-en à votre comptable avant d\'ajuster vos prix.</div>';
+      msg = '<div class="alerte rouge"><b>Vous dépasseriez le seuil du micro-BIC</b> (' + eur(f.seuil, 0) + ' pour un ' + f.nom + ') : vous risquez d\'en sortir. Parlez-en à votre comptable avant d\'ajuster vos prix.</div>';
     } else if (R2 > f.seuil) {
       msg = '<div class="alerte ambre">Vos recettes dépassent déjà le seuil du micro-BIC pour un ' + f.nom + ' (' + eur(f.seuil, 0) + '). Votre régime fiscal mérite d\'être vérifié avec votre comptable.</div>';
     } else if (R2 > f.seuil * 0.85) {
       msg = '<div class="alerte ambre">Vous restez sous le seuil du micro-BIC (' + eur(f.seuil, 0) + '), mais de peu : il vous reste ' + eur(f.seuil - R2, 0) + ' de marge.</div>';
     } else if (h > 0) {
-      msg = '<div class="alerte vert">Vous restez sous le seuil du micro-BIC (' + eur(f.seuil, 0) + '). Votre base imposable augmente de ' + eur(baseImp(R2) - baseImp(R), 0) + ', sans que votre versement net change.</div>';
+      msg = '<div class="alerte vert">Vous restez sous le seuil du micro-BIC (' + eur(f.seuil, 0) + '). Votre base imposable augmente de ' + eur(baseImp(R2) - baseImp(R), 0) + ', sans que votre versement change.</div>';
     }
     $('fisc-alerte').innerHTML = msg;
   }
 
-  var dernier = null;
+  var dernierModele = null;
   function calc(){
     var m = modele();
-    calcImpact(m);
-    dernier = { m: m, p: calcPrix(m) };
+    dernierModele = m;
+    calcPrincipal(m);
+    calcPlateformes(m);
     calcImpots(m);
     majUrl();
   }
@@ -624,7 +513,6 @@
     CLES.forEach(function(k){ var v = q.get(k); if (v !== null && isFinite(parseFloat(v))) $(k).value = v; });
     if (q.get('tva') === '0') setTva(false);
   }
-
   function setTva(on){
     tvaOn = on;
     document.querySelectorAll('[data-tva]').forEach(function(b){ b.classList.toggle('on', (b.getAttribute('data-tva') === '1') === on); });
@@ -642,55 +530,127 @@
   }
 
   // ── Événements ──
+  var stick = $('stick');
+  function voir(){ stick.classList.add('vu'); }
   document.querySelectorAll('input,select').forEach(function(el){
-    el.addEventListener('input', function(){
-      if (lie.hasOwnProperty(el.id)) lie[el.id] = false;
-      calc(); voir();
-    });
+    el.addEventListener('input', function(){ if (lie.hasOwnProperty(el.id)) lie[el.id] = false; calc(); voir(); });
     el.addEventListener('change', calc);
-  });
-  document.querySelectorAll('[data-reset]').forEach(function(b){
-    b.addEventListener('click', function(){ lie[b.getAttribute('data-reset')] = true; calc(); });
   });
   document.querySelectorAll('[data-tva]').forEach(function(b){
     b.addEventListener('click', function(){ setTva(b.getAttribute('data-tva') === '1'); calc(); });
   });
-  document.querySelectorAll('[data-tab]').forEach(function(b){
-    b.addEventListener('click', function(){
-      var t = b.getAttribute('data-tab');
-      document.querySelectorAll('[data-tab]').forEach(function(x){ x.classList.toggle('on', x === b); });
-      document.querySelectorAll('.panel').forEach(function(p){ p.classList.toggle('on', p.id === 'p-' + t); });
-    });
+  $('copier').addEventListener('click', function(){
+    if (!plateformes) return;
+    var p = plateformes, f = function(x){ return (x.maj >= 0 ? '+' : '−') + pct(Math.abs(x.maj)) + ' (' + eur(x.prix) + ' / nuit)'; };
+    copier('Majorations sur un prix de base de ' + eur(p.base) + ', pour toucher ' + eur(p.net) + ' / nuit\n' +
+      'Airbnb : ' + f(p.a) + '\nBooking : ' + f(p.b) + '\nÀ appliquer aussi aux frais de ménage.\n' +
+      'Calculé sur hostmateai.app/outils/calculateur-airbnb/', 'Réglages copiés');
   });
-  $('copier-reglages').addEventListener('click', function(){
-    if (!dernier) return;
-    var p = dernier.p, f = function(x){ return (x.maj >= 0 ? '+' : '−') + pct(Math.abs(x.maj)) + ' (' + eur(x.prix) + ' / nuit)'; };
-    copier('Majorations par plateforme (prix de base ' + eur(num('base')) + ', versement visé ' + eur(num('net')) + ' / nuit)\n' +
-      'Airbnb : ' + f(p.a) + '\nBooking : ' + f(p.b) + '\nDirect : ' + f(p.d) +
-      '\nÀ appliquer aussi aux frais de ménage.\nCalculé sur hostmateai.app/outils/calculateur-airbnb/', 'Réglages copiés');
-  });
-  document.querySelectorAll('[data-partager]').forEach(function(b){
-    b.addEventListener('click', function(){
-      var url = location.href;
-      if (navigator.share) { navigator.share({ title: 'Calculateur frais Airbnb 15,5 %', url: url }).catch(function(){}); }
-      else copier(url, 'Lien copié');
-    });
-  });
-
-  // Barre CTA mobile : n'apparaît qu'après une première interaction ou un défilement.
-  var stick = $('stick');
-  function voir(){ stick.classList.add('vu'); }
-  window.addEventListener('scroll', function(){ if (window.scrollY > 500) voir(); }, { passive: true });
+  window.addEventListener('scroll', function(){ if (window.scrollY > 420) voir(); }, { passive: true });
 
   // Compte à rebours vers le 13 octobre 2026 (heure de Paris).
   (function(){
     var cible = Date.UTC(2026, 9, 12, 22, 0, 0);   // 13/10/2026 00:00 à Paris (UTC+2)
-    var j = Math.ceil((cible - Date.now()) / 86400000);
-    if (j > 1) { $('compte').textContent = 'J-' + j; }
-    else if (j === 1) { $('compte').textContent = 'Demain'; }
-    else if (j > -1) { $('compte').textContent = "Aujourd'hui"; }
-    else { $('compte').textContent = '13 oct.'; $('compte-tx').textContent = 'Frais uniques : date limite passée le 13 octobre 2026'; }
+    var j = Math.ceil((cible - Date.now()) / 86400000), el = $('compte');
+    if (j > 1) el.textContent = 'Dans ' + j + ' jours · date limite Airbnb le mardi 13 octobre';
+    else if (j === 1) el.textContent = 'Demain · date limite Airbnb le mardi 13 octobre';
+    else if (j > -1) el.textContent = "Aujourd'hui · date limite Airbnb";
+    else el.textContent = 'Frais uniques Airbnb · date limite passée le 13 octobre 2026';
   })();
+
+  // ── Mesure anonyme et avis ─────────────────────────────────────────────
+  // Pour savoir si le calculateur sert de pont vers l'app : qui vient, qui
+  // calcule, qui clique vers l'app, et ce que les gens en pensent.
+  // Anonyme : aucune IP stockée, aucun cookie, aucun stockage navigateur.
+  // `session` est tiré au hasard à chaque chargement et ne vit qu'en mémoire.
+  // Les avis ne sont JAMAIS affichés sur la page : ils arrivent en base et
+  // sur Telegram. Voir back/src/routes/outils.js.
+  var API = 'https://back-hosmate.onrender.com/api/outils/evenement';
+  var SESSION = Math.random().toString(36).slice(2, 12) + Date.now().toString(36);
+  var APPAREIL = window.matchMedia && window.matchMedia('(max-width: 760px)').matches ? 'mobile' : 'ordinateur';
+
+  function envoyer(evenement, donnees){
+    var d = donnees || {};
+    d.appareil = APPAREIL;
+    // text/plain : requête simple, sans requête préalable CORS — la seule
+    // que sendBeacon sait faire, et la seule qui survit au départ de la page.
+    var corps = JSON.stringify({ outil: 'calculateur-airbnb', evenement: evenement, session: SESSION, donnees: d });
+    try {
+      if (navigator.sendBeacon && navigator.sendBeacon(API, new Blob([corps], { type: 'text/plain' }))) return;
+    } catch (e) {}
+    try { fetch(API, { method: 'POST', body: corps, keepalive: true, mode: 'no-cors', headers: { 'Content-Type': 'text/plain' } }); } catch (e) {}
+  }
+  function resumeCalcul(){
+    var m = dernierModele; if (!m) return undefined;
+    return { prix: m.prix, nuits: m.nuits, menage: m.menage, nuitsAn: num('nuitsAn'),
+             tauxAvant: m.ta * 100, tauxApres: m.tn * 100, tva: !!m.t,
+             perte: arr(m.versAvant - m.versApres), perteAn: Math.round((m.versAvant - m.versApres) * m.sejoursAn) };
+  }
+
+  (function(){
+    var q = new URLSearchParams(location.search), source = q.get('utm_source');
+    if (!source && document.referrer) {
+      try { var h = new URL(document.referrer).hostname; if (h !== location.hostname) source = h; } catch (e) {}
+    }
+    envoyer('vue', { source: source || 'direct', campagne: q.get('utm_campaign') || undefined });
+  })();
+
+  var aCalcule = false;
+  document.querySelectorAll('.card input, .card select').forEach(function(el){
+    el.addEventListener('input', function(){ if (!aCalcule) { aCalcule = true; envoyer('calcul', { calcul: resumeCalcul() }); } });
+  });
+  [['details.pli', 0, 'reglages'], ['details.pli', 1, 'detail'], ['details.outil', 0, 'channel-manager'], ['details.outil', 1, 'impots']].forEach(function(x){
+    var el = document.querySelectorAll(x[0])[x[1]], fait = false;
+    if (el) el.addEventListener('toggle', function(){ if (el.open && !fait) { fait = true; envoyer('ouverture', { cible: x[2] }); } });
+  });
+  document.querySelectorAll('a[href^="https://app.hostmateai.app"]').forEach(function(a){
+    a.addEventListener('click', function(){
+      var c = (a.href.match(/utm_content=([^&]+)/) || [])[1];
+      envoyer('cta', { cible: c || 'inconnu', calcul: resumeCalcul() });
+    });
+  });
+  $('copier').addEventListener('click', function(){ envoyer('copie', {}); });
+
+  // L'avis part UNE seule fois : à l'envoi du détail, ou — si la personne
+  // s'arrête au pouce — quand elle quitte la page ou au bout de 2 minutes.
+  // Un pouce seul compte donc autant qu'un avis détaillé.
+  var RAISONS = {
+    utile:     { t: 'Super ! Qu\'allez-vous en faire ?', p: 'Un mot pour nous ? (facultatif)',
+                 r: ['Ajuster mes prix', 'Vérifier mes relevés Airbnb', 'Juste comprendre le changement'] },
+    pas_utile: { t: 'Qu\'est-ce qui n\'a pas marché ?', p: 'Qu\'est-ce qui vous aurait aidé ? (facultatif)',
+                 r: ['Ma situation n\'est pas prévue', 'Les chiffres me semblent faux', 'Trop compliqué', 'Autre chose'] }
+  };
+  var avis = null, avisParti = false, minuteur = null;
+  function partirAvis(){
+    if (!avis || avisParti) return;
+    avisParti = true; clearTimeout(minuteur);
+    envoyer('avis', { note: avis.note, raison: avis.raison || undefined,
+                      commentaire: ($('avis-texte').value || '').trim() || undefined, calcul: resumeCalcul() });
+  }
+  document.querySelectorAll('[data-note]').forEach(function(b){
+    b.addEventListener('click', function(){
+      var note = b.getAttribute('data-note'), cfg = RAISONS[note];
+      avis = { note: note };
+      $('avis-q').hidden = true; $('avis-suite').hidden = false;
+      $('avis-t').textContent = cfg.t; $('avis-texte').placeholder = cfg.p;
+      $('avis-puces').innerHTML = '';
+      cfg.r.forEach(function(r){
+        var p = document.createElement('button'); p.type = 'button'; p.textContent = r;
+        p.addEventListener('click', function(){
+          avis.raison = (avis.raison === r) ? null : r;
+          $('avis-puces').querySelectorAll('button').forEach(function(x){ x.classList.toggle('on', x.textContent === avis.raison); });
+        });
+        $('avis-puces').appendChild(p);
+      });
+      minuteur = setTimeout(partirAvis, 120000);
+    });
+  });
+  $('avis-envoyer').addEventListener('click', function(){
+    partirAvis();
+    $('avis-suite').hidden = true; $('avis-merci').hidden = false;
+  });
+  document.addEventListener('visibilitychange', function(){ if (document.visibilityState === 'hidden') partirAvis(); });
+  window.addEventListener('pagehide', partirAvis);
 
   lireUrl();
   calc();
