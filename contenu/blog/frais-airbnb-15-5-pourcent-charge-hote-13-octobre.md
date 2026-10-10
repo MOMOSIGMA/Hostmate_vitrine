@@ -79,4 +79,4 @@ Pour éviter ces règles de trois à la main, on a mis en ligne un outil gratuit
 - Airbnb — TVA sur les frais de service : [airbnb.fr — Centre d'aide](https://www.airbnb.fr/help/article/436)
 - Seuils et abattements du micro-BIC : [impots.gouv.fr — Les régimes d'imposition](https://www.impots.gouv.fr/particulier/les-regimes-dimposition)
 
-Vous gérez plusieurs logements et vous en avez assez de refaire ces calculs et vos messages voyageurs à la main ? [HostMate AI](https://app.hostmateai.app/?utm_source=blog&utm_medium=article&utm_campaign=frais-airbnb-13-octobre) automatise l'essentiel — essai gratuit de 7 jours.
+Vous gérez plusieurs logements et vous en avez assez de refaire ces calculs et vos messages voyageurs à la main ? [HostMate AI](https://app.hostmateai.app/?utm_source=blog&utm_medium=article&utm_campaign=frais-airbnb-13-octobre) automatise l'essentiel — créez votre compte gratuitement.
